@@ -16,10 +16,11 @@ library(class)
 library(ggplot2)
 ```
 
-# Coursework
+# Coursework {.tabset}
 
 ## STA4241: Statistical Learning, Spring 2022
 ### Homework \#1
+#### January 26, 2022
 
 **Question 1**  
 
@@ -142,6 +143,7 @@ mean(knnMarket != testing$Direction)
   (ii) Yes, the widths of both confidence intervals go 0 as $n\rightarrow\infty$ since $n$ is in the denominator of both margins of error. As $n$ increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.
 
 ### Homework \#2
+#### February 9, 2022
 
 ```{r setup2, include=FALSE}
 library(class)
@@ -335,6 +337,7 @@ legend(x = "topright", legend = c("LDA", "QDA"), col = c("purple", "blue"), pch 
 It seems as though the relative performance of LDA/QDA does not really depend on the sample size. Looking at 100 sample sizes ranging from 100 to 10,000, both the error rates for LDA and for QDA are fairly randomly scattered, though those for QDA are slightly less scattered than those for LDA. Furthermore, as explained previously, the error rates for LDA are consistently higher than those for QDA. 
 
 ### Homework \#3
+#### February 23, 2022
 
 ```{r setup3, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -620,6 +623,7 @@ apply(cov, 2, mean, na.rm = TRUE)
 Let $q_{\alpha/2}$ and $q_{1-\alpha/2}$ represent the $\alpha/2$ and $1-\alpha/2$ quantiles of the bootstrap replicates $\hat{\theta}^{(b)}$. It follows that since the distribution of $\theta-\hat{\theta}$ is approximated by $\hat{\theta}-\hat{\theta}^{(b)}$, $$1-\alpha=P(q_{\alpha/2}\leq\hat{\theta}^{(b)}\leq q_{1-\alpha/2})$$ $$=P(-q_{\alpha/2}\geq-\hat{\theta}^{(b)}\geq -q_{1-\alpha/2})$$ $$=P(-q_{1-\alpha/2}\leq-\hat{\theta}^{(b)}\leq -q_{\alpha/2})$$ $$=P(\hat{\theta}-q_{1-\alpha/2}\leq\hat{\theta}-\hat{\theta}^{(b)}\leq \hat{\theta}-q_{\alpha/2})$$ $$\approx P(\hat{\theta}-q_{1-\alpha/2}\leq\theta-\hat{\theta}\leq\hat{\theta}-q_{\alpha/2})$$ $$=P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})$$ Thus, $P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})\approx 1-\alpha$.
 
 ### Homework \#4
+#### March 30, 2022
 
 ```{r setup4, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -800,3 +804,271 @@ Suppose we estimate a function $f(\cdot)$ using $$\hat{f}=\arg\min_f\left(\sum^n
   
   (d) When $\lambda=0$ and $m=3$, the penalty term will be canceled out, and the function will interpolate the original data exactly.
   
+## STA4273: Statistical Computing in R, Fall 2021
+### Homework \#1
+#### September 13, 2021
+
+```{r setup5, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**(3.2)** We know that the standard Laplace distribution has density $f(x)=\frac{1}{2}e^{-\lvert x \rvert}$ for $x \in \mathbb{R}$. This can also be stated as 
+$$
+f(x) =
+\begin{cases}
+ \frac{1}{2}e^x,& x<0 \\
+ \frac{1}{2}e^{-x},&x \geq 0
+ \end{cases}       
+$$
+We now can find the c.d.f. by integrating the individual formulas:
+$$
+F(x) =
+\begin{cases}
+ \frac{1}{2}e^x,& x<0 \\
+ 1-\frac{1}{2}e^x,&x \geq 0
+ \end{cases}       
+$$
+Next, we can set our variable $U$ equal to each case and solve. We'll begin when $x < 0$:
+$$
+\begin{aligned}
+  U=\frac{1}{2}e^x \\
+  2U=e^x \\
+  ln(2U)=x
+\end{aligned}
+$$
+Since $x<0$,
+$$
+\begin{aligned}
+  ln(2U)<0 \\
+  2U<1 \\
+  U<\frac{1}{2}
+\end{aligned}
+$$
+Next, let's solve when $x \geq 0$:
+$$
+\begin{aligned}
+  U=1-\frac{1}{2}e^x \\
+  \frac{1}{2}e^{-x}=1-U \\
+  e^{-x}=2-2U \\
+  -x=ln(2-2U) \\
+  x=-ln(2-2U)
+\end{aligned}
+$$
+Since $x \geq 0$,
+$$
+\begin{aligned}
+  -ln(2-2U) \geq 0 \\
+  ln(2-2U) \leq 0 \\
+  2-2U \leq 1 \\
+  U \geq \frac{1}{2}
+\end{aligned}
+$$
+Thus, our distribution by the inverse transform method is:
+$$
+F^{-1}(u) =
+\begin{cases}
+ ln(2u),&u<\frac{1}{2} \\
+ -ln[2-2u],&u \geq \frac{1}{2}
+ \end{cases}       
+$$
+Now let's generate the random sample and compare it to the target distribution:
+```{r code 1}
+n <- 1000
+u <- runif(n) 
+x <- seq(0, 0, length.out=1000)
+for (i in 1:1000) {
+ if (u[i] < 0.5) {x[i]=log(2*u[i])
+} else {
+          x[i] = -log(2-2*u[i])}}
+
+hist(x, prob = TRUE, main = "Histogram of Laplace distribution", ylim = c(0, 0.5), 
+     xlim = c(-7, 7))
+
+y <- sort(x) 
+lines(y, ((1/2)*exp(-abs(y))))
+```
+
+**(3.4)**  
+```{r code 2, fig.height = 3, fig.width = 3}
+sigma <- c(1, 5, 10, 50, 100, 500)
+for (i in 1:length(sigma)) {
+  set.seed(i)
+  title <- c("Rayleigh distribution with sigma",sigma[i])
+  x <- rnorm(1000, 0, sigma[i])
+  y <- rnorm(1000, 0, sigma[i])
+  z <- sqrt(x^2+y^2)
+  hist(z, prob=TRUE, breaks = seq(0, 6*sigma[i], length.out = 20),
+       main = title, cex.main = 0.75, col = "grey")
+  x1 <- seq(0, 6*sigma[i], length.out = 100000)
+  y1 <- (x1/sigma[i]^2)*exp(-(x1^2)/(2*sigma[i]^2))
+  lines(x1, y1, col = "blue")
+}
+```
+
+**(3.5)**  
+```{r code 3, fig.height = 5, fig.width = 5}
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+set.seed(54)
+x <- 0:4
+p <- c(0.1, 0.2, 0.2, 0.2, 0.3)
+cumsum <- cumsum(p)
+m <- 1000
+r <- numeric(m)
+r <- x[findInterval(runif(m), cumsum) + 1]
+r <- table(r)
+kable(r)
+
+t_p <- p*1000
+names(t_p) <- x
+print(t_p)
+a <- data.frame(x, freq = c(116, 194, 197, 198, 295, 100, 200, 200, 200, 300), 
+                Type = rep(c('Random Sample', 'Theoretical Sample'), each = 5))
+ggplot(a, aes(x = x, y =freq, fill = Type)) + geom_col(position = 'dodge')
+```
+
+**(3.6)**  
+We can see that the accepted variates generated by the acceptance-rejection sampling algorithm have the same distribution as $X$ by applying Bayes' Theorem. For a discrete case, when $f(x) > 0$:  
+$$P(x|accepted) = \frac{P(accepted|x)g(x)}{P(accepted)} = \frac{[f(x)/(cg(x))]g(x)]}{1/c} = f(x)$$
+For a continuous case:  
+$$P(x|accepted)=\frac{P(x, accepted)}{P(accepted)}=\frac{f(x)/c}{1/c}=f(x)$$
+In both cases, $P(x|accepted)=f(x)$.  
+
+**(3.11)**  
+```{r code 5, fig.width = 6, fig.height = 6}
+n <- 1000
+x1 <- rnorm(1000, 0, 1)
+x2 <- rnorm(1000, 3, 1)
+
+p1 <- c(0.75, 0.05, 0.15, 0.25, 0.5, 0.99)
+
+for (i in 1:length(p1)) {
+  title <- c("Normal location mixture with p1", p1[i])
+  p2 <- 1-p1[i]
+  u <- runif(n)
+  k <- as.integer(u>p2)
+  x <- k*x1+(1-k)*x2
+  par(mfcol=c(3, 3))
+  hist(x, prob=TRUE, ylim=c(0, .4), main = title, cex.main = 0.75,)
+  lines(density(x))
+}
+```
+
+I believe that the values of $p_1$ that produce bimodal mixtures are those closest to $0.5$. 
+
+**(3.12)**  
+```{r code 6, fig.height = 4, fig.width = 6}
+lambda <- rgamma(1000, 4, 2)
+x <- rexp(1000, lambda)
+plot(sort(x), ylab = "Y", main = "Exponential-Gamma Mixture with r = 4 and beta = 2")
+```
+
+### Homework \#2
+#### October 4, 2021
+
+```{r setup6, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
+library(VGAM)
+```
+
+**(6.1)** 
+We can compute a Monte Carlo estimate of $\int^{\pi/3}_0\sin tdt$ using a function: 
+
+```{r h6q1}
+mcest <- function(n){
+  u <- runif(n, min = 0, max = pi/3)
+  x <- mean(sin(u))
+  est <- x * (pi/3)
+return(est)
+}
+
+mcest(100000)
+
+functionq1 <- function(x) {sin(x)}
+integrate(functionq1, lower = 0, upper = pi/3)
+```
+
+The estimate is very close to the exact value.  
+
+**(6.3)** To compute an estimate $\hat{\theta}$ of $\theta =\int^{0.5}_0 e^{-x}dx$ by sampling from Uniform(0, 0.5), we will first generate $X_1,...,X_m$ independent and identically distributed variables from Uniform(0, 0.5). We will then compute $\overline{g(X)}=\frac{1}{m}g(X_i)$. Finally, we will calculate  $\hat{\theta}=0.5\overline{g(X)}$ and estimate its variance.
+
+```{r h6q2 p1}
+m <- 10^6
+x1 <- runif(m, 0, 0.5)
+var(0.5 * exp(-x1))
+```
+
+To compute an estimate $\theta^*$ of $\theta =\int^{0.5}_0 e^{-x}dx$ by sampling from the exponential distribution, we will repeat the process above, but now generate  $X_1,...,X_m$ independent and identically distributed variables from Exponential(1):
+
+```{r q2 p2}
+x2 <- rexp(m, rate = 1)
+var(x2 < 0.5)
+```
+The variance of $\hat{\theta}$ is smaller than that of $\theta^*$. This is because the exponential distribution has a much larger domain, $x>0$, than does the uniform distribution, $0<x<0.5$. 
+
+**(6.4)** The cumulative distribution function of the Beta(3, 3) distribution is $$F(x)=\int^x_0\frac{\Gamma(3+3)}{\Gamma(3)\Gamma(3)}t^{3-1}(1-t)^{3-1}dt$$ for $0<x<1$. We can estimate $F(x)=0.1,0.2,...,0.9$ by sampling $t_i\sim Uniform(0,1)$ and computing $$\widehat{F(x)}=30\cdot\frac{1}{m}\Sigma^m_{i=1}t_i^2-2t_i^3+t_i^4$$
+
+```{r h6q3}
+library(ggplot2)
+betadist <- function(m, a, b){
+  x <- runif(m, a, b)
+  est <- (sum(30 * (x^2 - 2 * x^3 + x^4)) / m) * (b - a)
+  return(est)
+}
+
+a <- data.frame(x = seq(0.1, 0.9, 0.1), MonteCarlo = numeric(9), pbeta = numeric(9))
+
+i <- 1
+while(i <= 9){
+  a[i, 2] <- betadist(10000, 0, i * 0.1)
+  a[i, 3] <- pbeta(i * 0.1, 3, 3)
+  i <- i + 1
+}
+print(a)
+
+b <- data.frame(x = c(a$x, a$x), pdf = c(a$MonteCarlo, a$pbeta), Method = rep(c('MonteCarlo', 'pbeta'), each = 9))
+
+ggplot(data = b)+
+  geom_col(aes(x = x, y = pdf, fill = Method), position = 'dodge')
+```
+
+**(6.13)** For the two importance functions, we will choose the Rayleigh density function, $f_1(x)=xe^{-x^2/2}$ with support $x>0$, and the Normal distribution function, $f_2(x)=\frac{1}{\sqrt{2\pi}}e^{x^2/2}$ with support $x\in\mathbb{R}$. Let $g(x)=\int^\infty_{-\infty}\textbf{1}(x>1)\frac{x^2}{\sqrt{2\pi}}e^{x^2/2}dx$ Then, $$\frac{g(x)}{f_1(x)}=\textbf{1}(x>1)\frac{x}{\sqrt{2\pi}}$$ $$\frac{g(x)}{f_2(x)}=\textbf{1}(x>1)x^2$$
+
+```{r h6q4}
+x = seq(1, 3, 0.1)
+f1 = function(x) {x / (2 * pi)}
+f2 = function(x) {x^2}
+
+y.f1 = f1(x)
+y.f2 = f2(x)
+
+plot(x, y.f1, type = "l", ylim = c(0, 9), ylab = "Y", xlab = "X")
+lines(x, y.f2, col="red", ylim = c(0, 9))
+legend("topleft", inset = .05, title = "Importance Function",
+        c("Normal", "Rayleigh"), fill = c("red", "black"), horiz = TRUE)
+```
+
+The Rayleigh importance function seems to produce the smaller variance in estimating $g(x)=\int^{\infty}_1\frac{x^2}{\sqrt{2\pi}}e^{-x^2/2}dx$ because dividing $g(x)$ by the Rayleigh importance function produces a function that is closer to a constant.
+
+**(6.14)**  
+```{r h6q5}
+n <- 10000
+g <- function (x) {(x^2 / sqrt(2 * pi)) * exp(-x^2 / 2) * (x > 1)}
+f1 <- function (x) {drayleigh(x, scale = 1.5) * (x > 1)}
+f2 <- function (x) {dnorm(x, mean = 1.5) * (x > 1)}
+rf1 <- function () {rrayleigh(n, scale = 1.5)}
+rf2 <- function () {rnorm(n, mean = 1.5)}
+is.rayleigh = function () {
+  x = rf1()
+  return(mean(g(x)/f1(x), na.rm = TRUE))  
+}
+is.norm = function () {
+  x = rf2()
+  return(mean(g(x) / f2(x), na.rm = TRUE))  
+}
+(theta1 = is.rayleigh())
+(theta2 = is.norm())
+(truth = 0.400626)
+```
