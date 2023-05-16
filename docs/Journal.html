@@ -11,7 +11,7 @@
 
 
 
-<title>Journal</title>
+<title>Portfolio</title>
 
 <script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -339,20 +339,163 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Journal</h1>
+<h1 class="title toc-ignore">Portfolio</h1>
 
 </div>
 
 
-<p>IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.</p>
-<p>This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.</p>
-<div id="my-first-post" class="section level1">
-<h1>My first post</h1>
-<p>2018 | 7 | 23 Last compiled: 2023-04-12</p>
-<p>Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left.</p>
-<div id="second-level-header" class="section level2">
-<h2>Second level header</h2>
-<p>You can add more headers by adding more hashtags. These won’t be put into the table of contents</p>
+<div id="coursework" class="section level1">
+<h1>Coursework</h1>
+<div id="sta4241-statistical-learning" class="section level2">
+<h2>STA4241: Statistical Learning</h2>
+<div id="spring-2022" class="section level3">
+<h3>Spring 2022</h3>
+<div id="homework-1" class="section level4">
+<h4>Homework #1</h4>
+<p><strong>Question 1</strong></p>
+<p>To find the least squares solution for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in simple linear regression, we must minimize the sum of squared residuals for <span class="math inline">\(Y=\beta_0+\beta_1X\)</span> by minimizing <span class="math inline">\(\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\)</span>. To begin, we will minimize the function with respect to <span class="math inline">\(\hat{\beta}_0\)</span>: <span class="math display">\[\frac{\partial}{\partial\hat{\beta}_0}\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2=\sum_{i=1}^n\frac{\partial}{\partial\hat{\beta}_0}(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\]</span> <span class="math display">\[=\sum_{i=1}^n2(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))(-1)=-2\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))\]</span> Next, we will solve for <span class="math inline">\(\hat{\beta}_0\)</span> when the derivative equals 0: <span class="math display">\[-2\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\Rightarrow\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\]</span> <span class="math display">\[=\sum_{i=1}^nY_i-\sum_{i=1}^n\hat{\beta}_0-\sum_{i=1}^n\hat{\beta}_1X_i=\sum_{i=1}^nY_i-n\hat{\beta}_0-\hat{\beta}_1\sum_{i=1}^nX_i=0\]</span> <span class="math display">\[n\hat{\beta}_0=\sum_{i=1}^nY_i-\hat{\beta}_1\sum_{i=1}^nX_i\]</span> <span class="math display">\[\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}\]</span> Thus, the least squares solution for <span class="math inline">\(\beta_0\)</span> is <span class="math inline">\(\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}\)</span>. Next, we will minimize <span class="math inline">\(\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\)</span> with respect to <span class="math inline">\(\hat{\beta}_1\)</span>: <span class="math display">\[\frac{\partial}{\partial\hat{\beta}_1}\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2=\sum_{i=1}^n\frac{\partial}{\partial\hat{\beta}_1}(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\]</span> <span class="math display">\[=\sum_{i=1}^n2(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))(-X_i)=-2\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))\]</span> Next, we will solve for <span class="math inline">\(\hat{\beta}_1\)</span> when the derivative equals 0: <span class="math display">\[-2\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\Rightarrow\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\]</span> Since we know that <span class="math inline">\(\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}\)</span>, we can substitute it into the above equation and get <span class="math display">\[\sum_{i=1}^nX_i(Y_i-(\bar{Y}-\hat{\beta}_1\bar{X}+\hat{\beta}_1X_i))=\sum_{i=1}^nX_i(Y_i-\bar{Y}-\hat{\beta}_1(X_i-\bar{X}))\]</span> <span class="math display">\[=\sum_{i=1}^nX_i(Y_i-\bar{Y})-\sum_{i=1}^n\hat{\beta}_1X_i(X_i-\bar{X})=0\]</span> <span class="math display">\[\sum_{i=1}^nX_i(Y_i-\bar{Y})=\hat{\beta}_1\sum_{i=1}^nX_i(X_i-\bar{X})\Rightarrow\hat{\beta}_1=\frac{\sum_{i=1}^nX_i(Y_i-\bar{Y})}{\sum_{i=1}^nX_i(X_i-\bar{X})}\]</span> <span class="math display">\[\hat{\beta}_1=\frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}\]</span> Thus, the least squares solution for <span class="math inline">\(\beta_1\)</span> is <span class="math inline">\(\hat{\beta}_1=\frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}\)</span>.</p>
+<p><strong>Question 2</strong></p>
+<ol style="list-style-type: lower-roman">
+<li><p>If we use the Bayes classifier using the known probability above, we expect the error rates to be similar between the training and test data sets because they follow the same distribution.</p></li>
+<li><p>The error rate for the training data is</p></li>
+</ol>
+<pre class="r"><code>yhat_train = as.numeric(pnorm(0.5*x1[1:500] - 0.4*x2[1:500]) &gt;= 0.5)
+mean(y[1:500] != yhat_train)</code></pre>
+<pre><code>## [1] 0.328</code></pre>
+<p>The error rate for the testing data is</p>
+<pre class="r"><code>yhat_test = as.numeric(pnorm(0.5*x1[501:1000] - 0.4*x2[501:1000]) &gt;= 0.5)
+mean(y[501:1000] != yhat_test)</code></pre>
+<pre><code>## [1] 0.312</code></pre>
+<ol start="3" style="list-style-type: lower-roman">
+<li>The test error rate when using KNN with <span class="math inline">\(k = 3\)</span> to classify the outcomes in the test data set is</li>
+</ol>
+<pre class="r"><code>knnTrain = cbind(x1[1:500], x2[1:500])
+knnTest = cbind(x1[501:1000], x2[501:1000])
+knnMod = knn(train=knnTrain, test=knnTest, k=3, cl=y[1:500])
+knnPred = as.numeric(knnMod) - 1
+mean(knnPred != y[501:1000])</code></pre>
+<pre><code>## [1] 0.386</code></pre>
+<ol start="4" style="list-style-type: lower-roman">
+<li><p>Given the test error rate in part (iii) and the error rates found in part (ii), I do not think <span class="math inline">\(k=3\)</span> is the best choice of <span class="math inline">\(k\)</span> because it has a greater error rate than the Bayes classifier.</p></li>
+<li><p>The plot showing the test error rate as a function of <span class="math inline">\(k\)</span> is below.</p></li>
+</ol>
+<pre class="r"><code>error_vals = 0
+for (k_val in 1:50) {
+  knnMod = knn(train=knnTrain, test=knnTest, k=k_val, cl=y[1:500])
+  knnPred = as.numeric(knnMod) - 1
+  error_vals[k_val] = mean(knnPred != y[501:1000])
+}
+knn_errors = data.frame(x = c(1:50), y = error_vals)
+ggplot(data=knn_errors, aes(x=x, y=y)) + geom_line()+ geom_point() + 
+       labs(x = &quot;K-value&quot;, y = &quot;Error Rate&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/question%202%20part%20v-1.png" width="384" /></p>
+<p>I think the best choice of <span class="math inline">\(k\)</span> is likely between 35 and 45 because this is where the error rate stabilizes at around 0.32.</p>
+<ol start="6" style="list-style-type: lower-roman">
+<li><p>I believe that KNN does a good job at approximating the Bayes classifier in this data set because the error rate falls between about 0.45 and 0.32, which is close to what the error rate is for the testing data using the Bayes classifier.</p></li>
+<li><p>The test error rate when we include the additional 20 covariates and use KNN with <span class="math inline">\(k=40\)</span> is:</p></li>
+</ol>
+<pre class="r"><code>knnTrain = cbind(x1[1:500], x2[1:500], xrandom[1:500])
+knnTest = cbind(x1[501:1000], x2[501:1000], xrandom[501:1000])
+knnMod = knn(train = knnTrain, test = knnTest, k = 40, cl = y[1:500])
+knnPred = as.numeric(knnMod) - 1
+mean(knnPred != y[501:1000])</code></pre>
+<pre><code>## [1] 0.344</code></pre>
+<ol start="8" style="list-style-type: lower-roman">
+<li>The previous part tells us that including extraneous predictors in our model causes the KNN algorithm to perform worse. The error rate is higher when we include the additional 20 random predictors.</li>
+</ol>
+<p><strong>Question 3</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>The linear regression model that aims to predict Today using lags 1-5, Year, and Volume:</li>
+</ol>
+<pre class="r"><code>mod = lm(Today ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + factor(Year) + Volume, data = Smarket)</code></pre>
+<ol style="list-style-type: lower-roman">
+<li><p>I included Year as a categorical variable in my model because there are only 5 levels (years 2001-2005). R would read it as a continuous variable had I not done this, which would affect my estimates.</p></li>
+<li><p>The model summary is below.</p></li>
+</ol>
+<pre class="r"><code>summary(mod)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Today ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + factor(Year) + 
+##     Volume, data = Smarket)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9039 -0.6494  0.0187  0.5866  5.6225 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      -0.101032   0.161837  -0.624    0.533
+## Lag1             -0.031093   0.028416  -1.094    0.274
+## Lag2             -0.014610   0.028464  -0.513    0.608
+## Lag3             -0.007029   0.028407  -0.247    0.805
+## Lag4             -0.011074   0.028422  -0.390    0.697
+## Lag5             -0.038052   0.028127  -1.353    0.176
+## factor(Year)2002 -0.063032   0.105082  -0.600    0.549
+## factor(Year)2003  0.148313   0.104582   1.418    0.156
+## factor(Year)2004  0.079240   0.105248   0.753    0.452
+## factor(Year)2005  0.032578   0.131108   0.248    0.804
+## Volume            0.043872   0.117897   0.372    0.710
+## 
+## Residual standard error: 1.137 on 1239 degrees of freedom
+## Multiple R-squared:  0.006222,   Adjusted R-squared:  -0.001799 
+## F-statistic: 0.7757 on 10 and 1239 DF,  p-value: 0.6525</code></pre>
+<p>The test statistic is <span class="math inline">\(F=0.7757\)</span>. The p-value of obtaining this test statistic with <span class="math inline">\(df_1=10\)</span>, <span class="math inline">\(df_2=1239\)</span> is <span class="math inline">\(0.6525\)</span>. Because this p-value is greater than all common alpha levels, I fail to reject the null hypothesis that <span class="math inline">\(\beta_1=...=\beta_{10}=0\)</span>.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>The model with the same covariates and including lag 1 in the model with a three degree of freedom polynomial is:</li>
+</ol>
+<pre class="r"><code>lag1mod = lm(Today ~ poly(Lag1, 3) + Lag2 + Lag3 + Lag4 + Lag5 + factor(Year) + Volume, 
+             data = Smarket)
+summary(lag1mod)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Today ~ poly(Lag1, 3) + Lag2 + Lag3 + Lag4 + Lag5 + 
+##     factor(Year) + Volume, data = Smarket)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9054 -0.6410  0.0183  0.5853  5.6312 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      -0.105622   0.165598  -0.638    0.524
+## poly(Lag1, 3)1   -1.249910   1.142025  -1.094    0.274
+## poly(Lag1, 3)2   -0.142793   1.259568  -0.113    0.910
+## poly(Lag1, 3)3    0.341677   1.145983   0.298    0.766
+## Lag2             -0.015232   0.028572  -0.533    0.594
+## Lag3             -0.007392   0.028589  -0.259    0.796
+## Lag4             -0.011426   0.028474  -0.401    0.688
+## Lag5             -0.037783   0.028208  -1.339    0.181
+## factor(Year)2002 -0.063926   0.105490  -0.606    0.545
+## factor(Year)2003  0.146177   0.105390   1.387    0.166
+## factor(Year)2004  0.075023   0.107842   0.696    0.487
+## factor(Year)2005  0.025512   0.137310   0.186    0.853
+## Volume            0.048849   0.122472   0.399    0.690
+## 
+## Residual standard error: 1.138 on 1237 degrees of freedom
+## Multiple R-squared:  0.006302,   Adjusted R-squared:  -0.003337 
+## F-statistic: 0.6538 on 12 and 1237 DF,  p-value: 0.7966</code></pre>
+<p>The model <strong>does not</strong> fit better than the model that includes lag 1 linearly. With a test statistic of <span class="math inline">\(F=0.6538\)</span> and p-value <span class="math inline">\(0.7966\)</span>, we would again fail to reject the null hypothesis that none of the predictors are significant.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li></li>
+<li>The smallest test set error I could achieve was around <span class="math inline">\(0.47\)</span>.</li>
+</ol>
+<pre class="r"><code>set.seed(123)
+sample = sample(seq_len(nrow(Smarket)), size = 625)
+training = Smarket[sample,]
+testing = Smarket[-sample,]
+knnMarket = knn(train=training[,1:7], test=testing[,1:7], k=42, cl=training$Direction)
+mean(knnMarket != testing$Direction)</code></pre>
+<pre><code>## [1] 0.4752</code></pre>
+<ol start="2" style="list-style-type: lower-roman">
+<li>The test above tells me that our covariates are not very predictive of the outcome. We are performing about as well as we would be if we were flipping a coin to decide if the market went up or down.</li>
+</ol>
+<p><strong>Question 4</strong></p>
+<ol style="list-style-type: lower-roman">
+<li><p>No, these two confidence intervals are not the same. The confidence interval for the randomly chosen individual with <span class="math inline">\(X=x_0\)</span> will be wider than the confidence interval for the average value of the outcome among subjects with <span class="math inline">\(X=x_0\)</span>. This is due to the irreducible error <span class="math inline">\(\epsilon\)</span> that we have when predicting the outcome for an individual.</p></li>
+<li><p>Yes, the widths of both confidence intervals go 0 as <span class="math inline">\(n\rightarrow\infty\)</span> since <span class="math inline">\(n\)</span> is in the denominator of both margins of error. As <span class="math inline">\(n\)</span> increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.</p></li>
+</ol>
+</div>
+</div>
 <div id="third-level-header" class="section level3">
 <h3>third level header</h3>
 <p>Here’s an even lower level header</p>

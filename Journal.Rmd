@@ -1,5 +1,5 @@
 ---
-title: "Journal"
+title: "Portfolio"
 output:
   html_document:
     toc: true
@@ -12,22 +12,135 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+library(class)
+library(ggplot2)
 ```
 
-IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.
+# Coursework
+
+## STA4241: Statistical Learning
+### Spring 2022
+#### Homework \#1
+
+**Question 1**  
+
+To find the least squares solution for $\beta_0$ and $\beta_1$ in simple linear regression, we must minimize the sum of squared residuals for $Y=\beta_0+\beta_1X$ by minimizing $\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2$. To begin, we will minimize the function with respect to $\hat{\beta}_0$: $$\frac{\partial}{\partial\hat{\beta}_0}\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2=\sum_{i=1}^n\frac{\partial}{\partial\hat{\beta}_0}(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2$$ $$=\sum_{i=1}^n2(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))(-1)=-2\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))$$ Next, we will solve for $\hat{\beta}_0$ when the derivative equals 0:
+$$-2\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\Rightarrow\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0$$ $$=\sum_{i=1}^nY_i-\sum_{i=1}^n\hat{\beta}_0-\sum_{i=1}^n\hat{\beta}_1X_i=\sum_{i=1}^nY_i-n\hat{\beta}_0-\hat{\beta}_1\sum_{i=1}^nX_i=0$$ $$n\hat{\beta}_0=\sum_{i=1}^nY_i-\hat{\beta}_1\sum_{i=1}^nX_i$$ $$\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}$$ Thus, the least squares solution for $\beta_0$ is $\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}$. Next, we will minimize $\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2$ with respect to $\hat{\beta}_1$: $$\frac{\partial}{\partial\hat{\beta}_1}\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2=\sum_{i=1}^n\frac{\partial}{\partial\hat{\beta}_1}(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2$$ $$=\sum_{i=1}^n2(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))(-X_i)=-2\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))$$ Next, we will solve for $\hat{\beta}_1$ when the derivative equals 0: $$-2\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\Rightarrow\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0$$ Since we know that $\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}$, we can substitute it into the above equation and get $$\sum_{i=1}^nX_i(Y_i-(\bar{Y}-\hat{\beta}_1\bar{X}+\hat{\beta}_1X_i))=\sum_{i=1}^nX_i(Y_i-\bar{Y}-\hat{\beta}_1(X_i-\bar{X}))$$ $$=\sum_{i=1}^nX_i(Y_i-\bar{Y})-\sum_{i=1}^n\hat{\beta}_1X_i(X_i-\bar{X})=0$$ $$\sum_{i=1}^nX_i(Y_i-\bar{Y})=\hat{\beta}_1\sum_{i=1}^nX_i(X_i-\bar{X})\Rightarrow\hat{\beta}_1=\frac{\sum_{i=1}^nX_i(Y_i-\bar{Y})}{\sum_{i=1}^nX_i(X_i-\bar{X})}$$ $$\hat{\beta}_1=\frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}$$ Thus, the least squares solution for $\beta_1$ is $\hat{\beta}_1=\frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}$.  
+
+```{r question 2, echo = F}
+load("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 1/Data/Problem2.dat")
+x1 = data$x1
+x2 = data$x2
+xrandom = data$xrandom
+y = data$y
+```
+**Question 2**  
+
+  (i) If we use the Bayes classifier using the known probability above, we expect the error rates to be similar between the training and test data sets because they follow the same distribution.
+
+  (ii) The error rate for the training data is
+```{r question 2 part ii train}
+yhat_train = as.numeric(pnorm(0.5*x1[1:500] - 0.4*x2[1:500]) >= 0.5)
+mean(y[1:500] != yhat_train)
+```
+  The error rate for the testing data is
+```{r question 2 part ii test}
+yhat_test = as.numeric(pnorm(0.5*x1[501:1000] - 0.4*x2[501:1000]) >= 0.5)
+mean(y[501:1000] != yhat_test)
+```
+
+  (iii) The test error rate when using KNN with $k = 3$ to classify the outcomes in the test data set is
+```{r question 2 part iii}
+knnTrain = cbind(x1[1:500], x2[1:500])
+knnTest = cbind(x1[501:1000], x2[501:1000])
+knnMod = knn(train=knnTrain, test=knnTest, k=3, cl=y[1:500])
+knnPred = as.numeric(knnMod) - 1
+mean(knnPred != y[501:1000])
+```
+  
+  (iv) Given the test error rate in part (iii) and the error rates found in part (ii), I do not think $k=3$ is the best choice of $k$ because it has a greater error rate than the Bayes classifier.
+  
+  (v) The plot showing the test error rate as a function of $k$ is below.  
+```{r question 2 part v, fig.width = 4, fig.height = 3}
+error_vals = 0
+for (k_val in 1:50) {
+  knnMod = knn(train=knnTrain, test=knnTest, k=k_val, cl=y[1:500])
+  knnPred = as.numeric(knnMod) - 1
+  error_vals[k_val] = mean(knnPred != y[501:1000])
+}
+knn_errors = data.frame(x = c(1:50), y = error_vals)
+ggplot(data=knn_errors, aes(x=x, y=y)) + geom_line()+ geom_point() + 
+       labs(x = "K-value", y = "Error Rate")
+```
 
 
-This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
+  I think the best choice of $k$ is likely between 35 and 45 because this is where the error rate stabilizes at around 0.32.  
+  
+  (vi) I believe that KNN does a good job at approximating the Bayes classifier in this data set because the error rate falls between about 0.45 and 0.32, which is close to what the error rate is for the testing data using the Bayes classifier.
+  
+  (vii) The test error rate when we include the additional 20 covariates and use KNN with $k=40$ is:
+```{r question 2 part vii}
+knnTrain = cbind(x1[1:500], x2[1:500], xrandom[1:500])
+knnTest = cbind(x1[501:1000], x2[501:1000], xrandom[501:1000])
+knnMod = knn(train = knnTrain, test = knnTest, k = 40, cl = y[1:500])
+knnPred = as.numeric(knnMod) - 1
+mean(knnPred != y[501:1000])
+```
 
-# My first post
+  (viii) The previous part tells us that including extraneous predictors in our model causes the KNN algorithm to perform worse. The error rate is higher when we include the additional 20 random predictors.
+  
+```{r question 3, echo = F}
+library(ISLR)
+data(Smarket)
+```
+**Question 3**  
 
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
+  (a) The linear regression model that aims to predict Today using lags 1-5, Year, and Volume:  
+  
+```{r question 3 part a}
+mod = lm(Today ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + factor(Year) + Volume, data = Smarket)
+```
+  
+(i) I included Year as a categorical variable in my model because there are only 5 levels (years 2001-2005). R would read it as a continuous variable had I not done this, which would affect my estimates.
+    
+(ii) The model summary is below.  
 
-Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
+```{r question 3 part aii}
+summary(mod)
+```
+    
+The test statistic is $F=0.7757$. The p-value of obtaining this test statistic with $df_1=10$, $df_2=1239$ is $0.6525$. Because this p-value is greater than all common alpha levels, I fail to reject the null hypothesis that $\beta_1=...=\beta_{10}=0$.  
+    
+(iii) The model with the same covariates and including lag 1 in the model with a three degree of freedom polynomial is:  
 
-## Second level header
+```{r question 3 part aiii}
+lag1mod = lm(Today ~ poly(Lag1, 3) + Lag2 + Lag3 + Lag4 + Lag5 + factor(Year) + Volume, 
+             data = Smarket)
+summary(lag1mod)
+```
+  
+The model **does not** fit better than the model that includes lag 1 linearly. With a test statistic of $F=0.6538$ and p-value $0.7966$, we would again fail to reject the null hypothesis that none of the predictors are significant.
+  
+  (b)
+  
+(i) The smallest test set error I could achieve was around $0.47$.  
 
-You can add more headers by adding more hashtags. These won't be put into the table of contents
+```{r question 3 part bi}
+set.seed(123)
+sample = sample(seq_len(nrow(Smarket)), size = 625)
+training = Smarket[sample,]
+testing = Smarket[-sample,]
+knnMarket = knn(train=training[,1:7], test=testing[,1:7], k=42, cl=training$Direction)
+mean(knnMarket != testing$Direction)
+```
+    
+(ii) The test above tells me that our covariates are not very predictive of the outcome. We are performing about as well as we would be if we were flipping a coin to decide if the market went up or down.
+    
+**Question 4**  
+
+  (i) No, these two confidence intervals are not the same. The confidence interval for the randomly chosen individual with $X=x_0$ will be wider than the confidence interval for the average value of the outcome among subjects with $X=x_0$. This is due to the irreducible error $\epsilon$ that we have when predicting the outcome for an individual.
+  
+  (ii) Yes, the widths of both confidence intervals go 0 as $n\rightarrow\infty$ since $n$ is in the denominator of both margins of error. As $n$ increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.
 
 ### third level header
 
