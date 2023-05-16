@@ -18,9 +18,8 @@ library(ggplot2)
 
 # Coursework
 
-## STA4241: Statistical Learning
-### Spring 2022
-#### Homework \#1
+## STA4241: Statistical Learning, Spring 2022
+### Homework \#1
 
 **Question 1**  
 
@@ -142,100 +141,662 @@ mean(knnMarket != testing$Direction)
   
   (ii) Yes, the widths of both confidence intervals go 0 as $n\rightarrow\infty$ since $n$ is in the denominator of both margins of error. As $n$ increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.
 
-### third level header
+### Homework \#2
 
-Here's an even lower level header
-
-# My second post (note the order)
-
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
-
-I'm writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom
-
-# Adding R stuff
-
-So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the sam place. 
-
-So, let's say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation =1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:
-
-```{r}
-samples <- rnorm(100, mean=0, sd=1)
-hist(samples)
+```{r setup2, include=FALSE}
+library(class)
+library(MASS)
+library(ggplot2)
 ```
 
-When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag), from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You learn all of these things and more can be customized in each R code block.
+**Question 1**  
 
-# The big idea
+Assuming that our outcome $Y$ is binary and that we have only covariate $x$, quadratic discriminant analysis implies a logistic regression model of the form $$\log\left(\frac{P(Y=1|X=x)}{1-P(Y=1|X=x)}\right)=\log\left(\frac{P(Y=1|X=x)}{P(Y=0|X=x)}\right)$$ $$=\log\left[\frac{\frac{\pi_1}{(2\pi)^{p/2}|\Sigma_1|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_1)^2\Sigma_1^{-1}\right)}{\sum_{K=0}^1\frac{\pi_K}{(2\pi)^{p/2}|\Sigma_K|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_K)^2\Sigma_K^{-1}\right)}\cdot\frac{\sum_{K=0}^1\frac{\pi_K}{(2\pi)^{p/2}|\Sigma_K|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_K)^2\Sigma_K^{-1}\right)}{\frac{\pi_0}{(2\pi)^{p/2}|\Sigma_0|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_0)^2\Sigma_0^{-1}\right)}\right]$$ $$=\log\left[\frac{\frac{\pi_1}{(2\pi)^{p/2}|\Sigma_1|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_1)^2\Sigma_1^{-1}\right)}{\frac{\pi_0}{(2\pi)^{p/2}|\Sigma_0|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_0)^2\Sigma_0^{-1}\right)}\right]=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\exp\left(-\frac{1}{2}\left((x-\mu_1)^2\Sigma_1^{-1}-(x-\mu_0)^2\Sigma_0^{-1}\right)\right)\right]$$ $$=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2}\left((x-\mu_1)^2\Sigma_1^{-1}-(x-\mu_0)^2\Sigma_0^{-1}\right)=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2}\left(\frac{x^2-2x\mu_1+\mu_1^2}{\Sigma_1}-\frac{x^2-2x\mu_0+\mu_0^2}{\Sigma_0}\right)$$ $$=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2}\left(\frac{x^2\Sigma_0-2x\mu_1\Sigma_0+\mu_1^2\Sigma_0-x^2\Sigma_1+2x\mu_0\Sigma_1-\mu_0^2\Sigma_1}{\Sigma_1\Sigma_0}\right)$$ $$=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2\Sigma_1\Sigma_0}\left(x^2(\Sigma_0-\Sigma_1)-2x(\mu_1\Sigma_0-\mu_0\Sigma_1)+\mu_1^2\Sigma_0-\mu_0^2\Sigma_1\right)$$ $$=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{\mu_1^2}{2\Sigma_1}+\frac{\mu_0^2}{2\Sigma_0}+\frac{\mu_1\Sigma_0-\mu_0\Sigma_1}{\Sigma_1\Sigma_0}x+\frac{\Sigma_1-\Sigma_0}{2\Sigma_1\Sigma_0}x^2$$ Thus the model is of the form $\beta_0+\beta_1x+\beta_2$ where  $$\beta_0=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{\mu_1^2}{2\Sigma_1}+\frac{\mu_0^2}{2\Sigma_0}$$ $$\beta_1=\frac{\mu_1\Sigma_0-\mu_0\Sigma_1}{\Sigma_1\Sigma_0}$$ $$\beta_2=\frac{\Sigma_1-\Sigma_0}{2\Sigma_1\Sigma_0}$$.
 
-Use this lab journal to record what you do in R. This way I will be able to see what you are doing and help you along the way. You will also be creating a repository of all the things you do. You can make posts about everything. Learning specific things in R (project unrelated), and doing things for the project that we will discuss at the beginning of the Fall semester. You can get started now by fiddling around with googling things, and trying stuff out in R. I've placed some helpful starting links in the links page on this website
-
-# What can you do right now by yourself?
-
-It's hard to learn programming when you don't have specific problems that you are trying to solve. Everything just seems abstract.
-
-I wrote an [introductory programming book that introduces R](https://crumplab.github.io/programmingforpsych/), and gives some [concrete problems for you to solve](https://crumplab.github.io/programmingforpsych/programming-challenges-i-learning-the-fundamentals.html). 
-
-To get the hang of journaling and solving the problems to learn programming, my suggestion is that you use this .Rmd file to solve the problems. It would look like this:
-
-# Problem 1
-
-Do simple math with numbers, addition, subtraction, multiplication, division
-
-```{r}
-1+2
-2*5
-5/3
-(1+6+4)/5
-
+**Question 2**  
+```{r q2 data}
+Problem2<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 2/Data/Problem2.csv")
+logit <- glm(Y ~ X1 + X2, data = Problem2, family = "binomial")
+logitsq <- glm(Y ~ poly(X1, 2) + poly(X2, 2), data = Problem2, family = "binomial")
+lda <- lda(Y ~ X1 + X2, data = Problem2)
+qda <- qda(Y ~ X1 + X2, data = Problem2)
 ```
 
-# Problem 2
-
-Put numbers into variables, do simple math on the variables
-
-```{r}
-a<-1
-b<-2
-a+b
-
-d<-c(1,2,3)
-e<-c(5,6,7)
-d+e
-d*e
-d/e
-
+  (i) 
+```{r q2i, fig.width = 4, fig.height = 3, fig.align = 'center'}
+gridX1<-seq(-3, 3, length = 50)
+gridX2<-seq(-3, 3, length = 50)
+gridX<-expand.grid(gridX1, gridX2)
+names(gridX)<-c("X1", "X2")
+gridX$logitpred <- as.character(1*(predict(logit, gridX, type="response") > 0.5))
+gridX$logitsqpred <- as.character(1*(predict(logitsq, gridX, type="response") > 0.5))
+gridX$ldapred <- as.character(as.numeric(predict(lda, newdata = gridX)$class) - 1)
+gridX$qdapred <- as.character(as.numeric(predict(qda, newdata = gridX)$class) - 1)
+ggplot(data = gridX, aes(x = X1, y = X2, color = logitpred)) + theme_bw() + geom_point() +
+     scale_colour_manual(values = c("blue", "green")) +
+     labs(title = "Logistic regression with only linear terms", x = "X1", y = "X2") +
+     guides(color = guide_legend())
+ggplot(data = gridX, aes(x = X1, y = X2, color = logitsqpred)) + theme_bw() + geom_point() +
+     scale_colour_manual(values = c("blue", "green")) +
+     labs(title = "Logistic regression with squared terms", x = "X1", y = "X2") +
+     guides(color = guide_legend())
+ggplot(data = gridX, aes(x = X1, y = X2, color = ldapred)) + theme_bw() + geom_point() +
+     scale_colour_manual(values = c("blue", "green")) +
+     labs(title = "Linear discriminant analysis", x = "X1", y = "X2") +
+     guides(color = guide_legend())
+ggplot(data = gridX, aes(x = X1, y = X2, color = qdapred)) + theme_bw() + geom_point() +
+     scale_colour_manual(values = c("blue", "green")) +
+     labs(title = "Quadratic discriminant analysis", x = "X1", y = "X2") +
+     guides(color = guide_legend())
 ```
 
-# Problem 3
+  (ii) It seems as if the logistic regression with only linear terms and the linear discriminant analysis perform similarly, while the quadratic discriminant analysis and the logistic regression with squared terms classify some values in the bottom left corner as 0. Quadratic discriminant analysis also classifies some values in the upper left corner as 1. We do not have any way of knowing if the approaches are overfit to the data without knowing what the distribution of the training data looks like.
 
-Write code that will place the numbers 1 to 100 separately into a variable using for loop. Then, again using the seq function.
+  (iii) 
+```{r q2iii}
+Problem2test<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 2/Data/Problem2test.csv")
+logittest<-1*(predict(logit, Problem2test, type="response") > 0.5)
+logittesterror<-mean(logittest != Problem2test$Y)
+logitsqtest<-1*(predict(logitsq, Problem2test, type="response") > 0.5)
+logitsqtesterror<-mean(logitsqtest != Problem2test$Y)
+ldatest<-as.numeric(predict(lda, newdata = Problem2test)$class) - 1
+ldatesterror<-mean(ldatest != Problem2test$Y)
+qdatest<-as.numeric(predict(qda, newdata = Problem2test)$class) - 1
+qdatesterror<-mean(qdatest != Problem2test$Y)
+print(paste0("The test error rate for the logistic regression with linear terms is ", 
+             signif(logittesterror, digits = 3)))
+print(paste0("The test error rate for the logistic regression that includes squared terms is ", 
+             signif(logitsqtesterror, digits = 3)))
+print(paste0("The test error rate for the linear discriminant analysis is ", 
+             signif(ldatesterror, digits = 3)))
+print(paste0("The test error rate for the quadratic discriminant analysis is ", 
+             signif(qdatesterror, digits = 3)))
+```
+  While the models perform similarly, it seems as though the logistic regression with linear terms for the covariates is the best at predicting the outcome. This model performs only slightly better than linear discriminant analysis, followed in performance by logistic regression with squared terms and then by quadratic discriminant analysis. Considering that the logistic regression model with squared terms for X1 and X2 as well as the quadratic discriminant analysis have higher test error rates, it seems as though both X1 and X2 are best included linearly in the model.  
+  
+**Question 3**  
+```{r q3 data}
+Problem3<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 2/Data/Problem3.csv")
+ldap3 <- lda(Y ~ X1 + X2, data = Problem3)
+qdap3 <- qda(Y ~ X1 + X2, data = Problem3)
+```
 
-```{r}
-# for loop solution
-# i becomes the number 1 to 100 at each step of the loop
+  (i) 
+```{r q3i, fig.width = 4, fig.height = 3, fig.align = 'center'}
+gridX1p3<-seq(-3, 3, length = 50)
+gridX2p3<-seq(-3, 3, length = 50)
+gridXp3<-expand.grid(gridX1p3, gridX2p3)
+names(gridXp3)<-c("X1", "X2")
+gridXp3$ldapred <- as.character(as.numeric(predict(ldap3, newdata = gridXp3)$class) - 1)
+gridXp3$qdapred <- as.character(as.numeric(predict(qdap3, newdata = gridXp3)$class) - 1)
+ggplot(data = gridXp3, aes(x = X1, y = X2, color = ldapred)) + theme_bw() + geom_point() + 
+  scale_colour_manual(values = c("blue", "green", "purple", "lightblue")) + 
+  labs(title = "Linear discriminant analysis", x = "X1", y = "X2") +  
+  guides(color = guide_legend())
+ggplot(data = gridXp3, aes(x = X1, y = X2, color = qdapred)) + theme_bw() + geom_point() + 
+  scale_colour_manual(values = c("blue", "green", "purple", "lightblue")) + 
+  labs(title = "Quadratic discriminant analysis", x = "X1", y = "X2") + 
+  guides(color = guide_legend())
+```
 
+  (ii) 
+```{r q3ii}
+Problem3test<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 2/Data/Problem3test.csv")
+ldap3test<-as.numeric(predict(ldap3, newdata = Problem3test)$class) - 1
+ldap3testerror<-mean(ldap3test != Problem3test$Y)
+qdap3test<-as.numeric(predict(qdap3, newdata = Problem3test)$class) - 1
+qdap3testerror<-mean(qdap3test != Problem3test$Y)
+print(paste0("The test error rate for the linear discriminant analysis is ", 
+             signif(ldap3testerror, digits = 3)))
+print(paste0("The test error rate for the quadratic discriminant analysis is ", 
+             signif(qdap3testerror, digits = 3)))
+```
+The test error rate is slightly lower for linear discriminant analysis compared to quadratic discriminant analysis. Both error rates are not entirely desirable, as they are both larger than $50\%$; however, this should not concern us.  
 
-a <- length(100) # make empty variable, set length to 100
-for (i in 1:100){
-  a[i] <-i #assigns the number in i, to the ith index of a
+  (iii) No, it should not concern us that our error rates are greater than $50\%$. Because we are trying to classify $Y$ according to four categories, we should mainly be concerned if our error rates are greater than $75\%$.
+  
+  (iv) Yes, I do believe that our QDA model is an improvement on random guessing because the error rate, $59.5\%$, is lower than $75\%$, which is what we would expect the error rate to be if we randomly picked a class category with equal probability for each class. 
+  
+**Question 4**  
+```{r q4}
+set.seed(123)
+n <- 100
+n_test <- 1000
+
+data_test <- data.frame(X1 = rnorm(n_test), X2 = rnorm(n_test))
+data_test$Y <- 1*(data_test[,1]^2 + data_test[,2]^2 < 1)
+
+nSim <- 100
+test_error <- matrix(NA, nSim, 2)
+
+for (ni in 1 : nSim) {
+  data_train <- data.frame(X1 = rnorm(n), X2 = rnorm(n))
+  data_train$Y <- 1*(data_train[,1]^2 + data_train[,2]^2 < 1)
+  
+  modLDA <- lda(Y ~ X1 + X2, data = data_train)
+  pred_testLDA <- as.numeric(predict(modLDA, newdata = data_test)$class) - 1
+  test_error[ni, 1] <- mean(pred_testLDA != data_test$Y)
+  
+  modQDA <- qda(Y ~ X1 + X2, data = data_train)
+  pred_testQDA <- as.numeric(predict(modQDA, newdata = data_test)$class) - 1
+  test_error[ni, 2] <- mean(pred_testQDA != data_test$Y)
+}
+```
+
+  (i) I began by setting a seed so that my code will be reproducible. Next, I defined my sample sizes for my training data (n) and my testing data (n_test). Then, I created my testing data by making a data frame with random, normally-distributed covariates $X_1$ and $X_2$. Next, I defined the binary outcome $Y$ of my testing data using squared terms for $X_1$ and $X_2$. I then set the number of simulations to be $100$ and created an empty matrix to store the test error rates for my models in two columns, one for LDA and one for QDA. Finally, I created a for loop that runs $100$ simulations of creating training data with the same properties as my testing data, running LDA and QDA, and calculating the error rates for both.
+
+  (ii) I believe that QDA will outperform LDA in this situation because the outcome was generated according to a quadratic function of $X_1$ and $X_2$. Since the "truth" is nonlinear, QDA will outperform LDA in this situation.  
+
+  (iii) 
+```{r q4iii, fig.width = 4, fig.height = 5, fig.align = 'center'}
+boxplot(x = test_error, names = c("LDA", "QDA"), main = "Test error rates")
+test_error_lda <- mean(test_error[,1])
+test_error_qda <- mean(test_error[,2])
+print(paste0("The test error rate for the linear discriminant analysis is ", 
+             signif(test_error_lda, digits = 2)))
+print(paste0("The test error rate for the quadratic discriminant analysis is ", 
+             signif(test_error_qda, digits = 2)))
+```
+The average error rate for LDA was $44\%$ while the average error rate for QDA was $8.8\%$. We can see from the boxplots of the error rates that QDA consistently outperforms LDA and that the error rates for LDA are somewhat skewed to the right. As we planned, QDA is a much better method than LDA for the data we've generated.
+  
+  (iv) 
+```{r q4iv}
+set.seed(123)
+
+test_error_ss <- matrix(NA, 100, 3)
+row <- 1
+
+for(i in seq(100, 10000, by = 100)) {
+  
+  test_error_ss[row, 1] <- i
+  
+  data_test <- data.frame(X1 = rnorm(100), X2 = rnorm(100))
+  data_test$Y <- 1*(data_test[,1]^2 + data_test[,2]^2 < 1)
+  
+  data_train <- data.frame(X1 = rnorm(i), X2 = rnorm(i))
+  data_train$Y <- 1*(data_train[,1]^2 + data_train[,2]^2 < 1)
+  
+  ldap4 <- lda(Y ~ X1 + X2, data = data_train)
+  ldap4testerror <- as.numeric(predict(ldap4, newdata = data_test)$class) - 1
+  test_error_ss[row, 2] <- mean(ldap4testerror != data_test$Y)
+  
+  qdap4 <- qda(Y ~ X1 + X2, data = data_train)
+  qdap4testerror <- as.numeric(predict(qdap4, newdata = data_test)$class) - 1
+  test_error_ss[row, 3] <- mean(qdap4testerror != data_test$Y)
+  
+  row <- row + 1
 }
 
-print(a)
-
-# for loop solution #2
-
-a<-c() #create empty variable using combine command
-for (i in 1:100){
-  a<-c(a,i) # keeps combining a with itself and the new number in i
-}
-print(a)
-
-# seq solution
-a <- seq(1,100,1) # look up help for seq using ?seq() in console
-print(a)
-
+plot(test_error_ss[,1], test_error_ss[,2], ylim = c(0, 0.6), col = "purple", main = "Test Error Rate vs. Sample Size", xlab = "Training Sample Size", ylab = "Test Error Rate")
+points(test_error_ss[,1], test_error_ss[,3], col = "blue")
+legend(x = "topright", legend = c("LDA", "QDA"), col = c("purple", "blue"), pch = c(1, 1))
 ```
 
-# Replace this with problem 4
+It seems as though the relative performance of LDA/QDA does not really depend on the sample size. Looking at 100 sample sizes ranging from 100 to 10,000, both the error rates for LDA and for QDA are fairly randomly scattered, though those for QDA are slightly less scattered than those for LDA. Furthermore, as explained previously, the error rates for LDA are consistently higher than those for QDA. 
 
-And keep going. Try to solve the problems with different scripts that provide the same solution. Good luck, Happy coding.
+### Homework \#3
+
+```{r setup3, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(e1071)
+library(class)
+library(MASS)
+```
+
+**Question 1**  
+```{r h3q1 data}
+Problem1 <- read.table("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 3/Crabs.dat", 
+                       header = TRUE, 
+                       colClasses = c("factor", rep("double", 2), rep("factor", 2)))
+```
+
+  (i) Weight and width are continuous variables, while color and spine are categorical variables. Since color and spine are discrete variables, they will be included in our model as factors. This should be done for most models since these do not have a natural order. Furthermore, it alleviates some issues that could arise with using KNN algorithms, which assume that all outcomes exist in a hypothetical space in which distance can be measured. We are assuming by implementing LDA and QDA in this problem that the predictor variables follow a multivariate normal distribution; however, there has been research that supports the fact that LDA is somewhat robust against this assumption.
+  
+  (ii)  
+```{r h3q1ii}
+nSim <- 100
+errorMat <- matrix(NA, nSim, 4)
+trainErrorMat <- matrix(NA, nSim, 4)
+
+for (ni in 1 : nSim) {
+  set.seed(ni)
+  
+  trainIndex <- sample(1:nrow(Problem1), 100, replace = FALSE)
+  
+  trainData <- Problem1[trainIndex,]
+  testData <- Problem1[-trainIndex,]
+  
+  tune.svm <- tune(svm, y ~ .,
+                   data = trainData, kernel = "radial",
+                   ranges = list(cost = c(0.01, 1, 5, 10, 100),
+                                 gamma = c(0.01)))
+  fit <- tune.svm$best.model
+  
+  predSVM <- as.numeric(as.character(predict(fit, testData)))
+  trainPredSVM <- as.numeric(as.character(fit$fitted))
+  
+  errorMat[ni, 1] <- mean(predSVM != testData$y)
+  trainErrorMat[ni, 1] <- mean(trainPredSVM != trainData$y)
+  
+  tune.svm <- tune(svm, y ~.,
+                   data = trainData, kernel = "radial",
+                   ranges = list(cost = c(0.01, 1, 5, 10, 100),
+                                 gamma = c(0.1)))
+  fit <- tune.svm$best.model
+  
+  predSVM <- as.numeric(as.character(predict(fit, testData)))
+  trainPredSVM <- as.numeric(as.character(fit$fitted))
+  
+  errorMat[ni, 2] <- mean(predSVM != testData$y)
+  trainErrorMat[ni, 2] <- mean(trainPredSVM != trainData$y)
+  
+  tune.svm <- tune(svm, y ~.,
+                   data = trainData, kernel = "radial",
+                   ranges = list(cost = c(0.01, 1, 5, 10, 100),
+                                 gamma = c(1)))
+  fit <- tune.svm$best.model
+  
+  predSVM <- as.numeric(as.character(predict(fit, testData)))
+  trainPredSVM <- as.numeric(as.character(fit$fitted))
+  
+  errorMat[ni, 3] <- mean(predSVM != testData$y)
+  trainErrorMat[ni, 3] <- mean(trainPredSVM != trainData$y)
+  
+  tune.svm <- tune(svm, y ~.,
+                   data = trainData, kernel = "radial",
+                   ranges = list(cost = c(0.01, 1, 5, 10, 100),
+                                 gamma = c(10)))
+  fit <- tune.svm$best.model
+  
+  predSVM <- as.numeric(as.character(predict(fit, testData)))
+  trainPredSVM <- as.numeric(as.character(fit$fitted))
+  
+  errorMat[ni, 4] <- mean(predSVM != testData$y)
+  trainErrorMat[ni, 4] <- mean(trainPredSVM != trainData$y)
+}
+
+
+trainError <- apply(trainErrorMat, 2, mean, na.rm=TRUE)
+testError <- apply(errorMat, 2, mean, na.rm=TRUE)
+table <- data.frame(testing = testError, training = trainError) 
+row.names(table) <- c("gamma = .001", "gamma = .01", "gamma = 1", "gamma = 10")
+table
+```
+  I created a for loop to test four different gamma values. I first held out 100 observations to be used as training data and let the other 73 observations be the testing data. I then chose four values of gamma ($\gamma$): 0.01, 0.1, 1, and 10, to test the sensitivity of the results. I did this 100 times and set a different seed each time to simulate randomness. From the table above, we can see that the testing error rates become larger as $\gamma$ gets larger, while the training error rates become smaller as $\gamma$ gets larger. This demonstrates that the models might be susceptible to overfitting as $\gamma$ increases.
+  
+  (iii)  
+```{r h3q1iii}
+set.seed(123)
+
+errorMat <- matrix(NA, 10, 6)
+
+folds <- cut(seq(1, nrow(Problem1)), breaks = 10, labels = FALSE)
+
+for (k in 1 : 10) {
+  testIndex <- which(folds == k)
+  
+  trainData <- Problem1[-testIndex,]
+  testData <- Problem1[testIndex,]
+  
+  knnTrainY <- trainData$y
+  knnTestY <- testData$y
+  
+  knnTrainData <- trainData
+  knnTrainData$y <- NULL
+  
+  knnTestData <- testData
+  knnTestData$y <- NULL
+  
+  knnPred5 <- knn(train = knnTrainData, test = knnTestData, cl = knnTrainY, k = 5) 
+  knnPred10 <- knn(train = knnTrainData, test = knnTestData, cl = knnTrainY, k = 10) 
+  knnPred20 <- knn(train = knnTrainData, test = knnTestData, cl = knnTrainY, k = 20) 
+  knnPred50 <- knn(train = knnTrainData, test = knnTestData, cl = knnTrainY, k = 50) 
+  knnPred75 <- knn(train = knnTrainData, test = knnTestData, cl = knnTrainY, k = 75) 
+  knnPred100 <- knn(train = knnTrainData, test = knnTestData, cl = knnTrainY, k = 100)
+  
+  errorMat[k, 1] <- mean(knnPred5 != testData$y)   
+  errorMat[k, 2] <- mean(knnPred10 != testData$y) 
+  errorMat[k, 3] <- mean(knnPred20 != testData$y) 
+  errorMat[k, 4] <- mean(knnPred50 != testData$y) 
+  errorMat[k, 5] <- mean(knnPred75 != testData$y) 
+  errorMat[k, 6] <- mean(knnPred100 != testData$y)
+}
+
+errorRates <- apply(errorMat, 2, mean, na.rm = TRUE)
+knnTable <- data.frame("error rate" = errorRates) 
+rownames(knnTable) <- c(5, 10, 20, 50, 75, 100) 
+knnTable
+```
+  The optimal value of $K$ is 5 as this value gives us the lowest testing error rate at $28.85\%$.
+  
+  (iv) 
+```{r h3q1iv}
+errorMat <- matrix(NA, 100, 6)
+colnames(errorMat) <- c("Logistic Regression", "LDA", "QDA", "KNN", "SVM Poly", "SVM Rad")
+
+for (i in 1:100) {
+  set.seed(i)
+  
+  testIndex <- sample(1:nrow(Problem1), 25, replace = FALSE)
+  testData <- Problem1[testIndex, ]
+  trainData <- Problem1[-testIndex, ]
+  
+  fitLogistic <- glm(y ~ ., data = trainData, family = "binomial")
+  logisticPred <- 1*(predict(fitLogistic, newdata = testData, type = "response") > 0.5)
+  errorMat[i, 1] <- mean(logisticPred != testData$y)
+  
+  fitLDA <- lda(y ~ ., data = trainData)
+  ldaPred <- as.numeric(predict(fitLDA, newdata = testData)$class) - 1
+  errorMat[i, 2] <- mean(ldaPred != testData$y)
+  
+  fitQDA <- qda(y ~., data = trainData)
+  qdaPred <- as.numeric(predict(fitQDA, newdata = testData)$class) - 1
+  errorMat[i, 3] <- mean(qdaPred != testData$y)
+  
+  knn <- tune.knn(x = testData[,-1], y = testData[, 1], 
+                  k = c(1, 5, 10, 15, 20),
+                  tunecontrol = tune.control(sampling = "cross"), 
+                  cross = 10)
+  errorMat[i, 4] <- unlist(knn[[2]])
+  
+  tune.svm <- tune(svm, y ~ ., 
+                   data = trainData, kernel = "polynomial", 
+                   ranges = list(cost = c(0.01, 1, 5, 10, 100), degree = c(1, 2, 3, 4)))
+  fitSVMPoly <- tune.svm$best.model
+  SVMPolyPred <- as.numeric(as.character(predict(fitSVMPoly, testData)))
+  errorMat[i, 5] <- mean(SVMPolyPred != testData$y)
+  
+  tune.svm <- tune(svm, y ~., 
+                   data = trainData, kernel = "radial", 
+                   ranges = list(cost = c(0.01, 1, 5, 10, 100), 
+                                 gamma = c(0.001, 0.01, 0.1, 1, 10)))
+  fitSVMRad <- tune.svm$best.model
+  SVMRadPred <- as.numeric(as.character(predict(fitSVMRad, testData)))
+  errorMat[i, 6] <- mean(SVMRadPred != testData$y)
+}
+
+apply(errorMat, 2, mean, na.rm = TRUE)
+```
+
+(a) The algorithm with the best performance on average across the 100 testing data sets is KNN, since it has the lowest testing error rate.   
+(b)
+
+```{r h3q1ivb}
+boxplot(errorMat, main = "Error Rates", las = 2)
+```
+
+From the boxplots above, we can see graphically that KNN performs the best for this dataset. The averages for the rest are extremely similar. Logistic regression and LDA have the smallest ranges, but also have several outliers. The other models have similar ranges with the exception of the SVM with a polynomial kernel, whose range seems to be a bit wider. 
+    
+**Question 2**  
+
+  (i) Since the distribution of $X_i$ is uniform on $[0, 10]$, the value of $q_{0.8}$ is $\frac{q_{0.8}-a}{b-a}=\frac{q_{0.8}-0}{10-0}=0.8$. Solving for $q_{0.8}$ gives us $q_{0.8}=8$. 
+  
+  (ii) If we didn't know the distribution of $X_i$, we would assume that the distribution is normal since we have a large sample size ($n = 100$). Since we know that the data fall between $[0, 10]$, and, by the Range Rule, the standard deviation of a sample is approximately equal to $\frac{1}{4}$ of the range, we can determine that the standard deviation of the distribution is around $\frac{10}{4} = 2.5$. Thus, a good estimator for $q_{0.8}$ would satisfy $z_{0.8} \approx 0.8416 = \frac{q_{0.8}-5}{2.5}$. Solving this provides us with $q_{0.8} = 7.104$.
+  
+  (iii) 
+```{r h3q2iii}
+n <- 100
+set.seed(123)
+x <- runif(n, 0, 10)
+
+nBoot <- 1000
+estBoot <- rep(NA, nBoot)
+
+for (nb in 1: nBoot) {
+  sample <- sample(1:n, n, replace = TRUE)
+  xBoot <- x[sample]
+  estBoot[nb] <- quantile(xBoot, 0.80)
+}
+
+mean(estBoot)
+quantile(estBoot, c(0.025, 0.975))
+```
+
+  
+  (iv)  
+```{r h3q2iv}
+n <- 100
+nSim <- 200
+nBoot <- 1000
+cov <- matrix(NA, nSim, 2)
+colnames(cov) <- c("Percentile", "Standard")
+se <- rep(NA, nSim)
+est <- rep(NA, nSim)
+set.seed(123)
+
+for (ns in 1 : nSim) {
+  x <- runif(n, 0, 10)
+  est[ns] <- quantile(x, 0.80)
+  
+  estBoot <- rep(NA, nBoot)
+  for (nb in 1 : nBoot) {
+    sample <- sample(1:n, n, replace = TRUE)
+    xBoot <- x[sample]
+    estBoot[nb] <- quantile(xBoot, 0.80)
+  }
+  
+  cov[ns, 1] <- 1*(quantile(estBoot, 0.025) < 8 & quantile(estBoot, 0.975) > 8)
+  se[ns] <- sd(estBoot)
+  cov[ns, 2] <- 1*(est[ns] - 1.96*se[ns] < 8 & est[ns] + 1.96*se[ns] > 8)
+}
+
+apply(cov, 2, mean, na.rm = TRUE)
+```
+  The percentile method creates intervals that cover the true $0.8$ quantile $95\%$ of the time, while the standard error method covers the true parameter $93.5\%$ of the time. 
+  
+  (v) 
+```{r h3q2v}
+n <- 100
+nSim <- 200
+nBoot <- 1000
+cov <- matrix(NA, nSim, 2)
+colnames(cov) <- c("Percentile", "Standard")
+se <- rep(NA, nSim)
+est <- rep(NA, nSim)
+set.seed(123)
+
+for (ns in 1 : nSim) {
+  x <- runif(n, 0, 10)
+  est[ns] <- quantile(x, 0.99)
+  
+  estBoot <- rep(NA, nBoot)
+  for (nb in 1 : nBoot) {
+    sample <- sample(1:n, n, replace = TRUE)
+    xBoot <- x[sample]
+    estBoot[nb] <- quantile(xBoot, 0.99)
+  }
+  
+  cov[ns, 1] <- 1*(quantile(estBoot, 0.025) < 9.9 & quantile(estBoot, 0.975) > 9.9)
+  se[ns] <- sd(estBoot)
+  cov[ns, 2] <- 1*(est[ns] - 1.96*se[ns] < 9.9 & est[ns] + 1.96*se[ns] > 9.9)
+}
+
+apply(cov, 2, mean, na.rm = TRUE)
+```
+  While the standard error method performs slightly worse than it did when estimating $q_{0.8}$, the percentile method performs much worse in this case with an error rate of $62\%$. A possible cause is that the $0.99$ quantile is extremely close to the upper limit of the distribution, so it is difficult to spread values normally about the true parameter.
+  
+**Question 3**  
+
+Let $q_{\alpha/2}$ and $q_{1-\alpha/2}$ represent the $\alpha/2$ and $1-\alpha/2$ quantiles of the bootstrap replicates $\hat{\theta}^{(b)}$. It follows that since the distribution of $\theta-\hat{\theta}$ is approximated by $\hat{\theta}-\hat{\theta}^{(b)}$, $$1-\alpha=P(q_{\alpha/2}\leq\hat{\theta}^{(b)}\leq q_{1-\alpha/2})$$ $$=P(-q_{\alpha/2}\geq-\hat{\theta}^{(b)}\geq -q_{1-\alpha/2})$$ $$=P(-q_{1-\alpha/2}\leq-\hat{\theta}^{(b)}\leq -q_{\alpha/2})$$ $$=P(\hat{\theta}-q_{1-\alpha/2}\leq\hat{\theta}-\hat{\theta}^{(b)}\leq \hat{\theta}-q_{\alpha/2})$$ $$\approx P(\hat{\theta}-q_{1-\alpha/2}\leq\theta-\hat{\theta}\leq\hat{\theta}-q_{\alpha/2})$$ $$=P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})$$ Thus, $P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})\approx 1-\alpha$.
+
+### Homework \#4
+
+```{r setup4, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(e1071)
+library(glmnet)
+library(class)
+library(pls)
+library(MASS)
+library(caret)
+```
+
+**Question 1**  
+```{r h4q1 data}
+data <- read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 4/Data/Problem1.csv",
+                header=TRUE)
+x <- as.matrix(data[,1:52])
+y <- as.numeric(data[,53])
+```
+
+  (i) To begin, we will find the lasso solution for $\lambda = 0.5$ by manually programming lasso. To do this, we will create an algorithm that initializes $\tilde{\beta}$ and computes $r=\mathbf{Y}-\mathbf{X}\tilde{\beta}$, then running a for loop to calculate $r_j$, $B^+$, and $r$. 
+  
+```{r h4q1p1}
+coord_desc <- function(lambda, error, x, y) {
+  beta_tilde <- rep(0, ncol(x)) 
+  r = y - (x %*% beta_tilde) 
+  continue <- TRUE
+  
+  while(continue == TRUE) {
+    beta <- beta_tilde 
+    for(i in 1:length(beta_tilde)) {
+      r_i <- r + x[,i] * beta_tilde[i]
+      toUse <- (t(r_i) %*% x[,i]) / (t(x[,i]) %*% x[,i]) 
+      beta_plus <- max(abs(toUse) - lambda, 0) * sign(toUse) 
+      beta_tilde[i] <- beta_plus
+      r = r_i - x[,i] * beta_tilde[i]
+      }
+    
+    for(i in 1:length(beta_tilde)) {
+      if(abs(beta[i] - beta_tilde[i]) > error) {
+        continue <- TRUE
+        break
+        }
+      continue <- FALSE
+    }
+  }
+  return(beta_tilde) 
+}
+
+coord_desc(0.5, 0.0001, x, y)
+```
+  
+  The lasso solution reduces all of the covariates to zero except for $\beta_1\approx1.643$ and $\beta_2\approx-0.561$. 
+  
+  (ii) Next, we will use the glmnet package to find the lasso solution for $\lambda = 0.5$.
+  
+```{r h4q1p2}
+glmMod <- glmnet(x, y, lambda = 0.5, alpha = 1, intercept = FALSE) 
+coef(glmMod)[2:11,]
+```
+  
+  Since all covariates after $\beta_2$ are again zero, I have chosen to display only the first 10. $\beta_1\approx1.641$ and $\beta_2\approx-0.559$, which is very close to the result I got from the manually-programmed function.
+  
+  (iii) Using the code from part (i), we obtain the follow $\beta$ coefficients as a function of $\lambda$:
+```{r h4q1p3, fig.width = 5, fig.height = 4, fig.align = 'center'}
+lambda <- seq(0, 2, by = 0.1) 
+coeff <- matrix(NA, 52, 21) 
+index <- 1
+
+for(l in lambda){
+  coefficients <- coord_desc(l, 0.0001, x, y)
+  for(i in 1:nrow(coeff)) {
+    coeff[i, index] <- coefficients[i]
+  }
+  index <- index + 1 
+}
+
+set.seed(123)
+colnames(coeff) <- log(lambda)
+colors <- sample(rainbow(52))
+plot(colnames(coeff), coeff[1,], type = "l", ylim = c(-1, 2.2), col = colors[1],
+lwd = 1.5, xlab = "Log Lambda", ylab = "Coefficients", main = "Lasso Estimates") 
+
+for(i in 2:52)
+  lines(colnames(coeff), coeff[i, ], col = colors[i], lwd = 1.5)
+```
+  
+**Question 2**
+```{r h4q2}
+load(file = "/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 4/Data/Problem2train.dat")
+load(file = "/Users/saraloving/Desktop/Sara's Folder/UF Year 4/Spring 2022/STA4241/Homework 4/Data/Problem2test.dat")
+
+x <- as.matrix(dataTrain[,1:204])
+y <- as.numeric(dataTrain[,205])
+
+xtest <- as.matrix(dataTest[,1:204])
+ytest <- as.numeric(dataTest[,205])
+```
+
+  (i) I think that using PCA on the data set will be helpful based on the heatmap below. The heatmap tells us that there are three groups of correlated predictors, so transforming some of these variables to make them uncorrelated will help to maximize the amount of variability explained by the variables without losing information.
+  
+```{r h4q2p1, fig.width = 5, fig.height = 4, fig.align = 'center'}
+cor <- cor(x)
+filled.contour(cor, plot.title = title(main = "Heatmap of Empirical Correlation"))
+```
+  
+  (ii) To begin, we must standardize the training covariates. Then, we can run PCA on the standardized training data and plot the variation explained by each principle component. From the graph below, I believe that PCA will be useful for prediction on this data set. We can see that the first 10 principle components account for most of the variation in the data.
+
+```{r h4q2p2, fig.width = 5, fig.height = 4, fig.align = 'center'}
+x <- scale(x)
+pca <- prcomp(x)
+plot(pca, ylim = c(0, 60), main = "Variation Explained by Each Principle Component", 
+     xlab = "Principle Component") 
+axis(1, at=seq(0.7, 11.5, by=1.2), labels=paste(1:10), las=2)
+```
+  
+  (iii)
+```{r h4q2p3, message = F, warning = F}
+set.seed(123)
+pred <- matrix(NA, 6, 2)
+pred[,1] <- c("Lasso", "Ridge", "PCR - CV", "PCR - Variance", "PLS", "Elastic Net")
+
+#1. Lasso regression
+lasso <- cv.glmnet(x, y, alpha = 1)
+lassoPred <- predict(lasso, xtest, s = "lambda.min") 
+pred[1,2] <- mean((ytest - lassoPred)^2)
+
+#2. Ridge regression
+ridge <- cv.glmnet(x, y, alpha = 0)
+ridgePred <- predict(ridge, xtest, s = "lambda.min") 
+pred[2,2] <- mean((ytest - ridgePred)^2)
+
+#3. Principle components regression - cross-validation
+pcr <- pcr(y ~ x, validation = "CV")
+ncomp <- which.min(RMSEP(pcr)$val[1,,]) - 1
+pcrFit <- pcr(y ~ x, ncomp = ncomp)
+pcrPredCV <- predict(pcrFit, xtest, ncomp = ncomp)
+pred[3,2] <- mean((ytest - pcrPredCV)^2)
+
+#4. Principle components regression - 95% variability
+pcr2 <- prcomp(x)
+ncomp2 <- min(which((cumsum(pcr2$sdev^2) / sum(pcr2$sdev^2)) >= 0.95)) 
+pcrFit2 <- pcr(y ~ x, ncomp = ncomp2)
+pcrPred2 <- predict(pcrFit2, xtest, ncomp = ncomp2)
+pred[4,2] <- mean((ytest - pcrPred2)^2) 
+
+#5. Partial least squares - cross-validation
+pls <- plsr(y ~ x, validation = "CV")
+npls <- which.min(RMSEP(pls)$val[1,,]) - 1
+plsFit <- plsr(y ~ x, ncomp = npls)
+plsPred <- predict(plsFit, xtest, ncomp = npls)
+pred[5,2] <- mean((ytest - plsPred)^2) 
+
+#6. Elastic net - cross-validation
+cv = trainControl(method = "CV", number = 10)
+elnet <- train(y ~ ., data = data.frame(x, y), method = "glmnet", trControl = cv) 
+elnetPred <- predict(elnet, xtest)
+pred[6,2] <- mean((ytest - elnetPred)^2)
+
+colnames(pred) <- c("Approach", "Predictive Performance")
+knitr::kable(pred, format = "simple", row.names = FALSE)
+```
+  
+  (iv) From the table above, we can see that the elastic net approach performs best, followed by partial least squares and lasso regression. The worst method was ridge regression. Since we know that this data set includes highly correlated predictors, it makes sense that the elastic net performs best since it shrinks the coefficients rather than dropping variables from the model entirely. In other words, it keeps the correlated variables while still penalizing the coefficients. Partial least squares regression involves dimension reduction, which also helps handle correlated predictors.
+  
+**Question 3**
+
+Assuming we have $p$ covariates $\mathbf{X}$ and want to fit a linear model without an intercept: $$df(\hat{Y})=Tr(\mathbf{S})$$ $$=Tr(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T)$$ $$=Tr(\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1})$$ $$=Tr(\mathbf{I})$$ Thus, the effective degrees of freedom is the sum of $p$ ones, and thus is equal to $p$.
+
+**Question 4**
+
+Suppose we estimate a function $f(\cdot)$ using $$\hat{f}=\arg\min_f\left(\sum^n_{i=1}(Y_i-f(X_i))^2+\lambda\int\left[f^{(m)}(x)\right]^2dx\right)$$ where $f^{(m)}$ is the $m^{th}$ derivative of $f$. 
+
+  (a) When $\lambda=\infty$ and $m=0$, $f(x)$ will be forced towards zero. Thus, the function will look like a horizontal line and will only take the value $0$.
+  
+  (b) When $\lambda=\infty$ and $m=1$, $f'(x)$ will be forced towards zero. Thus, the function will be a horizontal line and will only take the value of some constant $c$. 
+  
+  (c) When $\lambda=\infty$ and $m=2$, $f''(x)$ will be forced towards zero. Thus, the function will be the least-squares estimate of a linear model.
+  
+  (d) When $\lambda=0$ and $m=3$, the penalty term will be canceled out, and the function will interpolate the original data exactly.
+  
