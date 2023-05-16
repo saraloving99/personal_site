@@ -322,7 +322,7 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="Journal.html">Journal</a>
+  <a href="Journal.html">Portfolio</a>
 </li>
 <li>
   <a href="Links.html">Links</a>
@@ -344,12 +344,14 @@ div.tocify {
 </div>
 
 
-<div id="coursework" class="section level1">
-<h1>Coursework</h1>
+<div id="coursework" class="section level1 tabset">
+<h1 class="tabset">Coursework</h1>
 <div id="sta4241-statistical-learning-spring-2022" class="section level2">
 <h2>STA4241: Statistical Learning, Spring 2022</h2>
 <div id="homework-1" class="section level3">
 <h3>Homework #1</h3>
+<div id="january-26-2022" class="section level4">
+<h4>January 26, 2022</h4>
 <p><strong>Question 1</strong></p>
 <p>To find the least squares solution for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in simple linear regression, we must minimize the sum of squared residuals for <span class="math inline">\(Y=\beta_0+\beta_1X\)</span> by minimizing <span class="math inline">\(\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\)</span>. To begin, we will minimize the function with respect to <span class="math inline">\(\hat{\beta}_0\)</span>: <span class="math display">\[\frac{\partial}{\partial\hat{\beta}_0}\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2=\sum_{i=1}^n\frac{\partial}{\partial\hat{\beta}_0}(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\]</span> <span class="math display">\[=\sum_{i=1}^n2(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))(-1)=-2\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))\]</span> Next, we will solve for <span class="math inline">\(\hat{\beta}_0\)</span> when the derivative equals 0: <span class="math display">\[-2\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\Rightarrow\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\]</span> <span class="math display">\[=\sum_{i=1}^nY_i-\sum_{i=1}^n\hat{\beta}_0-\sum_{i=1}^n\hat{\beta}_1X_i=\sum_{i=1}^nY_i-n\hat{\beta}_0-\hat{\beta}_1\sum_{i=1}^nX_i=0\]</span> <span class="math display">\[n\hat{\beta}_0=\sum_{i=1}^nY_i-\hat{\beta}_1\sum_{i=1}^nX_i\]</span> <span class="math display">\[\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}\]</span> Thus, the least squares solution for <span class="math inline">\(\beta_0\)</span> is <span class="math inline">\(\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}\)</span>. Next, we will minimize <span class="math inline">\(\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\)</span> with respect to <span class="math inline">\(\hat{\beta}_1\)</span>: <span class="math display">\[\frac{\partial}{\partial\hat{\beta}_1}\sum_{i=1}^n(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2=\sum_{i=1}^n\frac{\partial}{\partial\hat{\beta}_1}(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))^2\]</span> <span class="math display">\[=\sum_{i=1}^n2(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))(-X_i)=-2\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))\]</span> Next, we will solve for <span class="math inline">\(\hat{\beta}_1\)</span> when the derivative equals 0: <span class="math display">\[-2\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\Rightarrow\sum_{i=1}^nX_i(Y_i-(\hat{\beta}_0+\hat{\beta}_1X_i))=0\]</span> Since we know that <span class="math inline">\(\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}\)</span>, we can substitute it into the above equation and get <span class="math display">\[\sum_{i=1}^nX_i(Y_i-(\bar{Y}-\hat{\beta}_1\bar{X}+\hat{\beta}_1X_i))=\sum_{i=1}^nX_i(Y_i-\bar{Y}-\hat{\beta}_1(X_i-\bar{X}))\]</span> <span class="math display">\[=\sum_{i=1}^nX_i(Y_i-\bar{Y})-\sum_{i=1}^n\hat{\beta}_1X_i(X_i-\bar{X})=0\]</span> <span class="math display">\[\sum_{i=1}^nX_i(Y_i-\bar{Y})=\hat{\beta}_1\sum_{i=1}^nX_i(X_i-\bar{X})\Rightarrow\hat{\beta}_1=\frac{\sum_{i=1}^nX_i(Y_i-\bar{Y})}{\sum_{i=1}^nX_i(X_i-\bar{X})}\]</span> <span class="math display">\[\hat{\beta}_1=\frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}\]</span> Thus, the least squares solution for <span class="math inline">\(\beta_1\)</span> is <span class="math inline">\(\hat{\beta}_1=\frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}\)</span>.</p>
 <p><strong>Question 2</strong></p>
@@ -493,8 +495,11 @@ mean(knnMarket != testing$Direction)</code></pre>
 <li><p>Yes, the widths of both confidence intervals go 0 as <span class="math inline">\(n\rightarrow\infty\)</span> since <span class="math inline">\(n\)</span> is in the denominator of both margins of error. As <span class="math inline">\(n\)</span> increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.</p></li>
 </ol>
 </div>
+</div>
 <div id="homework-2" class="section level3">
 <h3>Homework #2</h3>
+<div id="february-9-2022" class="section level4">
+<h4>February 9, 2022</h4>
 <p><strong>Question 1</strong></p>
 <p>Assuming that our outcome <span class="math inline">\(Y\)</span> is binary and that we have only covariate <span class="math inline">\(x\)</span>, quadratic discriminant analysis implies a logistic regression model of the form <span class="math display">\[\log\left(\frac{P(Y=1|X=x)}{1-P(Y=1|X=x)}\right)=\log\left(\frac{P(Y=1|X=x)}{P(Y=0|X=x)}\right)\]</span> <span class="math display">\[=\log\left[\frac{\frac{\pi_1}{(2\pi)^{p/2}|\Sigma_1|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_1)^2\Sigma_1^{-1}\right)}{\sum_{K=0}^1\frac{\pi_K}{(2\pi)^{p/2}|\Sigma_K|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_K)^2\Sigma_K^{-1}\right)}\cdot\frac{\sum_{K=0}^1\frac{\pi_K}{(2\pi)^{p/2}|\Sigma_K|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_K)^2\Sigma_K^{-1}\right)}{\frac{\pi_0}{(2\pi)^{p/2}|\Sigma_0|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_0)^2\Sigma_0^{-1}\right)}\right]\]</span> <span class="math display">\[=\log\left[\frac{\frac{\pi_1}{(2\pi)^{p/2}|\Sigma_1|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_1)^2\Sigma_1^{-1}\right)}{\frac{\pi_0}{(2\pi)^{p/2}|\Sigma_0|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_0)^2\Sigma_0^{-1}\right)}\right]=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\exp\left(-\frac{1}{2}\left((x-\mu_1)^2\Sigma_1^{-1}-(x-\mu_0)^2\Sigma_0^{-1}\right)\right)\right]\]</span> <span class="math display">\[=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2}\left((x-\mu_1)^2\Sigma_1^{-1}-(x-\mu_0)^2\Sigma_0^{-1}\right)=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2}\left(\frac{x^2-2x\mu_1+\mu_1^2}{\Sigma_1}-\frac{x^2-2x\mu_0+\mu_0^2}{\Sigma_0}\right)\]</span> <span class="math display">\[=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2}\left(\frac{x^2\Sigma_0-2x\mu_1\Sigma_0+\mu_1^2\Sigma_0-x^2\Sigma_1+2x\mu_0\Sigma_1-\mu_0^2\Sigma_1}{\Sigma_1\Sigma_0}\right)\]</span> <span class="math display">\[=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{1}{2\Sigma_1\Sigma_0}\left(x^2(\Sigma_0-\Sigma_1)-2x(\mu_1\Sigma_0-\mu_0\Sigma_1)+\mu_1^2\Sigma_0-\mu_0^2\Sigma_1\right)\]</span> <span class="math display">\[=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{\mu_1^2}{2\Sigma_1}+\frac{\mu_0^2}{2\Sigma_0}+\frac{\mu_1\Sigma_0-\mu_0\Sigma_1}{\Sigma_1\Sigma_0}x+\frac{\Sigma_1-\Sigma_0}{2\Sigma_1\Sigma_0}x^2\]</span> Thus the model is of the form <span class="math inline">\(\beta_0+\beta_1x+\beta_2\)</span> where <span class="math display">\[\beta_0=\log\left[\frac{\pi_1|\Sigma_0|^{1/2}}{\pi_0|\Sigma_1|^{1/2}}\right]-\frac{\mu_1^2}{2\Sigma_1}+\frac{\mu_0^2}{2\Sigma_0}\]</span> <span class="math display">\[\beta_1=\frac{\mu_1\Sigma_0-\mu_0\Sigma_1}{\Sigma_1\Sigma_0}\]</span> <span class="math display">\[\beta_2=\frac{\Sigma_1-\Sigma_0}{2\Sigma_1\Sigma_0}\]</span>.</p>
 <p><strong>Question 2</strong></p>
@@ -676,8 +681,11 @@ legend(x = &quot;topright&quot;, legend = c(&quot;LDA&quot;, &quot;QDA&quot;), c
 <p><img src="Journal_files/figure-html/q4iv-1.png" width="672" /></p>
 <p>It seems as though the relative performance of LDA/QDA does not really depend on the sample size. Looking at 100 sample sizes ranging from 100 to 10,000, both the error rates for LDA and for QDA are fairly randomly scattered, though those for QDA are slightly less scattered than those for LDA. Furthermore, as explained previously, the error rates for LDA are consistently higher than those for QDA.</p>
 </div>
+</div>
 <div id="homework-3" class="section level3">
 <h3>Homework #3</h3>
+<div id="february-23-2022" class="section level4">
+<h4>February 23, 2022</h4>
 <p><strong>Question 1</strong></p>
 <pre class="r"><code>Problem1 &lt;- read.table(&quot;/Users/saraloving/Desktop/Sara&#39;s Folder/UF Year 4/Spring 2022/STA4241/Homework 3/Crabs.dat&quot;, 
                        header = TRUE, 
@@ -862,18 +870,14 @@ apply(errorMat, 2, mean, na.rm = TRUE)</code></pre>
 ##           0.3208000           0.3140000           0.3076000           0.2911667 
 ##            SVM Poly             SVM Rad 
 ##           0.3168000           0.3108000</code></pre>
-<blockquote>
 <ol style="list-style-type: lower-alpha">
 <li>The algorithm with the best performance on average across the 100 testing data sets is KNN, since it has the lowest testing error rate.<br />
 </li>
 <li></li>
 </ol>
-</blockquote>
 <pre class="r"><code>boxplot(errorMat, main = &quot;Error Rates&quot;, las = 2)</code></pre>
 <p><img src="Journal_files/figure-html/h3q1ivb-1.png" width="672" /></p>
-<blockquote>
 <p>From the boxplots above, we can see graphically that KNN performs the best for this dataset. The averages for the rest are extremely similar. Logistic regression and LDA have the smallest ranges, but also have several outliers. The other models have similar ranges with the exception of the SVM with a polynomial kernel, whose range seems to be a bit wider.</p>
-</blockquote>
 <p><strong>Question 2</strong></p>
 <ol style="list-style-type: lower-roman">
 <li><p>Since the distribution of <span class="math inline">\(X_i\)</span> is uniform on <span class="math inline">\([0, 10]\)</span>, the value of <span class="math inline">\(q_{0.8}\)</span> is <span class="math inline">\(\frac{q_{0.8}-a}{b-a}=\frac{q_{0.8}-0}{10-0}=0.8\)</span>. Solving for <span class="math inline">\(q_{0.8}\)</span> gives us <span class="math inline">\(q_{0.8}=8\)</span>.</p></li>
@@ -964,6 +968,494 @@ apply(cov, 2, mean, na.rm = TRUE)</code></pre>
 <p>While the standard error method performs slightly worse than it did when estimating <span class="math inline">\(q_{0.8}\)</span>, the percentile method performs much worse in this case with an error rate of <span class="math inline">\(62\%\)</span>. A possible cause is that the <span class="math inline">\(0.99\)</span> quantile is extremely close to the upper limit of the distribution, so it is difficult to spread values normally about the true parameter.</p>
 <p><strong>Question 3</strong></p>
 <p>Let <span class="math inline">\(q_{\alpha/2}\)</span> and <span class="math inline">\(q_{1-\alpha/2}\)</span> represent the <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> quantiles of the bootstrap replicates <span class="math inline">\(\hat{\theta}^{(b)}\)</span>. It follows that since the distribution of <span class="math inline">\(\theta-\hat{\theta}\)</span> is approximated by <span class="math inline">\(\hat{\theta}-\hat{\theta}^{(b)}\)</span>, <span class="math display">\[1-\alpha=P(q_{\alpha/2}\leq\hat{\theta}^{(b)}\leq q_{1-\alpha/2})\]</span> <span class="math display">\[=P(-q_{\alpha/2}\geq-\hat{\theta}^{(b)}\geq -q_{1-\alpha/2})\]</span> <span class="math display">\[=P(-q_{1-\alpha/2}\leq-\hat{\theta}^{(b)}\leq -q_{\alpha/2})\]</span> <span class="math display">\[=P(\hat{\theta}-q_{1-\alpha/2}\leq\hat{\theta}-\hat{\theta}^{(b)}\leq \hat{\theta}-q_{\alpha/2})\]</span> <span class="math display">\[\approx P(\hat{\theta}-q_{1-\alpha/2}\leq\theta-\hat{\theta}\leq\hat{\theta}-q_{\alpha/2})\]</span> <span class="math display">\[=P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})\]</span> Thus, <span class="math inline">\(P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})\approx 1-\alpha\)</span>.</p>
+</div>
+</div>
+<div id="homework-4" class="section level3">
+<h3>Homework #4</h3>
+<div id="march-30-2022" class="section level4">
+<h4>March 30, 2022</h4>
+<p><strong>Question 1</strong></p>
+<pre class="r"><code>data &lt;- read.csv(&quot;/Users/saraloving/Desktop/Sara&#39;s Folder/UF Year 4/Spring 2022/STA4241/Homework 4/Data/Problem1.csv&quot;,
+                header=TRUE)
+x &lt;- as.matrix(data[,1:52])
+y &lt;- as.numeric(data[,53])</code></pre>
+<ol style="list-style-type: lower-roman">
+<li>To begin, we will find the lasso solution for <span class="math inline">\(\lambda = 0.5\)</span> by manually programming lasso. To do this, we will create an algorithm that initializes <span class="math inline">\(\tilde{\beta}\)</span> and computes <span class="math inline">\(r=\mathbf{Y}-\mathbf{X}\tilde{\beta}\)</span>, then running a for loop to calculate <span class="math inline">\(r_j\)</span>, <span class="math inline">\(B^+\)</span>, and <span class="math inline">\(r\)</span>.</li>
+</ol>
+<pre class="r"><code>coord_desc &lt;- function(lambda, error, x, y) {
+  beta_tilde &lt;- rep(0, ncol(x)) 
+  r = y - (x %*% beta_tilde) 
+  continue &lt;- TRUE
+  
+  while(continue == TRUE) {
+    beta &lt;- beta_tilde 
+    for(i in 1:length(beta_tilde)) {
+      r_i &lt;- r + x[,i] * beta_tilde[i]
+      toUse &lt;- (t(r_i) %*% x[,i]) / (t(x[,i]) %*% x[,i]) 
+      beta_plus &lt;- max(abs(toUse) - lambda, 0) * sign(toUse) 
+      beta_tilde[i] &lt;- beta_plus
+      r = r_i - x[,i] * beta_tilde[i]
+      }
+    
+    for(i in 1:length(beta_tilde)) {
+      if(abs(beta[i] - beta_tilde[i]) &gt; error) {
+        continue &lt;- TRUE
+        break
+        }
+      continue &lt;- FALSE
+    }
+  }
+  return(beta_tilde) 
+}
+
+coord_desc(0.5, 0.0001, x, y)</code></pre>
+<pre><code>##  [1]  1.6427195 -0.5610157  0.0000000  0.0000000  0.0000000  0.0000000
+##  [7]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [13]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [19]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [25]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [31]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [37]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [43]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## [49]  0.0000000  0.0000000  0.0000000  0.0000000</code></pre>
+<p>The lasso solution reduces all of the covariates to zero except for <span class="math inline">\(\beta_1\approx1.643\)</span> and <span class="math inline">\(\beta_2\approx-0.561\)</span>.</p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Next, we will use the glmnet package to find the lasso solution for <span class="math inline">\(\lambda = 0.5\)</span>.</li>
+</ol>
+<pre class="r"><code>glmMod &lt;- glmnet(x, y, lambda = 0.5, alpha = 1, intercept = FALSE) 
+coef(glmMod)[2:11,]</code></pre>
+<pre><code>##        x.1        x.2        x.3        x.4        x.5        x.6        x.7 
+##  1.6406751 -0.5589713  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000 
+##        x.8        x.9       x.10 
+##  0.0000000  0.0000000  0.0000000</code></pre>
+<p>Since all covariates after <span class="math inline">\(\beta_2\)</span> are again zero, I have chosen to display only the first 10. <span class="math inline">\(\beta_1\approx1.641\)</span> and <span class="math inline">\(\beta_2\approx-0.559\)</span>, which is very close to the result I got from the manually-programmed function.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Using the code from part (i), we obtain the follow <span class="math inline">\(\beta\)</span> coefficients as a function of <span class="math inline">\(\lambda\)</span>:</li>
+</ol>
+<pre class="r"><code>lambda &lt;- seq(0, 2, by = 0.1) 
+coeff &lt;- matrix(NA, 52, 21) 
+index &lt;- 1
+
+for(l in lambda){
+  coefficients &lt;- coord_desc(l, 0.0001, x, y)
+  for(i in 1:nrow(coeff)) {
+    coeff[i, index] &lt;- coefficients[i]
+  }
+  index &lt;- index + 1 
+}
+
+set.seed(123)
+colnames(coeff) &lt;- log(lambda)
+colors &lt;- sample(rainbow(52))
+plot(colnames(coeff), coeff[1,], type = &quot;l&quot;, ylim = c(-1, 2.2), col = colors[1],
+lwd = 1.5, xlab = &quot;Log Lambda&quot;, ylab = &quot;Coefficients&quot;, main = &quot;Lasso Estimates&quot;) 
+
+for(i in 2:52)
+  lines(colnames(coeff), coeff[i, ], col = colors[i], lwd = 1.5)</code></pre>
+<p><img src="Journal_files/figure-html/h4q1p3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><strong>Question 2</strong></p>
+<pre class="r"><code>load(file = &quot;/Users/saraloving/Desktop/Sara&#39;s Folder/UF Year 4/Spring 2022/STA4241/Homework 4/Data/Problem2train.dat&quot;)
+load(file = &quot;/Users/saraloving/Desktop/Sara&#39;s Folder/UF Year 4/Spring 2022/STA4241/Homework 4/Data/Problem2test.dat&quot;)
+
+x &lt;- as.matrix(dataTrain[,1:204])
+y &lt;- as.numeric(dataTrain[,205])
+
+xtest &lt;- as.matrix(dataTest[,1:204])
+ytest &lt;- as.numeric(dataTest[,205])</code></pre>
+<ol style="list-style-type: lower-roman">
+<li>I think that using PCA on the data set will be helpful based on the heatmap below. The heatmap tells us that there are three groups of correlated predictors, so transforming some of these variables to make them uncorrelated will help to maximize the amount of variability explained by the variables without losing information.</li>
+</ol>
+<pre class="r"><code>cor &lt;- cor(x)
+filled.contour(cor, plot.title = title(main = &quot;Heatmap of Empirical Correlation&quot;))</code></pre>
+<p><img src="Journal_files/figure-html/h4q2p1-1.png" width="480" style="display: block; margin: auto;" /></p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>To begin, we must standardize the training covariates. Then, we can run PCA on the standardized training data and plot the variation explained by each principle component. From the graph below, I believe that PCA will be useful for prediction on this data set. We can see that the first 10 principle components account for most of the variation in the data.</li>
+</ol>
+<pre class="r"><code>x &lt;- scale(x)
+pca &lt;- prcomp(x)
+plot(pca, ylim = c(0, 60), main = &quot;Variation Explained by Each Principle Component&quot;, 
+     xlab = &quot;Principle Component&quot;) 
+axis(1, at=seq(0.7, 11.5, by=1.2), labels=paste(1:10), las=2)</code></pre>
+<p><img src="Journal_files/figure-html/h4q2p2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<ol start="3" style="list-style-type: lower-roman">
+<li></li>
+</ol>
+<pre class="r"><code>set.seed(123)
+pred &lt;- matrix(NA, 6, 2)
+pred[,1] &lt;- c(&quot;Lasso&quot;, &quot;Ridge&quot;, &quot;PCR - CV&quot;, &quot;PCR - Variance&quot;, &quot;PLS&quot;, &quot;Elastic Net&quot;)
+
+#1. Lasso regression
+lasso &lt;- cv.glmnet(x, y, alpha = 1)
+lassoPred &lt;- predict(lasso, xtest, s = &quot;lambda.min&quot;) 
+pred[1,2] &lt;- mean((ytest - lassoPred)^2)
+
+#2. Ridge regression
+ridge &lt;- cv.glmnet(x, y, alpha = 0)
+ridgePred &lt;- predict(ridge, xtest, s = &quot;lambda.min&quot;) 
+pred[2,2] &lt;- mean((ytest - ridgePred)^2)
+
+#3. Principle components regression - cross-validation
+pcr &lt;- pcr(y ~ x, validation = &quot;CV&quot;)
+ncomp &lt;- which.min(RMSEP(pcr)$val[1,,]) - 1
+pcrFit &lt;- pcr(y ~ x, ncomp = ncomp)
+pcrPredCV &lt;- predict(pcrFit, xtest, ncomp = ncomp)
+pred[3,2] &lt;- mean((ytest - pcrPredCV)^2)
+
+#4. Principle components regression - 95% variability
+pcr2 &lt;- prcomp(x)
+ncomp2 &lt;- min(which((cumsum(pcr2$sdev^2) / sum(pcr2$sdev^2)) &gt;= 0.95)) 
+pcrFit2 &lt;- pcr(y ~ x, ncomp = ncomp2)
+pcrPred2 &lt;- predict(pcrFit2, xtest, ncomp = ncomp2)
+pred[4,2] &lt;- mean((ytest - pcrPred2)^2) 
+
+#5. Partial least squares - cross-validation
+pls &lt;- plsr(y ~ x, validation = &quot;CV&quot;)
+npls &lt;- which.min(RMSEP(pls)$val[1,,]) - 1
+plsFit &lt;- plsr(y ~ x, ncomp = npls)
+plsPred &lt;- predict(plsFit, xtest, ncomp = npls)
+pred[5,2] &lt;- mean((ytest - plsPred)^2) 
+
+#6. Elastic net - cross-validation
+cv = trainControl(method = &quot;CV&quot;, number = 10)
+elnet &lt;- train(y ~ ., data = data.frame(x, y), method = &quot;glmnet&quot;, trControl = cv) 
+elnetPred &lt;- predict(elnet, xtest)
+pred[6,2] &lt;- mean((ytest - elnetPred)^2)
+
+colnames(pred) &lt;- c(&quot;Approach&quot;, &quot;Predictive Performance&quot;)
+knitr::kable(pred, format = &quot;simple&quot;, row.names = FALSE)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Approach</th>
+<th align="left">Predictive Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Lasso</td>
+<td align="left">2.14142477055666</td>
+</tr>
+<tr class="even">
+<td align="left">Ridge</td>
+<td align="left">3.84445604167633</td>
+</tr>
+<tr class="odd">
+<td align="left">PCR - CV</td>
+<td align="left">2.222334347345</td>
+</tr>
+<tr class="even">
+<td align="left">PCR - Variance</td>
+<td align="left">2.32920501130313</td>
+</tr>
+<tr class="odd">
+<td align="left">PLS</td>
+<td align="left">2.11605089368427</td>
+</tr>
+<tr class="even">
+<td align="left">Elastic Net</td>
+<td align="left">1.91205436080119</td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: lower-roman">
+<li>From the table above, we can see that the elastic net approach performs best, followed by partial least squares and lasso regression. The worst method was ridge regression. Since we know that this data set includes highly correlated predictors, it makes sense that the elastic net performs best since it shrinks the coefficients rather than dropping variables from the model entirely. In other words, it keeps the correlated variables while still penalizing the coefficients. Partial least squares regression involves dimension reduction, which also helps handle correlated predictors.</li>
+</ol>
+<p><strong>Question 3</strong></p>
+<p>Assuming we have <span class="math inline">\(p\)</span> covariates <span class="math inline">\(\mathbf{X}\)</span> and want to fit a linear model without an intercept: <span class="math display">\[df(\hat{Y})=Tr(\mathbf{S})\]</span> <span class="math display">\[=Tr(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T)\]</span> <span class="math display">\[=Tr(\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1})\]</span> <span class="math display">\[=Tr(\mathbf{I})\]</span> Thus, the effective degrees of freedom is the sum of <span class="math inline">\(p\)</span> ones, and thus is equal to <span class="math inline">\(p\)</span>.</p>
+<p><strong>Question 4</strong></p>
+<p>Suppose we estimate a function <span class="math inline">\(f(\cdot)\)</span> using <span class="math display">\[\hat{f}=\arg\min_f\left(\sum^n_{i=1}(Y_i-f(X_i))^2+\lambda\int\left[f^{(m)}(x)\right]^2dx\right)\]</span> where <span class="math inline">\(f^{(m)}\)</span> is the <span class="math inline">\(m^{th}\)</span> derivative of <span class="math inline">\(f\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>When <span class="math inline">\(\lambda=\infty\)</span> and <span class="math inline">\(m=0\)</span>, <span class="math inline">\(f(x)\)</span> will be forced towards zero. Thus, the function will look like a horizontal line and will only take the value <span class="math inline">\(0\)</span>.</p></li>
+<li><p>When <span class="math inline">\(\lambda=\infty\)</span> and <span class="math inline">\(m=1\)</span>, <span class="math inline">\(f&#39;(x)\)</span> will be forced towards zero. Thus, the function will be a horizontal line and will only take the value of some constant <span class="math inline">\(c\)</span>.</p></li>
+<li><p>When <span class="math inline">\(\lambda=\infty\)</span> and <span class="math inline">\(m=2\)</span>, <span class="math inline">\(f&#39;&#39;(x)\)</span> will be forced towards zero. Thus, the function will be the least-squares estimate of a linear model.</p></li>
+<li><p>When <span class="math inline">\(\lambda=0\)</span> and <span class="math inline">\(m=3\)</span>, the penalty term will be canceled out, and the function will interpolate the original data exactly.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="sta4273-statistical-computing-in-r-fall-2021" class="section level2">
+<h2>STA4273: Statistical Computing in R, Fall 2021</h2>
+<div id="homework-1-1" class="section level3">
+<h3>Homework #1</h3>
+<div id="september-13-2021" class="section level4">
+<h4>September 13, 2021</h4>
+<p><strong>(3.2)</strong> We know that the standard Laplace distribution has density <span class="math inline">\(f(x)=\frac{1}{2}e^{-\lvert x \rvert}\)</span> for <span class="math inline">\(x \in \mathbb{R}\)</span>. This can also be stated as <span class="math display">\[
+f(x) =
+\begin{cases}
+ \frac{1}{2}e^x,&amp; x&lt;0 \\
+ \frac{1}{2}e^{-x},&amp;x \geq 0
+ \end{cases}       
+\]</span> We now can find the c.d.f. by integrating the individual formulas: <span class="math display">\[
+F(x) =
+\begin{cases}
+ \frac{1}{2}e^x,&amp; x&lt;0 \\
+ 1-\frac{1}{2}e^x,&amp;x \geq 0
+ \end{cases}       
+\]</span> Next, we can set our variable <span class="math inline">\(U\)</span> equal to each case and solve. We’ll begin when <span class="math inline">\(x &lt; 0\)</span>: <span class="math display">\[
+\begin{aligned}
+  U=\frac{1}{2}e^x \\
+  2U=e^x \\
+  ln(2U)=x
+\end{aligned}
+\]</span> Since <span class="math inline">\(x&lt;0\)</span>, <span class="math display">\[
+\begin{aligned}
+  ln(2U)&lt;0 \\
+  2U&lt;1 \\
+  U&lt;\frac{1}{2}
+\end{aligned}
+\]</span> Next, let’s solve when <span class="math inline">\(x \geq 0\)</span>: <span class="math display">\[
+\begin{aligned}
+  U=1-\frac{1}{2}e^x \\
+  \frac{1}{2}e^{-x}=1-U \\
+  e^{-x}=2-2U \\
+  -x=ln(2-2U) \\
+  x=-ln(2-2U)
+\end{aligned}
+\]</span> Since <span class="math inline">\(x \geq 0\)</span>, <span class="math display">\[
+\begin{aligned}
+  -ln(2-2U) \geq 0 \\
+  ln(2-2U) \leq 0 \\
+  2-2U \leq 1 \\
+  U \geq \frac{1}{2}
+\end{aligned}
+\]</span> Thus, our distribution by the inverse transform method is: <span class="math display">\[
+F^{-1}(u) =
+\begin{cases}
+ ln(2u),&amp;u&lt;\frac{1}{2} \\
+ -ln[2-2u],&amp;u \geq \frac{1}{2}
+ \end{cases}       
+\]</span> Now let’s generate the random sample and compare it to the target distribution:</p>
+<pre class="r"><code>n &lt;- 1000
+u &lt;- runif(n) 
+x &lt;- seq(0, 0, length.out=1000)
+for (i in 1:1000) {
+ if (u[i] &lt; 0.5) {x[i]=log(2*u[i])
+} else {
+          x[i] = -log(2-2*u[i])}}
+
+hist(x, prob = TRUE, main = &quot;Histogram of Laplace distribution&quot;, ylim = c(0, 0.5), 
+     xlim = c(-7, 7))
+
+y &lt;- sort(x) 
+lines(y, ((1/2)*exp(-abs(y))))</code></pre>
+<p><img src="Journal_files/figure-html/code%201-1.png" width="672" /></p>
+<p><strong>(3.4)</strong></p>
+<pre class="r"><code>sigma &lt;- c(1, 5, 10, 50, 100, 500)
+for (i in 1:length(sigma)) {
+  set.seed(i)
+  title &lt;- c(&quot;Rayleigh distribution with sigma&quot;,sigma[i])
+  x &lt;- rnorm(1000, 0, sigma[i])
+  y &lt;- rnorm(1000, 0, sigma[i])
+  z &lt;- sqrt(x^2+y^2)
+  hist(z, prob=TRUE, breaks = seq(0, 6*sigma[i], length.out = 20),
+       main = title, cex.main = 0.75, col = &quot;grey&quot;)
+  x1 &lt;- seq(0, 6*sigma[i], length.out = 100000)
+  y1 &lt;- (x1/sigma[i]^2)*exp(-(x1^2)/(2*sigma[i]^2))
+  lines(x1, y1, col = &quot;blue&quot;)
+}</code></pre>
+<p><img src="Journal_files/figure-html/code%202-1.png" width="288" /><img src="Journal_files/figure-html/code%202-2.png" width="288" /><img src="Journal_files/figure-html/code%202-3.png" width="288" /><img src="Journal_files/figure-html/code%202-4.png" width="288" /><img src="Journal_files/figure-html/code%202-5.png" width="288" /><img src="Journal_files/figure-html/code%202-6.png" width="288" /></p>
+<p><strong>(3.5)</strong></p>
+<pre class="r"><code>library(ggplot2)
+library(knitr)
+library(kableExtra)
+set.seed(54)
+x &lt;- 0:4
+p &lt;- c(0.1, 0.2, 0.2, 0.2, 0.3)
+cumsum &lt;- cumsum(p)
+m &lt;- 1000
+r &lt;- numeric(m)
+r &lt;- x[findInterval(runif(m), cumsum) + 1]
+r &lt;- table(r)
+kable(r)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+r
+</th>
+<th style="text-align:right;">
+Freq
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+116
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+194
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+197
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+198
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+295
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>t_p &lt;- p*1000
+names(t_p) &lt;- x
+print(t_p)</code></pre>
+<pre><code>##   0   1   2   3   4 
+## 100 200 200 200 300</code></pre>
+<pre class="r"><code>a &lt;- data.frame(x, freq = c(116, 194, 197, 198, 295, 100, 200, 200, 200, 300), 
+                Type = rep(c(&#39;Random Sample&#39;, &#39;Theoretical Sample&#39;), each = 5))
+ggplot(a, aes(x = x, y =freq, fill = Type)) + geom_col(position = &#39;dodge&#39;)</code></pre>
+<p><img src="Journal_files/figure-html/code%203-1.png" width="480" /></p>
+<p><strong>(3.6)</strong><br />
+We can see that the accepted variates generated by the acceptance-rejection sampling algorithm have the same distribution as <span class="math inline">\(X\)</span> by applying Bayes’ Theorem. For a discrete case, when <span class="math inline">\(f(x) &gt; 0\)</span>:<br />
+<span class="math display">\[P(x|accepted) = \frac{P(accepted|x)g(x)}{P(accepted)} = \frac{[f(x)/(cg(x))]g(x)]}{1/c} = f(x)\]</span> For a continuous case:<br />
+<span class="math display">\[P(x|accepted)=\frac{P(x, accepted)}{P(accepted)}=\frac{f(x)/c}{1/c}=f(x)\]</span> In both cases, <span class="math inline">\(P(x|accepted)=f(x)\)</span>.</p>
+<p><strong>(3.11)</strong></p>
+<pre class="r"><code>n &lt;- 1000
+x1 &lt;- rnorm(1000, 0, 1)
+x2 &lt;- rnorm(1000, 3, 1)
+
+p1 &lt;- c(0.75, 0.05, 0.15, 0.25, 0.5, 0.99)
+
+for (i in 1:length(p1)) {
+  title &lt;- c(&quot;Normal location mixture with p1&quot;, p1[i])
+  p2 &lt;- 1-p1[i]
+  u &lt;- runif(n)
+  k &lt;- as.integer(u&gt;p2)
+  x &lt;- k*x1+(1-k)*x2
+  par(mfcol=c(3, 3))
+  hist(x, prob=TRUE, ylim=c(0, .4), main = title, cex.main = 0.75,)
+  lines(density(x))
+}</code></pre>
+<p><img src="Journal_files/figure-html/code%205-1.png" width="576" /><img src="Journal_files/figure-html/code%205-2.png" width="576" /><img src="Journal_files/figure-html/code%205-3.png" width="576" /><img src="Journal_files/figure-html/code%205-4.png" width="576" /><img src="Journal_files/figure-html/code%205-5.png" width="576" /><img src="Journal_files/figure-html/code%205-6.png" width="576" /></p>
+<p>I believe that the values of <span class="math inline">\(p_1\)</span> that produce bimodal mixtures are those closest to <span class="math inline">\(0.5\)</span>.</p>
+<p><strong>(3.12)</strong></p>
+<pre class="r"><code>lambda &lt;- rgamma(1000, 4, 2)
+x &lt;- rexp(1000, lambda)
+plot(sort(x), ylab = &quot;Y&quot;, main = &quot;Exponential-Gamma Mixture with r = 4 and beta = 2&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/code%206-1.png" width="576" /></p>
+</div>
+</div>
+<div id="homework-2-1" class="section level3">
+<h3>Homework #2</h3>
+<div id="october-4-2021" class="section level4">
+<h4>October 4, 2021</h4>
+<p><strong>(6.1)</strong> We can compute a Monte Carlo estimate of <span class="math inline">\(\int^{\pi/3}_0\sin tdt\)</span> using a function:</p>
+<pre class="r"><code>mcest &lt;- function(n){
+  u &lt;- runif(n, min = 0, max = pi/3)
+  x &lt;- mean(sin(u))
+  est &lt;- x * (pi/3)
+return(est)
+}
+
+mcest(100000)</code></pre>
+<pre><code>## [1] 0.4998065</code></pre>
+<pre class="r"><code>functionq1 &lt;- function(x) {sin(x)}
+integrate(functionq1, lower = 0, upper = pi/3)</code></pre>
+<pre><code>## 0.5 with absolute error &lt; 5.6e-15</code></pre>
+<p>The estimate is very close to the exact value.</p>
+<p><strong>(6.3)</strong> To compute an estimate <span class="math inline">\(\hat{\theta}\)</span> of <span class="math inline">\(\theta =\int^{0.5}_0 e^{-x}dx\)</span> by sampling from Uniform(0, 0.5), we will first generate <span class="math inline">\(X_1,...,X_m\)</span> independent and identically distributed variables from Uniform(0, 0.5). We will then compute <span class="math inline">\(\overline{g(X)}=\frac{1}{m}g(X_i)\)</span>. Finally, we will calculate <span class="math inline">\(\hat{\theta}=0.5\overline{g(X)}\)</span> and estimate its variance.</p>
+<pre class="r"><code>m &lt;- 10^6
+x1 &lt;- runif(m, 0, 0.5)
+var(0.5 * exp(-x1))</code></pre>
+<pre><code>## [1] 0.003218695</code></pre>
+<p>To compute an estimate <span class="math inline">\(\theta^*\)</span> of <span class="math inline">\(\theta =\int^{0.5}_0 e^{-x}dx\)</span> by sampling from the exponential distribution, we will repeat the process above, but now generate <span class="math inline">\(X_1,...,X_m\)</span> independent and identically distributed variables from Exponential(1):</p>
+<pre class="r"><code>x2 &lt;- rexp(m, rate = 1)
+var(x2 &lt; 0.5)</code></pre>
+<pre><code>## [1] 0.2387685</code></pre>
+<p>The variance of <span class="math inline">\(\hat{\theta}\)</span> is smaller than that of <span class="math inline">\(\theta^*\)</span>. This is because the exponential distribution has a much larger domain, <span class="math inline">\(x&gt;0\)</span>, than does the uniform distribution, <span class="math inline">\(0&lt;x&lt;0.5\)</span>.</p>
+<p><strong>(6.4)</strong> The cumulative distribution function of the Beta(3, 3) distribution is <span class="math display">\[F(x)=\int^x_0\frac{\Gamma(3+3)}{\Gamma(3)\Gamma(3)}t^{3-1}(1-t)^{3-1}dt\]</span> for <span class="math inline">\(0&lt;x&lt;1\)</span>. We can estimate <span class="math inline">\(F(x)=0.1,0.2,...,0.9\)</span> by sampling <span class="math inline">\(t_i\sim Uniform(0,1)\)</span> and computing <span class="math display">\[\widehat{F(x)}=30\cdot\frac{1}{m}\Sigma^m_{i=1}t_i^2-2t_i^3+t_i^4\]</span></p>
+<pre class="r"><code>library(ggplot2)
+betadist &lt;- function(m, a, b){
+  x &lt;- runif(m, a, b)
+  est &lt;- (sum(30 * (x^2 - 2 * x^3 + x^4)) / m) * (b - a)
+  return(est)
+}
+
+a &lt;- data.frame(x = seq(0.1, 0.9, 0.1), MonteCarlo = numeric(9), pbeta = numeric(9))
+
+i &lt;- 1
+while(i &lt;= 9){
+  a[i, 2] &lt;- betadist(10000, 0, i * 0.1)
+  a[i, 3] &lt;- pbeta(i * 0.1, 3, 3)
+  i &lt;- i + 1
+}
+print(a)</code></pre>
+<pre><code>##     x  MonteCarlo   pbeta
+## 1 0.1 0.008589502 0.00856
+## 2 0.2 0.057376917 0.05792
+## 3 0.3 0.164591033 0.16308
+## 4 0.4 0.320238521 0.31744
+## 5 0.5 0.500395539 0.50000
+## 6 0.6 0.688543957 0.68256
+## 7 0.7 0.839856314 0.83692
+## 8 0.8 0.946103095 0.94208
+## 9 0.9 0.989535360 0.99144</code></pre>
+<pre class="r"><code>b &lt;- data.frame(x = c(a$x, a$x), pdf = c(a$MonteCarlo, a$pbeta), Method = rep(c(&#39;MonteCarlo&#39;, &#39;pbeta&#39;), each = 9))
+
+ggplot(data = b)+
+  geom_col(aes(x = x, y = pdf, fill = Method), position = &#39;dodge&#39;)</code></pre>
+<p><img src="Journal_files/figure-html/h6q3-1.png" width="672" /></p>
+<p><strong>(6.13)</strong> For the two importance functions, we will choose the Rayleigh density function, <span class="math inline">\(f_1(x)=xe^{-x^2/2}\)</span> with support <span class="math inline">\(x&gt;0\)</span>, and the Normal distribution function, <span class="math inline">\(f_2(x)=\frac{1}{\sqrt{2\pi}}e^{x^2/2}\)</span> with support <span class="math inline">\(x\in\mathbb{R}\)</span>. Let <span class="math inline">\(g(x)=\int^\infty_{-\infty}\textbf{1}(x&gt;1)\frac{x^2}{\sqrt{2\pi}}e^{x^2/2}dx\)</span> Then, <span class="math display">\[\frac{g(x)}{f_1(x)}=\textbf{1}(x&gt;1)\frac{x}{\sqrt{2\pi}}\]</span> <span class="math display">\[\frac{g(x)}{f_2(x)}=\textbf{1}(x&gt;1)x^2\]</span></p>
+<pre class="r"><code>x = seq(1, 3, 0.1)
+f1 = function(x) {x / (2 * pi)}
+f2 = function(x) {x^2}
+
+y.f1 = f1(x)
+y.f2 = f2(x)
+
+plot(x, y.f1, type = &quot;l&quot;, ylim = c(0, 9), ylab = &quot;Y&quot;, xlab = &quot;X&quot;)
+lines(x, y.f2, col=&quot;red&quot;, ylim = c(0, 9))
+legend(&quot;topleft&quot;, inset = .05, title = &quot;Importance Function&quot;,
+        c(&quot;Normal&quot;, &quot;Rayleigh&quot;), fill = c(&quot;red&quot;, &quot;black&quot;), horiz = TRUE)</code></pre>
+<p><img src="Journal_files/figure-html/h6q4-1.png" width="672" /></p>
+<p>The Rayleigh importance function seems to produce the smaller variance in estimating <span class="math inline">\(g(x)=\int^{\infty}_1\frac{x^2}{\sqrt{2\pi}}e^{-x^2/2}dx\)</span> because dividing <span class="math inline">\(g(x)\)</span> by the Rayleigh importance function produces a function that is closer to a constant.</p>
+<p><strong>(6.14)</strong></p>
+<pre class="r"><code>n &lt;- 10000
+g &lt;- function (x) {(x^2 / sqrt(2 * pi)) * exp(-x^2 / 2) * (x &gt; 1)}
+f1 &lt;- function (x) {drayleigh(x, scale = 1.5) * (x &gt; 1)}
+f2 &lt;- function (x) {dnorm(x, mean = 1.5) * (x &gt; 1)}
+rf1 &lt;- function () {rrayleigh(n, scale = 1.5)}
+rf2 &lt;- function () {rnorm(n, mean = 1.5)}
+is.rayleigh = function () {
+  x = rf1()
+  return(mean(g(x)/f1(x), na.rm = TRUE))  
+}
+is.norm = function () {
+  x = rf2()
+  return(mean(g(x) / f2(x), na.rm = TRUE))  
+}
+(theta1 = is.rayleigh())</code></pre>
+<pre><code>## [1] 0.5006161</code></pre>
+<pre class="r"><code>(theta2 = is.norm())</code></pre>
+<pre><code>## [1] 0.581227</code></pre>
+<pre class="r"><code>(truth = 0.400626)</code></pre>
+<pre><code>## [1] 0.400626</code></pre>
+</div>
 </div>
 </div>
 </div>

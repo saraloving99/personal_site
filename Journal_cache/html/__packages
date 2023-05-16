@@ -3,3 +3,11 @@ ggplot2
 ISLR
 MASS
 e1071
+Matrix
+glmnet
+pls
+lattice
+caret
+knitr
+kableExtra
+VGAM
