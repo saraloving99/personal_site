@@ -11,3 +11,16 @@ caret
 knitr
 kableExtra
 VGAM
+dplyr
+stargazer
+RColorBrewer
+tidyverse
+tibble
+tidyr
+readr
+purrr
+stringr
+forcats
+ggmap
+maps
+mapdata

@@ -1,5 +1,5 @@
 ---
-title: "Portfolio"
+title: "Coursework"
 output:
   html_document:
     toc: true
@@ -16,9 +16,8 @@ library(class)
 library(ggplot2)
 ```
 
-# Coursework {.tabset}
-
-## STA4241: Statistical Learning, Spring 2022
+# STA 4241: Statistical Learning, Spring 2022 {.tabset}
+## Homework \#1
 ### Homework \#1
 #### January 26, 2022
 
@@ -142,6 +141,7 @@ mean(knnMarket != testing$Direction)
   
   (ii) Yes, the widths of both confidence intervals go 0 as $n\rightarrow\infty$ since $n$ is in the denominator of both margins of error. As $n$ increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.
 
+## Homework \#2
 ### Homework \#2
 #### February 9, 2022
 
@@ -336,6 +336,7 @@ legend(x = "topright", legend = c("LDA", "QDA"), col = c("purple", "blue"), pch 
 
 It seems as though the relative performance of LDA/QDA does not really depend on the sample size. Looking at 100 sample sizes ranging from 100 to 10,000, both the error rates for LDA and for QDA are fairly randomly scattered, though those for QDA are slightly less scattered than those for LDA. Furthermore, as explained previously, the error rates for LDA are consistently higher than those for QDA. 
 
+## Homework \#3
 ### Homework \#3
 #### February 23, 2022
 
@@ -622,6 +623,7 @@ apply(cov, 2, mean, na.rm = TRUE)
 
 Let $q_{\alpha/2}$ and $q_{1-\alpha/2}$ represent the $\alpha/2$ and $1-\alpha/2$ quantiles of the bootstrap replicates $\hat{\theta}^{(b)}$. It follows that since the distribution of $\theta-\hat{\theta}$ is approximated by $\hat{\theta}-\hat{\theta}^{(b)}$, $$1-\alpha=P(q_{\alpha/2}\leq\hat{\theta}^{(b)}\leq q_{1-\alpha/2})$$ $$=P(-q_{\alpha/2}\geq-\hat{\theta}^{(b)}\geq -q_{1-\alpha/2})$$ $$=P(-q_{1-\alpha/2}\leq-\hat{\theta}^{(b)}\leq -q_{\alpha/2})$$ $$=P(\hat{\theta}-q_{1-\alpha/2}\leq\hat{\theta}-\hat{\theta}^{(b)}\leq \hat{\theta}-q_{\alpha/2})$$ $$\approx P(\hat{\theta}-q_{1-\alpha/2}\leq\theta-\hat{\theta}\leq\hat{\theta}-q_{\alpha/2})$$ $$=P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})$$ Thus, $P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})\approx 1-\alpha$.
 
+## Homework \#4
 ### Homework \#4
 #### March 30, 2022
 
@@ -804,7 +806,8 @@ Suppose we estimate a function $f(\cdot)$ using $$\hat{f}=\arg\min_f\left(\sum^n
   
   (d) When $\lambda=0$ and $m=3$, the penalty term will be canceled out, and the function will interpolate the original data exactly.
   
-## STA4273: Statistical Computing in R, Fall 2021
+# STA 4273: Statistical Computing in R, Fall 2021 {.tabset}
+## Homework \#1
 ### Homework \#1
 #### September 13, 2021
 
@@ -949,7 +952,6 @@ for (i in 1:length(p1)) {
   u <- runif(n)
   k <- as.integer(u>p2)
   x <- k*x1+(1-k)*x2
-  par(mfcol=c(3, 3))
   hist(x, prob=TRUE, ylim=c(0, .4), main = title, cex.main = 0.75,)
   lines(density(x))
 }
@@ -964,6 +966,7 @@ x <- rexp(1000, lambda)
 plot(sort(x), ylab = "Y", main = "Exponential-Gamma Mixture with r = 4 and beta = 2")
 ```
 
+## Homework \#2
 ### Homework \#2
 #### October 4, 2021
 
@@ -1072,3 +1075,593 @@ is.norm = function () {
 (theta2 = is.norm())
 (truth = 0.400626)
 ```
+
+# POS 4931: Applied Political Behavior, Spring 2021 {.tabset}
+## Lab \#5
+### Lab \#5
+#### March 23, 2021
+
+1. Using the 2020 ANES 2020 file (i.e., data and codebook):
+
+a. What is the association between the feelings toward the NRA and trust in Facebook? Using the codebook, plot the relationship using a scatter plot with regression lines predicting feelings toward the NRA (y variable) by trust in Facebook (x variable). Below, describe and interpret your findings.  
+
+```{r}
+library(dplyr)
+library(stargazer)
+library(RColorBrewer)
+library(tidyverse)
+library(ggplot2)
+ANES <- read.csv("~/Desktop/Sara's Folder/UF Year 3/Spring 2021/POS4931/ANES 2020.csv")
+ANES_F <- filter(.data = ANES,
+                 ftnra >= 0 &
+                 w2trustfb > 0)
+ggplot(ANES_F,                           
+       aes(x = w2trustfb,          
+           y = ftnra)) +
+  geom_point()   +                       
+  geom_smooth(method = "lm",            
+              se = FALSE)  +            
+  ggtitle("Feelings Toward the NRA by Trust in Facebook") +
+  xlab("Trust in Facebook") + 
+  ylab("Feelings Toward the NRA")
+```
+
+There seems to be a moderately positive relationship between trust in Facebook and feelings toward the NRA. However, since there are only five levels for trust in Facebook, and trust in Facebook is heavily right-skewed, it is difficult to determine if there is a true correlation between these variables. It might be more helpful to break down Feelings Toward the NRA into five groups and then examine the relationship again.
+
+```{r}
+ANES_new <- ANES_F %>% mutate(w2trustfbfactor = factor(w2trustfb, levels = c(1, 2, 3, 4, 5), labels = c("1", "2", "3", "4", "5")))
+ANES_new <- ANES_new %>% 
+     group_by(w2trustfbfactor) %>% 
+     summarise(nra = mean(ftnra))
+ggplot(ANES_new,                           
+        aes(x = w2trustfbfactor,          
+            y = nra)) +
+     geom_point()   +                       
+     geom_smooth(method = "lm",            
+                 se = FALSE)  +            
+     ggtitle("Average Feelings Toward the NRA by Trust in Facebook") +
+     xlab("Trust in Facebook") + 
+     ylab("Feelings Toward the NRA") + 
+     ylim(0, 100)
+```
+
+Now, we can see that this relationship is slightly exponential, but considering that the average feelings toward the NRA fall between 40 and 60, this relationship is largely a straight line.
+
+b. Present a scatterplot with regression lines separately by party identification. Describe your findings in combination with your answer to 1(b) above.
+
+```{r}
+ANES_F$pid1d <- as.factor(ANES_F$pid1d)
+ANES_F <- filter(.data = ANES_F,   
+                 pid1d == c("1", "2")) 
+ggplot(ANES_F,                           
+       aes(x = w2trustfb,           
+           y = ftnra,               
+           color = pid1d)) +      
+  geom_point() +         
+  geom_smooth(se = F) +
+  ggtitle("Feelings Toward the NRA by Trust in Facebook") + 
+  xlab("Trust in Facebook") + 
+  ylab("Feelings Toward the NRA") +                 
+  labs(color ="Party") +    
+  scale_color_manual(values = c("blue", "red"), labels = c("Democrat", "Republican"))
+```
+
+It seems as though feelings toward the NRA increase with trust in Facebook for Democrats, but feelings toward the NRA are constantly high for Republicans no matter their trust level in Facebook.
+
+2. How do feelings toward immigrants affect feelings about Bernie Sanders? How does this vary by education?
+
+a.  Present all relevant figures and tables to help you answer this question. Specifically, please present at least a line graph, separated by 5 levels of education. Describe in words what your analysis finds.
+
+```{r}
+ANES_F <- filter(ANES, 
+                 ftimmig >=0 &
+                 ftbs >= 0)
+stargazer(ANES_F[c("ftimmig", "ftbs")], type = "text",
+          title = "Feelings Toward Immigrants and Feelings Toward Bernie Sanders",
+          digits = 2,
+          covariate.labels = c("Feelings Toward Immigrants", "Feelings Toward Bernie Sanders"))
+ggplot(ANES_F,                           
+       aes(x = ftimmig,          
+           y = ftbs)) +
+  geom_point()   +                       
+  geom_smooth(method = "lm",            
+              se = FALSE)  +            
+  ggtitle("Feelings Toward Bernie Sanders vs. Feelings Toward Immigrants") +
+  xlab("Feelings Toward Immigrants") + 
+  ylab("Feelings Toward Bernie Sanders")
+ANES_F$profile_educ5 <- as.factor(ANES_F$profile_educ5)
+ggplot(data = ANES_F,                  
+       aes(x = ftimmig,          
+           y = ftbs,              
+           color = profile_educ5)) +
+  geom_line()       +                  
+  geom_point()      +                  
+  facet_wrap(~profile_educ5)   +
+  scale_color_discrete(labels = c("Less than HS", "HS graduate or equivalent", 
+                                "Vocational/tech school/some college/associates", "Bachelor's degree", 
+                                "Post grad study/professional degree")) +
+  ggtitle("Feelings Toward Bernie Sanders vs. Feelings Toward Immigrants, \nGrouped by Education") +
+  xlab("Feelings Toward Immigrants") + 
+  ylab("Feelings Toward Bernie Sanders") +
+  labs(color ="Education")
+```
+
+It seems as though, generally, respondents felt more positively toward immigrants than they did toward Bernie Sanders. Feelings toward immigrants had a mean of 68.93, while feelings toward Bernie Sanders had a mean of 48.09. In the scatterplot, we can see that as feelings toward immigrants increase, so do feelings toward Bernie Sanders, generally. When separating this graph by education, it seems as though as education level increases, feelings toward immigrants and Bernie Sanders generally increase as well.
+
+b. Compare the national findings to those of Florida only. Is Florida unique? 
+
+```{r}
+ANES_FL <- filter(.data = ANES_F, 
+                  profile_state == "FL")
+stargazer(ANES_FL[c("ftimmig", "ftbs")], type = "text",
+          title = "Feelings Toward Immigrants and Feelings Toward Bernie Sanders (Florida)",
+          digits = 2,
+          covariate.labels = c("Feelings Toward Immigrants", "Feelings Toward Bernie Sanders"))
+ggplot(ANES_FL,                           
+       aes(x = ftimmig,          
+           y = ftbs)) +
+  geom_point()   +                       
+  geom_smooth(method = "lm",            
+              se = FALSE)  +            
+  ggtitle("Feelings Toward Bernie Sanders vs. Feelings Toward Immigrants (Florida)") +
+  xlab("Feelings Toward Immigrants") + 
+  ylab("Feelings Toward Bernie Sanders")
+ANES_FL$profile_educ5 <- as.factor(ANES_FL$profile_educ5)
+ggplot(data = ANES_FL,                  
+       aes(x = ftimmig,          
+           y = ftbs,              
+           color = profile_educ5)) +
+  geom_line()       +                  
+  geom_point()      +                  
+  facet_wrap(~profile_educ5)   +
+  scale_color_discrete(labels = c("Less than HS", "HS graduate or equivalent", 
+                                "Vocational/tech school/some college/associates", "Bachelor's degree", 
+                                "Post grad study/professional degree")) +
+  ggtitle("Feelings Toward Bernie Sanders vs. Feelings Toward Immigrants, \nGrouped by Education (Florida)"
+          ) +
+  xlab("Feelings Toward Immigrants") + 
+  ylab("Feelings Toward Bernie Sanders") +
+  labs(color ="Education")
+```
+
+Feelings toward immigrants are approximately the same in Florida as they are nationally (68.61 versus 68.93). However, feelings toward Bernie Sanders are slightly lower in Florida than they are nationally (42.95 versus 48.09). The linear trend is about the same in Florida as it is nationally as well. By education, it looks like people who are more educated tend to rate immigrants higher in Florida. This relationship, while noticeable nationally, is much more clear in Florida when we have fewer points on the graphs.
+
+c. What about Vermont (where Bernie Sanders is from)? How does this compare to Florida and the national figures?
+
+```{r}
+ANES_VT <- filter(.data = ANES_F, 
+                  profile_state == "VT")
+stargazer(ANES_VT[c("ftimmig", "ftbs")], type = "text",
+          title = "Feelings Toward Immigrants and Feelings Toward Bernie Sanders (Vermont)",
+          digits = 2,
+          covariate.labels = c("Feelings Toward Immigrants", "Feelings Toward Bernie Sanders"))
+ggplot(ANES_VT,                           
+       aes(x = ftimmig,          
+           y = ftbs)) +
+  geom_point()   +                       
+  geom_smooth(method = "lm",            
+              se = FALSE)  +            
+  ggtitle("Feelings Toward Bernie Sanders vs. Feelings Toward Immigrants (Vermont)") +
+  xlab("Feelings Toward Immigrants") + 
+  ylab("Feelings Toward Bernie Sanders")
+ANES_VT$profile_educ5 <- as.factor(ANES_VT$profile_educ5)
+ggplot(data = ANES_VT,                  
+       aes(x = ftimmig,          
+           y = ftbs,              
+           color = profile_educ5)) +
+  geom_line()       +                  
+  geom_point()      +                  
+  facet_wrap(~profile_educ5)   +
+  scale_color_discrete(labels = c("HS graduate or equivalent", 
+                                "Vocational/tech school/some college/associates", "Bachelor's degree", 
+                                "Post grad study/professional degree")) +
+  ggtitle("Feelings Toward Bernie Sanders vs. Feelings Toward Immigrants, \nGrouped by Education (Florida)"
+          ) +
+  xlab("Feelings Toward Immigrants") + 
+  ylab("Feelings Toward Bernie Sanders") +
+  labs(color ="Education")
+```
+
+Feelings toward immigrants are higher in Vermont than they are in Florida and nationally, at 75.04 on average. Feelings toward Bernie Sanders are also much higher in Vermont than in Florida and nationally at 66.30 (about 20 points higher than in the other two areas). There is still a linear trend between feelings toward immigrants and toward Bernie Sanders, but in Vermont the higher ratings of Bernie Sanders places this line much higher on the y-axis. There is a lack of data which makes the associations in the education graphs difficult to determine; additionally, no respondents from Vermont responded "less than high school" for their level of education. It seems as though generally, as education level increases, so does support for Bernie Sanders and immigrants in Vermont.
+
+3. Choose any variables of interest to you personally within the provided dataset (ANES 2020). You should choose *at least* three variables. These variables and research question must be unique to you and this assignment. This means no one else in class should have the same question or variables and they should not be variables used previously in class. Remember also that our R Script - Lab 5 includes addition figures not covered due to time in lecture.
+
+a. What research question are you considering with your variables?  
+
+I am examining the question "Are people who rate the U.S. economy higher generally more optimistic about their personal financial situation?" I will then ask "Does this differ based on home ownership?"
+
+b. Using the R skills learned in this class, answer your research question using at least one figure and one table. These figures and tables must include be appropriately labeled, titled, and organized. Make sure you describe each step in detail (e.g., excluding all missing data, subsetting, etc.) What might one conclude looking at your findings?
+
+```{r}
+ANES_F <- filter(ANES, 
+               w2ecnow > 0 &
+               w2persfin > 0)
+stargazer(ANES_F[c("w2ecnow", "w2persfin")], type = "text",
+          title = "Rating of the U.S. Economy and Concern for Personal Financial Situation",
+          digits = 2,
+          covariate.labels = c("Rating of the U.S. Economy", "Concern for Personal Financial Situation"))
+ANES_new <- ANES_F %>% mutate(w2ecnowfactor = factor(w2ecnow, levels = c(1, 2, 3, 4, 5), labels = c("1", "2", "3", "4", "5")))
+ANES_new <- ANES_new %>% 
+     group_by(w2ecnowfactor) %>% 
+     summarise(avepersfin = mean(w2persfin))
+ggplot(ANES_new,                           
+        aes(x = w2ecnowfactor,          
+            y = avepersfin)) +
+     geom_point()   +                       
+     geom_smooth(method = "lm",            
+                 se = FALSE)  +            
+     ggtitle("Average Concern for Personal Financial Situation vs. Rating of the U.S. Economy") +
+     xlab("Rating of the U.S. Economy") + 
+     ylab("Concern for Personal Financial Situation") + 
+     ylim(1, 5)
+ANES_F$profile_housing  <- as.factor(ANES_F$profile_housing)
+ggplot(data = ANES_F,                  
+           aes(x = w2ecnow,
+           y = w2persfin,             
+           color = profile_housing)) +
+  geom_smooth(method = "lm",   
+              se = FALSE)       +                  
+  geom_point()      +                  
+  facet_wrap(~profile_housing)   +
+  scale_color_discrete(labels = c("Owned or being bought by you or \nsomeone in your household", 
+                                  "Rented for cash", "Occupied without payment of cash rent")) +
+  ggtitle("Concern for Personal Financial Situation vs. Rating of the U.S. Economy, \nGrouped by Home Ownership") +
+  xlab("Rating of the U.S. Economy") + 
+  ylab("Concern for Personal Financial Situation") + 
+  labs(color ="Home Ownership")
+```
+
+To create this table and these graphs, I first filtered the ANES data to remove the nonresponses from the variables I am examining. I then used Stargazer to subset the data and only include the variables I wanted to look at in the table. Then, I made a new column that has "rating of the U.S. economy" as a factor variable and averaged the feelings about one's personal financial situation across these levels to create a clean scatterplot. I plotted this and finally created scatterplots with added linear regressions for the same variables, grouped by home ownership type (after I factored this variable as well).  
+
+There is an interesting relationship between concern for one's own financial situation and one's rating of the state of the U.S. economy. In general, it seems as though on average, people rate the U.S. economy at about a 3, meaning that, on average, people do not see the economy as doing well nor poorly. The average rating of one's concern for their financial situation is 2.41, between "a little worried" and "moderately worried." In our scatterplot of average personal financial concern versus rating of the U.S. economy, it seems as though generally, as one rates the economy more favorably the average concern for one's personal financial situation goes up. This is somewhat unexpected; one would think that if one rates the economy poorly, one's concern for their personal financial situation would be higher and vice versa.  
+
+Finally, the graph comparing concern for financial situation versus rating of the economy, grouped by home ownership type, displays somewhat perplexing results as well. One can see that those who own or are buying a home, or the home is owned or being bought by someone in their household, are generally not very concerned for their financial situations, with the regression line falling between 2 and 3, "a little worried" or "moderately worried." Those who rent their homes for cash and those who occupy their homes without payment of rent display a somewhat more positive linear relationship, with those rating the economy as doing better also rating their concern for their financial situation higher, on average. It seems as though those who already own their home or are in the process of buying their home are less concerned about their personal financial situation than those in the other two home ownership types, and this is fairly consistent across ratings of the U.S. economy.
+
+## Lab \#6
+### Lab \#6
+#### March 30, 2021
+
+1. Using the county data provided (i.e, countypres_2000-2016):
+
+a. Provide a map of the total number of votes "Other" candidates won in 2000 in Florida. Compare this to the total number of "Other" candidate votes in 2016. What trends do you see?
+
+```{r}
+library(dplyr)   
+library(ggplot2) 
+library(ggmap)   
+library(maps)    
+library(mapdata)
+county16<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Spring 2021/POS4931/countypres_2000-2016.csv")
+county <- map_data("county")
+fl_ct <- filter(.data = county,
+                region == "florida")
+florida<-dplyr::filter(county16, state == "Florida")
+florida$county <- tolower(florida$county)
+fl_ct<- rename(fl_ct, 
+               county   
+               = subregion)
+fl_ct_map <- full_join(fl_ct, florida, by =c("county"))
+fl_ct_map_F <- filter(.data = fl_ct_map,
+                      year == 2000 |
+                        year == 2016)
+ggplot(subset(fl_ct_map_F,
+              fl_ct_map_F$candidate == "Other")) +
+  geom_polygon(aes(x = long, y = lat, fill = candidatevotes, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  facet_wrap(~year) +
+  labs(title = "Total 'Other' Candidate Votes, 2000 and 2016",
+       subtitle = "Florida, 2000 and 2016",
+       fill = "Votes") + 
+  scale_fill_gradient(high = "darkgreen", low = "oldlace") 
+```
+
+I see the trend that in 2016, many more votes for candidates other than the two main party candidates were cast. This can be seen in the color differences between the maps; in 2000, the map is mostly white, signifying that in most counties fewer than 5,000 votes were cast for the "Other" candidates. However, in 2016 there are several dark green counties on the map, including Hillsborough and Miami-Dade, meaning that over 200,000 votes were cast for other candidates there. This could be due to a population increase, or it could be due to dissatisfaction with the major party nominees in 2016. 
+
+b. Now, compare the *percentage* of "Other" candidate votes in California between these two elections. Discuss any trends you see here relational to those in California.
+
+```{r}
+ca_ct <- filter(.data = county,
+                region == "california")
+california<-dplyr::filter(county16, state == "California")
+california$county <- tolower(california$county)
+ca_ct<- rename(ca_ct, 
+               county   
+               = subregion)
+ca_ct_map <- full_join(ca_ct, california, by =c("county"))
+ca_ct_map_F <- filter(.data = ca_ct_map,
+                      year == 2000 |
+                        year == 2016)
+ca_ct_map_F$VotesPer <- (ca_ct_map_F$candidatevotes/ca_ct_map_F$totalvotes)*100
+ggplot(subset(ca_ct_map_F,
+              ca_ct_map_F$candidate == "Other")) +
+  geom_polygon(aes(x = long, y = lat, fill = VotesPer, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  facet_wrap(~year) +
+  labs(title = "Percent 'Other' Candidate Votes",
+       subtitle = "California, 2000 and 2016",
+       fill = "Votes") + 
+  scale_fill_gradient(high = "darkgreen", low = "oldlace") 
+```
+
+The trend in terms of the percentage of votes for "Other" candidates in California in 2000 versus in 2016 is the same as it was for the total number of votes in Florida. It seems like support for "Other" candidates increased significantly in California; in 2000, a county rarely had more than 5% other candidate votes, while in 2016 nearly every county had at least 5%, with many counties having over 10% of the vote share being for "Other" candidates.
+
+c. Finally, what does the percentage of "Other" candidate votes look like across counties nationally in 2016? What might one conclude looking at all of these figures?
+
+```{r}
+county16$county <- tolower(county16$county)
+county<- rename(county, 
+               county   
+               = subregion)
+county_map <- full_join(county16, county, by = c("county"))
+county_map_F <- filter(.data = county_map,
+                      year == 2000 |
+                        year == 2016)
+county_map_F$VotesPer <- (county_map_F$candidatevotes/county_map_F$totalvotes)*100
+ggplot(subset(county_map_F,
+              county_map_F$candidate == "Other")) +
+  geom_polygon(aes(x = long, y = lat, fill = VotesPer, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  facet_wrap(~year) +
+  labs(title = "Percent 'Other' Candidate Votes",
+       subtitle = "U.S., 2000 and 2016",
+       fill = "Votes") + 
+  scale_fill_gradient(high = "darkgreen", low = "oldlace") 
+```
+
+The national trend looks similar to how it does in California and Florida. Something that is noticeable on the national map is that counties in the Western region seem to vote for "Other" candidates at a higher rate than those on the East Coast. It seems as though between 2000 and 2016, support for "Other" candidates increased nationally.
+
+2. The owid.covid.data includes the latest reports on COVID across the globe.
+
+a. Map the total number of COVID cases globally with the latest available data (i.e., March 22, 2021). Hint! The U.S. is saved as "United States" in the covid database but "USA" in our map data. I've given you a few lines of code here to get you started. You will need to fill in the blanks AND you may need to use these in the future...
+
+```{r}
+covid_data <- read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Spring 2021/POS4931/owid-covid-data.csv")
+covid_data_latest <- filter(.data = covid_data, 
+                     covid_data$date == "2021-03-22") 
+world <- map_data("world")
+world$region <- recode(world$region,
+                         'USA' = "United States")
+world_covid_map <- full_join(world, covid_data_latest, by =c("region" = "location"))
+remove <- c("World", "Europe", "North America", "Asia", "European Union", "South America")
+ggplot(subset(world_covid_map, ! region %in% remove)) +
+  geom_polygon(aes(x = long, y = lat, fill = total_cases, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "Total COVID Cases Globally",
+       subtitle = "March 22nd, 2021",
+       fill = "Total Cases") + 
+  scale_fill_gradient(high = "indianred3", low = "gray96") 
+```
+
+b. A researcher is interested in understanding COVID and vaccination trends in Europe specifically. Map out the number of total cases as of March 3, 2021 in the continent of Europe. A few hints - the world map data calls a country "Czech Republic" where the covid data calls the same country "Czechia". You may want to exclude countries that make the map difficult to interpret (i.e., Russia?)
+
+```{r}
+covid_data_europe <- filter(.data = covid_data, 
+                     covid_data$date == "2021-03-03") 
+world$region <- recode(world$region,
+                         'Czech Republic' = "Czechia")
+europe_covid_map <- full_join(world, covid_data_europe, by =c("region" = "location"))
+europe_covid_map <- filter(europe_covid_map, region != "Russia")
+ggplot(subset(europe_covid_map, continent == "Europe")) +
+  geom_polygon(aes(x = long, y = lat, fill = total_cases, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "Total COVID Cases in Europe",
+       subtitle = "March 3rd, 2021",
+       fill = "Total Cases") + 
+  scale_fill_gradient(high = "indianred3", low = "gray96") 
+```
+
+c. Who is doing best regarding vaccinations in Europe? Use and create as many maps as you think is necessary to answer your question. Note that some countries will not have data for the date of interest and will be missing from your map (i.e., NA).
+
+```{r}
+covid_data_vaccs <- filter(.data = covid_data, 
+                     covid_data$date == "2021-03-22") 
+europe_vacc_map <- full_join(world, covid_data_vaccs, by =c("region" = "location"))
+europe_vacc_map <- filter(europe_vacc_map, region != "Russia")
+europe_vacc_map <- filter(europe_vacc_map, region != "United Kingdom")
+ggplot(subset(europe_vacc_map, continent == "Europe")) +
+  geom_polygon(aes(x = long, y = lat, fill = total_vaccinations, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "Total COVID Vaccinations in Europe",
+       subtitle = "March 22nd, 2021",
+       fill = "Total Vaccinations") + 
+  scale_fill_gradient(high = "indianred3", low = "gray96") 
+ggplot(subset(europe_vacc_map, continent == "Europe")) +
+  geom_polygon(aes(x = long, y = lat, fill = people_fully_vaccinated_per_hundred, group = group), 
+               color = "white") + 
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "People Fully Vaccinated per Hundred in Europe",
+       subtitle = "March 22nd, 2021",
+       fill = "People Fully Vaccinated per Hundred") + 
+  scale_fill_gradient(high = "indianred3", low = "gray96",
+                      breaks = c(0, 2, 4, 6, 8, 10, 12, 14),
+                      limits = c(0,14)) 
+```
+
+I made two maps to identify who is doing best regarding vaccinations in Europe: one that displays the total number of COVID vaccines disbursed and one that displays the number of people fully vaccinated per 100. In terms of total vaccine doses, Germany leads the way with over 9 million vaccine doses given out as of March 22nd. In terms of the number of people vaccinated per 100, Serbia leads, with around 12% of its population fully vaccinated. The other countries have around 2-8% of their populations vaccinated.
+
+3. We are moving to use all our skills so far amassed in our class. This means you will have to find data to use for the creation of the maps yourself. Think of it as a choose your own adventure! You can do it! 
+
+Find a csv or .dta file including data for a country or set of countries of interest. I strongly suggest using a dataset which has one datapoint per unit of interest (i.e., region, country, etc.) such as the adminsitrative data used in the above assignments. Alternatively, you can create your own matrix for countries on a DV of interest. 
+
+Here are a few places you can start on Canvas if you get lost but feel free to use anything you can find to help you answer your question in addition to the databases used here (can even be something you're using for your paper!):
+  *International Migration Database - OECD asylum data by country
+  *Fatal Force Project, Washington Post Data - Fatal police shootings in the US
+  *KOF Globalisation Index, ETH Zurich - economic, social, and political measures of globalization
+  *OECD - Acquisition of Citizenship (naturalization) by OECD country
+
+Depict the research question you aim to answer this/these map(s). Answer it using your map(s), depicting the trends you see across countries, regions, or counties. Make sure to chose colors that make sense theoretically, including a legend, title, and any other relevant information to help you answer your question. Annotate your code at each step - providing detail at each step of your code.
+
+```{r}
+polbrut <- read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Spring 2021/POS4931/fatal-police-shootings-data.csv") #reading in the fatal police shooting data
+usa <- map_data("state") #read in map of US by state
+polbrutrace <- data.frame(table(polbrut$state, polbrut$race)) #create a frequency table displaying the counts of how many people were killed by race in each state
+polbrutrace <- tidyr::spread(polbrutrace, Var2, Freq, fill = NA, convert = FALSE) # spread the data so each race is its own column
+names(polbrutrace) <- c("State", "Unknown", "Asian", "Black", "Hispanic", "Native American", "Other", "White") # renaming the columns
+usa$region <- recode(usa$region, # making each state name match its abbreviation for the merge
+                      'alabama' = 'AL',
+                      'alaska' = 'AK',
+                      'arizona' = 'AZ',
+                      'arkansas' = 'AR',
+                      'california' = 'CA',
+                      'colorado' = 'CO',
+                      'connecticut' = 'CT',
+                      'delaware' = 'DE',
+                      'district of columbia' = 'DC',
+                      'florida' = 'FL',
+                      'georgia' = 'GA',
+                      'hawaii' = 'HI',
+                      'idaho' = 'ID',
+                      'illinois' = 'IL',
+                      'indiana' = 'IN',
+                      'iowa' = 'IA',
+                      'kansas' = 'KS',
+                      'kentucky' = 'KY',
+                      'louisiana' = 'LA',
+                      'maine' = 'ME',
+                      'maryland' = 'MD',
+                      'massachusetts' = 'MA',
+                      'michigan' = 'MI',
+                      'minnesota' = 'MN',
+                      'mississippi' = 'MS',
+                      'missouri' = 'MO',
+                      'montana' = 'MT',
+                      'nebraska' = 'NE',
+                      'nevada' = 'NV',
+                      'new hampshire' = 'NH',
+                      'new jersey' = 'NJ',
+                      'new mexico' = 'NM',
+                      'new york' = 'NY',
+                      'north carolina' = 'NC',
+                      'north dakota' = 'ND',
+                      'ohio' = 'OH',
+                      'oklahoma' = 'OK',
+                      'oregon' = 'OR',
+                      'pennsylvania' = 'PA',
+                      'rhode island' = 'RI',
+                      'south carolina' = 'SC',
+                      'south dakota' = 'SD',
+                      'tennessee' = 'TN',
+                      'texas' = 'TX',
+                      'utah' = 'UT',
+                      'vermont' = 'VT',
+                      'virginia' = 'VA',
+                      'washington' = 'WA',
+                      'west virginia' = 'WV',
+                      'wisconsin' = 'WI',
+                      'wyoming' = 'WY')
+polbrutrace <- filter(polbrutrace, State != "AK") # removing alaska so data is easier to see
+polbrutrace <- filter(polbrutrace, State != "HI") # removing hawaii so data is easier to see
+polbrut_map <- full_join(polbrutrace, usa, by =c("State" = "region")) # joining data with map
+censusdata <- read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Spring 2021/POS4931/sc-est2019-alldata6.csv") # reading in census demographic data
+censusdata <- select(censusdata, NAME, RACE, POPESTIMATE2019) # filtering unneeded columns
+censusdata <- censusdata %>% # getting totals for each race by state
+     group_by(NAME, RACE) %>%
+     summarise(
+         Total = sum(POPESTIMATE2019)
+     )
+censusdata <- tidyr::spread(censusdata, RACE, Total, fill = NA, convert = FALSE) # spread the data so each race is its own column
+names(censusdata) <- c("State", "White", "Black", "Native American", "Asian", "Pacific Islander", "Two or More Races") # renaming the columns
+censusdata <- filter(censusdata, State != "Alaska") # removing alaska so data is easier to see
+censusdata <- filter(censusdata, State != "Hawaii") # removing hawaii so data is easier to see
+censusdata$State <- tolower(censusdata$State) # making state names lowercase for renaming
+censusdata$State <- recode(censusdata$State, # making each state name match its abbreviation for the merge
+                      'alabama' = 'AL',
+                      'arizona' = 'AZ',
+                      'arkansas' = 'AR',
+                      'california' = 'CA',
+                      'colorado' = 'CO',
+                      'connecticut' = 'CT',
+                      'delaware' = 'DE',
+                      'district of columbia' = 'DC',
+                      'florida' = 'FL',
+                      'georgia' = 'GA',
+                      'idaho' = 'ID',
+                      'illinois' = 'IL',
+                      'indiana' = 'IN',
+                      'iowa' = 'IA',
+                      'kansas' = 'KS',
+                      'kentucky' = 'KY',
+                      'louisiana' = 'LA',
+                      'maine' = 'ME',
+                      'maryland' = 'MD',
+                      'massachusetts' = 'MA',
+                      'michigan' = 'MI',
+                      'minnesota' = 'MN',
+                      'mississippi' = 'MS',
+                      'missouri' = 'MO',
+                      'montana' = 'MT',
+                      'nebraska' = 'NE',
+                      'nevada' = 'NV',
+                      'new hampshire' = 'NH',
+                      'new jersey' = 'NJ',
+                      'new mexico' = 'NM',
+                      'new york' = 'NY',
+                      'north carolina' = 'NC',
+                      'north dakota' = 'ND',
+                      'ohio' = 'OH',
+                      'oklahoma' = 'OK',
+                      'oregon' = 'OR',
+                      'pennsylvania' = 'PA',
+                      'rhode island' = 'RI',
+                      'south carolina' = 'SC',
+                      'south dakota' = 'SD',
+                      'tennessee' = 'TN',
+                      'texas' = 'TX',
+                      'utah' = 'UT',
+                      'vermont' = 'VT',
+                      'virginia' = 'VA',
+                      'washington' = 'WA',
+                      'west virginia' = 'WV',
+                      'wisconsin' = 'WI',
+                      'wyoming' = 'WY')
+polbrut_map <- full_join(polbrut_map, censusdata, by =c("State")) # joining data with map
+polbrut_map$PercentBlack <- (polbrut_map$Black.x/polbrut_map$Black.y)*100
+polbrut_map$PercentWhite <- (polbrut_map$White.x/polbrut_map$White.y)*100
+ggplot(polbrut_map) + # use map of police brutality data
+  geom_polygon(aes(x = long, y = lat, fill = PercentBlack, group = group), #fill with percent of killings that have black victims, by longitude and latitude, grouped by state
+               color = "white") + # border color
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "Percent of Black Americans Killed in Police Shootings by State", #title
+       subtitle = "U.S., 2015 through 2021", #subtitle
+       fill = "Percent of Black Americans") + #legend title
+  scale_fill_gradient(high = "midnightblue", low = "gray100",
+                      limits = c(0,0.004)) #colors 
+ggplot(polbrut_map) + # use map of police brutality data
+  geom_polygon(aes(x = long, y = lat, fill = PercentWhite, group = group), #fill with percent of killings that have white victims, by longitude and latitude, grouped by state
+               color = "white") + # border color
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "Percent of White Americans Killed in Police Shootings by State", #title
+       subtitle = "U.S., 2015 through 2021", #subtitle
+       fill = "Percent of White Americans") + #legend title 
+  scale_fill_gradient(high = "midnightblue", low = "gray100", # same color as other graph
+                      limits = c(0,0.004)) #same scale as other graph
+polbrut_map$BlackOdds <- (polbrut_map$PercentBlack/polbrut_map$PercentWhite)
+ggplot(polbrut_map) + # use map of police brutality data
+     geom_polygon(aes(x = long, y = lat, fill = BlackOdds, group = group), #fill with percent of killings that have black victims divided by percent that have white victims, by longitude and latitude, grouped by state
+                  color = "white") + # border color
+     coord_fixed(1.3) +
+     theme_void() +
+     labs(title = "Odds of Victim Being Black vs. White in Police Shootings", #title
+          subtitle = "U.S., 2015 through 2021", #subtitle
+          fill = "Odds") + #legend title
+     scale_fill_gradient(high = "midnightblue", low = "gray100")#colors 
+```
+
+The research question I am asking is: "Are Black Americans more likely than white Americans to be killed in instances of fatal police shootings?" To answer this question, I read in the data on fatal police shootings from the Washington Post. I then made a table of the frequencies of the killings by the victim's race, grouped by state. I then did some data wrangling to make the data look how I wanted it to and merged it with the US map data. Later, I found Census demographic data on the racial makeup of each state in 2019. I merged this with the data on police shootings to create a dataset that displays the percent of each racial population that was killed in a police shooting from 2015 to 2021. I also calculated the odds ratio of being killed as a Black American compared to as a White American in each state.
+
+Many more Black Americans are killed compared to white Americans in most states. The maximum percentage of white people killed in police shootings in a state from 2015-2021 was 0.0009% in Oklahoma, while the maximum percentage of black people killed in police shootings in a state from 2015-2021 was 0.0037% in Utah. Additionally, it is evident that the map of percent of Black Americans killed in police shootings by state is much darker than the map of percent of white Americans. Finally, my map of the odds of being killed as a Black American displays that in some states, Black Americans are up to 20 times more likely to be killed than white Americans. In sum, Black Americans are more likely than white Americans to be killed in instances of fatal police shootings, a fact that has gathered media attention in recent years and is indicative of a need for change in our policing system.
