@@ -1,0 +1,288 @@
+---
+title: "Projects"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Florida and Georgia Ballot Rejections by County, 2020
+
+This project was completed as part of my work as a Junior Fellow in the University of Florida Political Science Department during the Fall 2020 semester. The goal of this project was to determine if different demographic groups were more likely to have their mail ballots rejected during the 2020 election in Florida and Georgia.
+
+```{r fl map, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+library(tidyverse)
+library(plyr)
+library(dplyr)
+library(sp)
+library(raster)
+library(rgdal)
+library(sf)
+library(dplyr)
+library(spData)
+library(tmap)
+library(eeptools)
+
+flrejections<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/Florida Map/AP_EN_output_11022020.csv")
+floctober<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/Florida Map/AP_EN_Oct_output_11022020.csv")
+flrejections$CountyName<-revalue(flrejections$CountyCode, c("ALA"="ALACHUA", "BAK"="BAKER", "BAY"="BAY", "BRA"="BRADFORD", "BRE"="BREVARD", "BRO"="BROWARD", "CAL"="CALHOUN", "CHA"="CHARLOTTE", "CIT"="CITRUS", "CLA"="CLAY", "CLL"="COLLIER", "CLM"="COLUMBIA", "DAD"="MIAMI-DADE", "DIX"="DIXIE", "DUV"="DUVAL", "ESC"="ESCAMBIA",
+                                                            "FLA"="FLAGLER", "FRA"="FRANKLIN", "GAD"="GADSDEN", "GIL"="GILCHRIST", "GLA"="GLADES", "GUL"="GULF", "HEN"="HENDRY", "HER"="HERNANDO", "HIL"="HILLSBOROUGH", "HOL"="HOLMES", "IND"="INDIAN RIVER", "JAC"="JACKSON", "JEF"="JEFFERSON", "LAK"="LAKE", "LEE"="LEE", "LEO"="LEON",
+                                                            "LEV"="LEVY", "MAD"="MADISON", "MAN"="MANATEE", "MON"="MONROE", "MRN"="MARION", "MRT"="MARTIN", "NAS"="NASSAU", "OKA"="OKALOOSA", "OKE"="OKEECHOBEE", "ORA"="ORANGE", "OSC"="OSCEOLA", "PAL"="PALM BEACH", "PAS"="PASCO", "PIN"="PINELLAS", "POL"="POLK", "PUT"="PUTNAM",
+                                                            "SAN"="SANTA ROSA", "SAR"="SARASOTA", "SEM"="SEMINOLE", "STJ"="ST. JOHNS", "STL"="ST. LUCIE", "SUM"='SUMTER', "SUW"="SUWANNEE", "TAY"="TAYLOR", "UNI"="UNION", "VOL"="VOLUSIA", "WAK"="WAKULLA", "WAL"="WALTON", "WAS"="WASHINGTON"))
+floctober$CountyName<-revalue(floctober$CountyCode, c("ALA"="ALACHUA", "BAK"="BAKER", "BAY"="BAY", "BRA"="BRADFORD", "BRE"="BREVARD", "BRO"="BROWARD", "CAL"="CALHOUN", "CHA"="CHARLOTTE", "CIT"="CITRUS", "CLA"="CLAY", "CLL"="COLLIER", "CLM"="COLUMBIA", "DAD"="MIAMI-DADE", "DIX"="DIXIE", "DUV"="DUVAL", "ESC"="ESCAMBIA",
+                                                            "FLA"="FLAGLER", "FRA"="FRANKLIN", "GAD"="GADSDEN", "GIL"="GILCHRIST", "GLA"="GLADES", "GUL"="GULF", "HEN"="HENDRY", "HER"="HERNANDO", "HIL"="HILLSBOROUGH", "HOL"="HOLMES", "IND"="INDIAN RIVER", "JAC"="JACKSON", "JEF"="JEFFERSON", "LAK"="LAKE", "LEE"="LEE", "LEO"="LEON",
+                                                            "LEV"="LEVY", "MAD"="MADISON", "MAN"="MANATEE", "MON"="MONROE", "MRN"="MARION", "MRT"="MARTIN", "NAS"="NASSAU", "OKA"="OKALOOSA", "OKE"="OKEECHOBEE", "ORA"="ORANGE", "OSC"="OSCEOLA", "PAL"="PALM BEACH", "PAS"="PASCO", "PIN"="PINELLAS", "POL"="POLK", "PUT"="PUTNAM",
+                                                            "SAN"="SANTA ROSA", "SAR"="SARASOTA", "SEM"="SEMINOLE", "STJ"="ST. JOHNS", "STL"="ST. LUCIE", "SUM"='SUMTER', "SUW"="SUWANNEE", "TAY"="TAYLOR", "UNI"="UNION", "VOL"="VOLUSIA", "WAK"="WAKULLA", "WAL"="WALTON", "WAS"="WASHINGTON"))
+floctober$Race<-revalue(as.character(floctober$Race), c("1"="Other", "2"="Other", "3"="Black", "4"="Hispanic", "5"="White", "6"="Other", "7"="Other", "8"="Other", "9"="Other"))
+library(lubridate)
+floctober$BirthDate<-as.Date(floctober$BirthDate, format = "%m/%d/%y", origin="1900-01-01")
+floctober$BirthDate<-as.Date(ifelse(floctober$BirthDate > "2003-01-01", format(floctober$BirthDate, "19%y-%m-%d"), format(floctober$BirthDate)))
+floctober$Age <- age_calc(floctober$BirthDate, as.Date('2020-11-03'), units = "years")
+floctober$Age <- round(floctober$Age, digits = 0)
+floctober <- plyr::mutate(floctober, Agecat2 = case_when(Age >= 18  & Age <= 23 ~ '18-23',
+                                                                     Age >= 24  & Age <= 29 ~ '24-29',
+                                                                     Age >= 30  & Age <= 44 ~ '30-44',
+                                                                     Age >= 45  & Age <= 64 ~ '45-64',
+                                                                     Age >= 65 ~ '65-105'))
+floctober <- dplyr::select(floctober, -c("BirthDate", "Age"))
+flrejections <- dplyr::select(flrejections, -c("reg.year"))
+flrejections <- rbind(flrejections, floctober)
+flrejections<-dplyr::select(flrejections, -c(NameSuffix, DaytimeAreaCode,DaytimePhoneNumber,EmailAddress))
+flrejections$ResidenceState="Florida"
+library(stringr)
+flrejections$ResidenceZipcode <- substr(flrejections$ResidenceZipcode, 0, 5)
+flrejections$location<-paste0(flrejections$ResidenceAddressLine1, ", ", flrejections$ResidenceCity, ", FL ", flrejections$ResidenceZipcode)
+
+library(sp)
+library(raster)
+library(rgdal)
+flcounty <- readOGR("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/Florida Map/florida_shapefile.shp", verbose=FALSE)
+setClass("num.with.commas")
+setAs("character", "num.with.commas", function(from) as.numeric(gsub(",", "", from) ) )
+flcounty$NAME = toupper(flcounty$NAME)
+fltotals<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/Florida Map/FL VBM Totals.csv")
+fltotals$COUNTYNAME<-revalue(fltotals$COUNTYID, c("ALA"="ALACHUA", "BAK"="BAKER", "BAY"="BAY", "BRA"="BRADFORD", "BRE"="BREVARD", "BRO"="BROWARD", "CAL"="CALHOUN", "CHA"="CHARLOTTE", "CIT"="CITRUS", "CLA"="CLAY", "CLL"="COLLIER", "CLM"="COLUMBIA", "DAD"="MIAMI-DADE", "DIX"="DIXIE", "DUV"="DUVAL", "ESC"="ESCAMBIA",
+                                                      "FLA"="FLAGLER", "FRA"="FRANKLIN", "GAD"="GADSDEN", "GIL"="GILCHRIST", "GLA"="GLADES", "GUL"="GULF", "HEN"="HENDRY", "HER"="HERNANDO", "HIL"="HILLSBOROUGH", "HOL"="HOLMES", "IND"="INDIAN RIVER", "JAC"="JACKSON", "JEF"="JEFFERSON", "LAK"="LAKE", "LEE"="LEE", "LEO"="LEON",
+                                                      "LEV"="LEVY", "MAD"="MADISON", "MAN"="MANATEE", "MON"="MONROE", "MRN"="MARION", "MRT"="MARTIN", "NAS"="NASSAU", "OKA"="OKALOOSA", "OKE"="OKEECHOBEE", "ORA"="ORANGE", "OSC"="OSCEOLA", "PAL"="PALM BEACH", "PAS"="PASCO", "PIN"="PINELLAS", "POL"="POLK", "PUT"="PUTNAM",
+                                                      "SAN"="SANTA ROSA", "SAR"="SARASOTA", "SEM"="SEMINOLE", "STJ"="ST. JOHNS", "STL"="ST. LUCIE", "SUM"='SUMTER', "SUW"="SUWANNEE", "TAY"="TAYLOR", "UNI"="UNION", "VOL"="VOLUSIA", "WAK"="WAKULLA", "WAL"="WALTON", "WAS"="WASHINGTON"))
+fltotals<-mutate(fltotals, Proportion=(E+N) / (E+N+V))
+fltotals<-mutate(fltotals, "Percent Rejected"=((E+N) / (E+N+V))*100)
+#Race:
+fltest <- flrejections %>% group_by(CountyName, Race) %>% dplyr::summarise(n = dplyr::n())
+fltest<-left_join(fltest, fltotals, by = c("CountyName"="COUNTYNAME"))
+fltest<-mutate(fltest, RejectedRace=n / (E+N))
+fltest<-mutate(fltest, RejectedRacePercent=(n / (E+N))*100)
+fltest2<-left_join(fltotals, fltest, by=c("COUNTYNAME"="CountyName"))
+fltest2<-dplyr::select(fltest2, -c(COUNTYID.x, COUNTYID.y, E.y, N.y, V.y, Proportion.y, "Percent Rejected.y"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "Race", "n", "RaceProp","Percent of Rejected Ballots by Race")
+names(fltest2)<-names
+fltest3<-spread(fltest2, Race, "Percent of Rejected Ballots by Race", fill = NA, convert = FALSE)
+fltest3<-dplyr::select(fltest3, -c("RaceProp"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "n", "Black Percent of Total Rejected", "Hispanic Percent of Total Rejected", "Other Percent of Total Rejected", "White Percent of Total Rejected", "No Race Specified")
+names(fltest3)<-names
+coalesce_by_column <- function(fltest3) {
+  return(coalesce(fltest3[1], fltest3[2], fltest3[3], fltest3[4], fltest3[5]))
+}
+fltest4<-fltest3 %>%
+  group_by(COUNTYNAME) %>%
+  summarise_all(coalesce_by_column)
+#Age:
+fltest5 <- flrejections %>% group_by(CountyName, Agecat2) %>% dplyr::summarise(n = dplyr::n())
+fltest5<-left_join(fltest5, fltotals, by = c("CountyName"="COUNTYNAME"))
+fltest5<-mutate(fltest5, RejectedAge=n / (E+N))
+fltest5<-mutate(fltest5, RejectedAgePercent=(n / (E+N))*100)
+fltest6<-left_join(fltotals, fltest5, by=c("COUNTYNAME"="CountyName"))
+fltest6<-dplyr::select(fltest6, -c(COUNTYID.x, COUNTYID.y, E.y, N.y, V.y, Proportion.y, "Percent Rejected.y"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "Age Category", "n", "AgeProp","Percent of Rejected Ballots by Age")
+names(fltest6)<-names
+fltest7<-spread(fltest6, "Age Category", "Percent of Rejected Ballots by Age", fill = NA, convert = FALSE)
+fltest7<-dplyr::select(fltest7, -c("AgeProp"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "n", "18 to 23 Percent of Total Rejected", "24 to 29 Percent of Total Rejected", "30 to 44 Percent of Total Rejected", "45 to 64 Percent of Total Rejected", "65 to 105 Percent of Total Rejected", "Other", "No Age Specified Percent of Total Rejected")
+names(fltest7)<-names
+fltest7<-dplyr::select(fltest7, -c("Other"))
+coalesce_by_column <- function(fltest7) {
+  return(coalesce(fltest7[1], fltest7[2], fltest7[3], fltest7[4], fltest7[5], fltest7[6]))
+}
+fltest8<-fltest7 %>%
+  group_by(COUNTYNAME) %>%
+  summarise_all(coalesce_by_column)
+#Gender:
+fltest9 <- flrejections %>% group_by(CountyName, Gender) %>% dplyr::summarise(n = dplyr::n())
+fltest9<-left_join(fltest9, fltotals, by = c("CountyName"="COUNTYNAME"))
+fltest9<-mutate(fltest9, RejectedGender=n / (E+N))
+fltest9<-mutate(fltest9, RejectedGenderPercent=(n / (E+N))*100)
+fltest10<-left_join(fltotals, fltest9, by=c("COUNTYNAME"="CountyName"))
+fltest10<-dplyr::select(fltest10, -c(COUNTYID.x, COUNTYID.y, E.y, N.y, V.y, Proportion.y, "Percent Rejected.y"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "Gender", "n", "GenderProp","Percent of Rejected Ballots by Gender")
+names(fltest10)<-names
+fltest11<-spread(fltest10, "Gender", "Percent of Rejected Ballots by Gender", fill = NA, convert = FALSE)
+fltest11<-dplyr::select(fltest11, -c("GenderProp"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "n", "Female Percent of Total Rejected", "Male Percent of Total Rejected", "Other Gender Percent of Total Rejected", "No Gender Specified Percent of Total Rejected")
+names(fltest11)<-names
+coalesce_by_column <- function(fltest11) {
+  return(coalesce(fltest11[1], fltest11[2], fltest11[3], fltest11[4]))
+}
+fltest12<-fltest11 %>%
+  group_by(COUNTYNAME) %>%
+  summarise_all(coalesce_by_column)
+#Party:
+fltest13 <- flrejections %>% group_by(CountyName, PartyAffiliation) %>% dplyr::summarise(n = dplyr::n())
+fltest13<-left_join(fltest13, fltotals, by = c("CountyName"="COUNTYNAME"))
+fltest13<-mutate(fltest13, RejectedParty=n / (E+N))
+fltest13<-mutate(fltest13, RejectedPartyPercent=(n / (E+N))*100)
+fltest14<-left_join(fltotals, fltest13, by=c("COUNTYNAME"="CountyName"))
+fltest14<-dplyr::select(fltest14, -c(COUNTYID.x, COUNTYID.y, E.y, N.y, V.y, Proportion.y, "Percent Rejected.y"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "Party", "n", "PartyProp","Percent of Rejected Ballots by Party")
+names(fltest14)<-names
+fltest15<-spread(fltest14, "Party", "Percent of Rejected Ballots by Party", fill = NA, convert = FALSE)
+fltest15<-dplyr::select(fltest15, -c("PartyProp"))
+names<-c("E", "N", "V", "COUNTYNAME", "Proportion", "Percent Rejected", "n", "Democrat Percent of Total Rejected", "No Party Affiliation Percent of Total Rejected", "Third Party Percent of Total Rejected", "Republican Percent of Total Rejected", "No Party Specified Percent of Total Rejected")
+names(fltest15)<-names
+coalesce_by_column <- function(fltest15) {
+  return(coalesce(fltest15[1], fltest15[2], fltest15[3], fltest15[4], fltest15[5]))
+}
+fltest15<-fltest15[ -c(13) ]
+fltest16<-fltest15 %>%
+  group_by(COUNTYNAME) %>%
+  summarise_all(coalesce_by_column)
+#Merge:
+fltest16<-dplyr::select(fltest16, -c(2:6))
+fltest12<-dplyr::select(fltest12, -c(2:6))
+fltest8<-dplyr::select(fltest8, -c(2:6))
+fltest17<-left_join(fltest4, fltest8, by=c("COUNTYNAME"="COUNTYNAME"))
+fltest18<-left_join(fltest17, fltest12, by=c("COUNTYNAME"="COUNTYNAME"))
+fltest19<-left_join(fltest18, fltest16, by=c("COUNTYNAME"="COUNTYNAME"))
+fltest20<-data.frame(fltest19$COUNTYNAME, fltest19$E, fltest19$N, fltest19$V, fltest19$Proportion, round(fltest19[6:30], 1))
+names<-c("COUNTYNAME", "Voter-Caused Errors", "Missing Signature", "V", "Proportion", "Percent Rejected", "n.x", "Black Percent of Total Rejected", "Hispanic Percent of Total Rejected", "Other Percent of Total Rejected", "White Percent of Total Rejected", "No Race Specified","n.y","18 to 23 Percent of Total Rejected","24 to 29 Percent of Total Rejected","30 to 44 Percent of Total Rejected","45 to 64 Percent of Total Rejected","65 to 105 Percent of Total Rejected","No Age Specified Percent of Total Rejected","n.x.x","Female Percent of Total Rejected","Male Percent of Total Rejected","Other Gender Percent of Total Rejected","No Gender Specified Percent of Total Rejected","n.y.y","Democrat Percent of Total Rejected","No Party Affiliation Percent of Total Rejected","Third Party Percent of Total Rejected","Republican Percent of Total Rejected","No Party Specified Percent of Total Rejected")
+names(fltest20)<-names
+flcounty <- merge(flcounty, fltest20, by.x ="NAME", by.y = "COUNTYNAME")
+library(RColorBrewer)
+my.palette <- brewer.pal(n = 7, name = "Purples")
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+library(tmap)
+tmap_mode("view")
+tm_shape(flcounty) + tm_polygons(col = "Percent Rejected", palette = my.palette, popup.vars=c("Percent Rejected", "Voter-Caused Errors", "Missing Signature", "Black Percent of Total Rejected", "Hispanic Percent of Total Rejected", "Other Percent of Total Rejected", "White Percent of Total Rejected", "No Race Specified", 
+                                                                                              "18 to 23 Percent of Total Rejected","24 to 29 Percent of Total Rejected","30 to 44 Percent of Total Rejected","45 to 64 Percent of Total Rejected","65 to 105 Percent of Total Rejected","No Age Specified Percent of Total Rejected",
+                                                                                              "Female Percent of Total Rejected","Male Percent of Total Rejected","Other Gender Percent of Total Rejected","No Gender Specified Percent of Total Rejected",
+                                                                                              "Democrat Percent of Total Rejected","No Party Affiliation Percent of Total Rejected","Third Party Percent of Total Rejected","Republican Percent of Total Rejected","No Party Specified Percent of Total Rejected")) + tm_layout(main.title = "Percent Rejected by County", title.size = 0.5, legend.outside=T)
+```
+
+*Note: Counties with "missing" data currently have no ballots to be cured, meaning that they have 0 rejected.
+
+```{r ga map, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+#GA 2020 General Election VBM Rejections
+library(tidyverse)
+library(lubridate)
+library(eeptools)
+gavbmtotal<-read_csv("~/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/Georgia VBM Rejections General Election 2020/Rejected with Voter File.csv")
+
+#Totals
+garejected<-filter(gavbmtotal, Ballot_Status=="R")
+gatotals<-table(gavbmtotal$County)
+gatotals<-data.frame(gatotals)
+garejects <- garejected %>% group_by(County) %>% dplyr::summarise(n = dplyr::n())
+gatotals<-left_join(gatotals, garejects, by = c("Var1"="County"))
+gatotals<-mutate(gatotals, "Proportion Rejected"=n / Freq, "Percent Rejected"=(n / Freq)*100)
+gatotals<-dplyr::select(gatotals, -c(2:3))
+
+#Race:
+gavbmrace<-table(gavbmtotal$County, gavbmtotal$RACE_DESC) 
+gavbmrace<-data.frame(gavbmrace)
+gavbmrace<-gavbmrace %>% group_by(Var1)
+gatest <- garejected %>% group_by(County, RACE_DESC) %>% dplyr::summarise(n = dplyr::n())
+gatest<-left_join(gavbmrace, gatest, by = c("Var1"="County", "Var2"="RACE_DESC"))
+gatest<-left_join(gatest, gatotals, by=c("Var1"="Var1"))
+gatest<-mutate(gatest, rej_rate=n / Freq)
+gatest<-mutate(gatest, rej_perc=(n / Freq)*100)
+names<-c("County", "Race", "Total", "Number Rejected", "Proportion Rejected", "Percent Rejected", "Proportion Rejected by Race", "Percent Rejected by Race")
+names(gatest)<-names
+gatest<-dplyr::select(gatest, -c(5,7))
+gatest2<-spread(gatest, "Race", "Percent Rejected by Race", fill = NA, convert = FALSE)
+coalesce_by_column <- function(gatest2) {
+  return(coalesce(gatest2[1], gatest2[2], gatest2[3], gatest2[4], gatest2[5], gatest2[6], gatest2[7]))
+}
+gatest3<-gatest2 %>%
+  group_by(County) %>%
+  summarise_all(coalesce_by_column)
+
+#Age:
+gavbmage<-table(gavbmtotal$County, gavbmtotal$agegroup) 
+gavbmage<-data.frame(gavbmage)
+gavbmage<-gavbmage %>% group_by(Var1)
+gatest4 <- garejected %>% group_by(County, agegroup) %>% dplyr::summarise(n = dplyr::n())
+gatest4<-left_join(gavbmage, gatest4, by = c("Var1"="County", "Var2"="agegroup"))
+gatest4<-left_join(gatest4, gatotals, by=c("Var1"="Var1"))
+gatest4<-mutate(gatest4, rej_rate=n / Freq)
+gatest4<-mutate(gatest4, rej_perc=(n / Freq)*100)
+names<-c("County", "Age Group", "Total", "Number Rejected", "Proportion Rejected", "Percent Rejected", "Proportion Rejected by Age", "Percent Rejected by Age")
+names(gatest4)<-names
+gatest4<-dplyr::select(gatest4, -c(5,7))
+gatest5<-spread(gatest4, "Age Group", "Percent Rejected by Age", fill = NA, convert = FALSE)
+coalesce_by_column <- function(gatest5) {
+  return(coalesce(gatest5[1], gatest5[2], gatest5[3], gatest5[4], gatest5[5], gatest5[6]))
+}
+gatest6<-gatest5 %>%
+  group_by(County) %>%
+  summarise_all(coalesce_by_column)
+
+#Gender:
+gavbmgender<-table(gavbmtotal$County, gavbmtotal$GENDER) 
+gavbmgender<-data.frame(gavbmgender)
+gavbmgender<-gavbmgender %>% group_by(Var1)
+gatest7 <- garejected %>% group_by(County, GENDER) %>% dplyr::summarise(n = dplyr::n())
+gatest7<-left_join(gavbmgender, gatest7, by = c("Var1"="County", "Var2"="GENDER"))
+gatest7<-left_join(gatest7, gatotals, by=c("Var1"="Var1"))
+gatest7<-mutate(gatest7, rej_rate=n / Freq)
+gatest7<-mutate(gatest7, rej_perc=(n / Freq)*100)
+names<-c("County", "Gender", "Total", "Number Rejected", "Proportion Rejected", "Percent Rejected", "Proportion Rejected by Gender", "Percent Rejected by Gender")
+names(gatest7)<-names
+gatest7<-dplyr::select(gatest7, -c(5,7))
+gatest8<-spread(gatest7, "Gender", "Percent Rejected by Gender", fill = NA, convert = FALSE)
+coalesce_by_column <- function(gatest8) {
+  return(coalesce(gatest8[1], gatest8[2], gatest8[3]))
+}
+gatest9<-gatest8 %>%
+  group_by(County) %>%
+  summarise_all(coalesce_by_column)
+names<-c("County", "Total", "Number Rejected", "Percent Rejected", "Female", "Male", "Other Gender")
+names(gatest9)<-names
+
+#Merge:
+gatest9<-dplyr::select(gatest9, -c(2:4))
+gatest6<-dplyr::select(gatest6, -c(2:4))
+gatest10<-left_join(gatest6, gatest9, by=c("County"="County"))
+gatest11<-left_join(gatest10, gatest3, by=c("County"="County"))
+gatest12<-data.frame(gatest11$County, round(gatest11[2:10], 2), round(gatest11[13:20], 2))
+names<-c("County", "18 to 24 Rejection Rate", "25 to 34 Rejection Rate", "35 to 44 Rejection Rate", "45 to 55 Rejection Rate", "56 to 65 Rejection Rate", "66 and Older Rejection Rate", "Female Rejection Rate", "Male Rejection Rate", "Other Gender Rejection Rate", "Percent Rejected", "American Indian or Alaskan Native Rejection Rate", "Asian or Pacific Islander Rejection Rate", "Black Rejection Rate", "Hispanic Rejection Rate", "Other Race Rejection Rate", "Race Unknown Rejection Rate", "White Rejection Rate")
+names(gatest12)<-names
+library(sp)
+library(raster)
+library(rgdal)
+gacounty <- readOGR("~/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/Georgia VBM Rejections General Election 2020/georgia_shapefile.shp", verbose=FALSE)
+setClass("num.with.commas")
+setAs("character", "num.with.commas", function(from) as.numeric(gsub(",", "", from) ) )
+gacounty$NAME = toupper(gacounty$NAME)
+gacounty <- merge(gacounty, gatest12, by.x ="NAME", by.y = "County")
+library(RColorBrewer)
+my.palette <- brewer.pal(n = 7, name = "Purples")
+library(sf)
+library(dplyr)
+library(spData)
+library(tmap)
+tmap_mode("view")
+tm_shape(gacounty) + tm_polygons(col = "Percent Rejected", palette = my.palette, popup.vars=c("Percent Rejected","American Indian or Alaskan Native Rejection Rate", "Asian or Pacific Islander Rejection Rate", "Black Rejection Rate", "Hispanic Rejection Rate", "Other Race Rejection Rate", "Race Unknown Rejection Rate", "White Rejection Rate",
+                                                                                              "18 to 24 Rejection Rate", "25 to 34 Rejection Rate", "35 to 44 Rejection Rate", "45 to 55 Rejection Rate", "56 to 65 Rejection Rate", "66 and Older Rejection Rate", 
+                                                                                              "Female Rejection Rate", "Male Rejection Rate", "Other Gender Rejection Rate"))
+```
