@@ -1665,3 +1665,1033 @@ ggplot(polbrut_map) + # use map of police brutality data
 The research question I am asking is: "Are Black Americans more likely than white Americans to be killed in instances of fatal police shootings?" To answer this question, I read in the data on fatal police shootings from the Washington Post. I then made a table of the frequencies of the killings by the victim's race, grouped by state. I then did some data wrangling to make the data look how I wanted it to and merged it with the US map data. Later, I found Census demographic data on the racial makeup of each state in 2019. I merged this with the data on police shootings to create a dataset that displays the percent of each racial population that was killed in a police shooting from 2015 to 2021. I also calculated the odds ratio of being killed as a Black American compared to as a White American in each state.
 
 Many more Black Americans are killed compared to white Americans in most states. The maximum percentage of white people killed in police shootings in a state from 2015-2021 was 0.0009% in Oklahoma, while the maximum percentage of black people killed in police shootings in a state from 2015-2021 was 0.0037% in Utah. Additionally, it is evident that the map of percent of Black Americans killed in police shootings by state is much darker than the map of percent of white Americans. Finally, my map of the odds of being killed as a Black American displays that in some states, Black Americans are up to 20 times more likely to be killed than white Americans. In sum, Black Americans are more likely than white Americans to be killed in instances of fatal police shootings, a fact that has gathered media attention in recent years and is indicative of a need for change in our policing system.
+
+# STA 4322: Intro to Statistics Theory, Fall 2020 {.tabset}
+## Homework \#1
+### Homework \#1
+#### September 28, 2020
+
+**(7.9)**  
+```{r 1 setup, echo=F, eval=F, results='hide'}
+```
+(a) 
+
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)$
+
+
+$=P(-0.3\leq\bar{Y}-\mu\leq0.3)$
+
+
+$=P(\frac{-0.3}{\frac{\sigma}{\sqrt{n}}}\leq\frac{\bar{Y}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq\frac{0.3}{\frac{\sigma}{\sqrt{n}}})$
+
+
+$=P(\frac{-0.3}{1}\sqrt{16}\leq Z\leq\frac{0.3}{1}\sqrt{16})$
+
+
+$=P(-1.2\leq Z\leq1.2)$
+
+
+$=P(Z\leq1.2)-P(Z\leq-1.2)$
+
+```{r 9a 1, echo=F, eval=T}
+pnorm(1.2)-pnorm(-1.2)
+```
+
+(b)  
+
+(i)  
+
+
+$E(T)=E(\frac{Z}{\sqrt{\frac{Y}{\nu}}})=E(Z)\cdot{\sqrt{\nu}}\cdot{E(\frac{1}{\sqrt{Y}}})$
+
+Using the result from part (a), $E(Z)=0$,
+
+$=0\cdot{\sqrt{\nu}}\cdot{E(Y^{\frac{-1}{2}}})$
+
+Using the result given in the textbook,
+
+$E(Y^{\frac{-1}{2}})=\frac{\Gamma(\frac{\nu}{2}-\frac{1}{2})}{\Gamma({\frac{\nu}{2}})}\cdot{2^{\frac{-1}{2}}}$
+
+Since $\frac{\nu}{2}-\frac{1}{2} > 0$ when $\nu > 1$, Gamma may be computed and it can be said that
+
+$E(T)=0$  
+  
+
+(ii)  
+
+
+$V(T)=E(T^2)-(E(T))^2=E(\frac{Z^2}{\frac{Y}{\nu}})-0$
+
+because $v > 2$, and thus the result from part (i) holds and $(E(T))^2=(0^2)=0$
+
+$=E(\frac{Z^2}{\frac{Y}{\nu}})=E(Z^2)\cdot{\nu}\cdot{E(Y^{-1})}$
+
+Using the result $E(Z^2)=1$ derived from part (a),
+
+$=1\cdot{\nu}\cdot{E(Y^{-1})}=\nu\cdot{\frac{\Gamma(\frac{\nu}{2}-1)}{\Gamma(\frac{\nu}{2})}}\cdot{2^{-1}}=\frac{\nu}{2}\cdot{\frac{\Gamma(\frac{\nu}{2}-1)}{\Gamma(\frac{\nu}{2})}}$
+
+If $v > 2$ then $\frac{\nu}{2}-1 > 0$ and
+
+$V(T)=\frac{\nu}{2}\cdot{\frac{\Gamma(\frac{\nu}{2}-1)}{(\frac{\nu}{2}-1)\Gamma(\frac{\nu}{2}-1)}}=\frac{\nu}{2(\frac{\nu}{2}-1)}=\frac{\nu}{\nu-2}$
+  
+
+**(7.33)**  
+```{r 2 setup, echo=F, eval=F, results='hide'}
+```
+By definition 7.2, we know that if $Z$ is a standard normal variable, $W$ is a $\chi^2$ variable with $\nu$ degrees of freedom, and $Z$ and $W$ are independent, $T$ has a $t$ distribution with $\nu$ degrees of freedom and:
+
+$T=\frac{Z}{\sqrt{\frac{W}{v}}}$
+
+
+$U=T^2=\frac{Z^2}{\frac{W}{v}}$
+
+Since it is known that $Z^2$ follows a $\chi^2$ distribution with $1$ degree of freedom,
+
+$U=T^2=\frac{\frac{Z^2}{1}}{\frac{W}{v}}$
+
+which means, by definition 7.3, that $T^2$ follows an $F$ distribution with $1$ numerator degrees of freedom and $\nu$ denominator degrees of freedom.
+
+## Homework \#2
+### Homework \#2
+#### September 28, 2020
+
+**(7.9)**  
+```{r 1 setup, echo=F, eval=F, results='hide'}
+```
+(a) 
+
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)$
+
+
+$=P(-0.3\leq\bar{Y}-\mu\leq0.3)$
+
+
+$=P(\frac{-0.3}{\frac{\sigma}{\sqrt{n}}}\leq\frac{\bar{Y}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq\frac{0.3}{\frac{\sigma}{\sqrt{n}}})$
+
+
+$=P(\frac{-0.3}{1}\sqrt{16}\leq Z\leq\frac{0.3}{1}\sqrt{16})$
+
+
+$=P(-1.2\leq Z\leq1.2)$
+
+
+$=P(Z\leq1.2)-P(Z\leq-1.2)$
+
+```{r 9a 2, echo=F, eval=T}
+pnorm(1.2)-pnorm(-1.2)
+```
+
+(b) Using the process outlined in part (a), for $n=25$ and $\sigma=1$:
+
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)=P(\frac{-0.3}{\sigma}\sqrt{n}\leq Z\leq\frac{0.3}{\sigma}\sqrt{n})$
+
+
+$=P(-0.3\sqrt{25}\leq Z\leq0.3\sqrt{25})=P(-1.5\leq Z\leq1.5)$
+
+```{r 9b1, echo=F, eval=T}
+pnorm(1.5)-pnorm(-1.5)
+```
+Repeating this process for $n=36$, $n=49$, and $n=64$, we obtain:
+```{r 9b2, echo=F, eval=T}
+pnorm(1.8)-pnorm(-1.8)
+pnorm(2.1)-pnorm(-2.1)
+pnorm(2.4)-pnorm(-2.4)
+```
+Thus,
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.8664$ when $n=25$
+
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.9282$ when $n=36$
+
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.9642$ when $n=49$
+
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.9836$ when $n=64$
+
+
+(c) I observe the pattern that probability increases as $n$ increases.
+
+(d) Yes, because in Example 7.3,
+
+$P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.95$ when $n=43$
+
+
+This $n$ value lies in between $n=36$ and $n=49$ and its probability $0.95$ also lies between $0.9282$ and $0.9642$, displaying the positive relationship discussed in part (c).
+
+**(7.20)**  
+```{r 2 setup, echo=F, eval=F, results='hide'}
+```
+(a) Since $U$ has a $\chi^2$ distribution with $\nu$ degrees of freedom, its probability density function is:
+
+$f_{\nu}(x)=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}$
+
+
+To find $E(U)$, we can use the fact that $E(U)=	\int_{0}^\infty xf_{\nu}(x)dx$ and solve:
+
+$E(U)=	\int_{0}^\infty x\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}dx$
+
+
+$=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu}{2}}e^{-\frac{x}{2}}dx$
+
+
+$=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu+2}{2}-1}e^{-\frac{x}{2}}dx$
+
+
+$=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})\int_{0}^\infty \frac{1}{2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})}x^{\frac{\nu+2}{2}-1}e^{-\frac{x}{2}}dx$
+
+Since $\frac{1}{2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})}x^{\frac{\nu+2}{2}-1}e^{-\frac{x}{2}}$ is the distribution function of a $\chi^2$ distribution with $\nu+2$ degrees of freedom, its integral is equal to $1$. Now,
+
+$E(U)=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})$
+
+
+$=2\frac{(\frac{\nu+2}{2}-1)!}{(\frac{\nu}{2}-1)!}$
+
+
+$=2\frac{\nu}{2}=\nu$
+
+Thus, $E(U)=\nu$. Now, we can find $E(U^2)$ in order to find $V(U)$:
+
+$E(U^2)=	\int_{0}^\infty x^2f_{\nu}(x)dx$
+
+
+$= \int_{0}^\infty x^2\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}dx$
+
+
+$=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu}{2}+1}e^{-\frac{x}{2}}dx$
+
+
+$=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu+4}{2}-1}e^{-\frac{x}{2}}dx$
+
+
+$=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})\int_{0}^\infty \frac{1}{2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})}x^{\frac{\nu+4}{2}-1}e^{-\frac{x}{2}}dx$
+
+Since $\frac{1}{2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})}x^{\frac{\nu+4}{2}-1}e^{-\frac{x}{2}}$ is the distribution function of a $\chi^2$ distribution with $\nu+4$ degrees of freedom, its integral is equal to $1$. Now,
+
+$E(U^2)=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})$
+
+
+$=4\frac{(\frac{\nu}{2}+1)!}{(\frac{\nu}{2}-1)!}$
+
+
+$=4(\frac{\nu}{2}+1)\frac{\nu}{2}$
+
+
+$E(U^2)=\nu^2+2\nu$
+
+Now we can solve for $V(U)$:
+
+$V(U)=E(U^2)-(E(U))^2$
+
+
+$=\nu^2+2\nu-(\nu)^2=2\nu$
+
+Thus, $V(U)=2\nu$.
+
+(b) According to Theorem 7.3, $\frac{n-1}{\sigma^2}S^2$ follows a $\chi^2$ distribution with $n-1$ degrees of freedom. Therefore,
+
+$E(\frac{n-1}{\sigma^2}S^2)=n-1=\frac{n-1}{\sigma^2}E(S^2)$
+
+
+$\frac{n-1}{E(S^2)}=\frac{n-1}{\sigma^2}$
+
+
+$E(S^2)=\sigma^2$
+
+We can find $V(S^2)$ using the same method:
+
+$V(\frac{n-1}{\sigma^2}S^2)=2(n-1)=\frac{(n-1)^2}{\sigma^4}V(S^2)$
+
+
+$\frac{2(n-1)}{V(S^2)}=\frac{(n-1)^2}{\sigma^4}V(S^2)$
+
+
+$V(S^2)=\frac{2\sigma^4}{n-1}$
+
+## Homework \#3
+### Homework \#3
+#### October 7, 2020
+
+**(8.12)**  
+```{r 1 setup, echo=F, eval=F, results='hide'}
+```
+(a) To prove that $\bar{Y}$ is a biased estimator of $\theta$, we can compute $E(\bar{Y})$:
+
+$E(\bar{Y})=E(\frac{\sum_{i=1}^{n} Y_i}{n})=\frac{1}{n}\sum_{i=1}^n E(Y_i)$
+
+
+We know that the expected value of a uniform variable is the midpoint between its upper and lower bounds:
+
+$E(Y_i)=\frac{\theta + \theta +1}{2}=\frac{2\theta +1}{2}=\theta +\frac{1}{2}$
+
+
+Thus, we can write:
+
+$E(\bar{Y})=\frac{1}{n}n(\theta +\frac{1}{2})=\theta +\frac{1}{2}$
+
+
+Since $\theta +\frac{1}{2}\neq \theta$, $\bar{Y}$ is a biased estimator of $\theta$. The bias is:
+
+$B(\bar{Y})=E(\bar{Y})-\theta =\theta +\frac{1}{2}-\theta$
+
+
+$B(\bar{Y})=\frac{1}{2}$
+
+
+(b) To find a function of $\bar{Y}$ that is an unbiased estimator of $\theta$, we should check $\bar{Y}-\frac{1}{2}$:
+
+$E(\bar{Y}-\frac{1}{2})=E(\bar{Y})-E(\frac{1}{2})$
+
+
+From part (a), we know $E(\bar{Y})=\theta + \frac{1}{2}$:
+
+$=\theta +\frac{1}{2}-\frac{1}{2}=\theta$
+
+
+Thus, $\bar{Y}-\frac{1}{2}$ is an unbiased estimator for $\theta$.
+
+(c) By the definition of a uniform variable, we know that:
+
+$V(Y_i)=\frac{(\theta +1-\theta)^2}{12}=\frac{1^2}{12}=\frac{1}{12}$
+
+
+Thus, the variance of $\bar{Y}$ is:
+
+$V(\bar{Y})=\frac{V(Y)}{n}=\frac{1 \mathbin{/} 12}{n}=\frac{1}{12n}$
+
+
+We can now calculate $MSE(\bar{Y})$:
+
+$MSE(\bar{Y})=V(\bar{Y})+(B(\bar{Y}))^2=\frac{1}{12n}+(\frac{1}{2})^2=\frac{1}{12n}+\frac{1}{4}$
+
+
+$MSE(\bar{Y})=\frac{1+3n}{12n}$
+
+
+**(8.13)**  
+```{r 2 setup, echo=F, eval=F, results='hide'}
+```
+(a) We can show that the suggested estimator is a biased estimator of $V(Y)$ by finding its expected value:
+
+$E(n\frac{Y}{n}(1-\frac{Y}{n}))=nE(\frac{Y}{n}-\frac{Y^2}{n^2})$
+
+
+$=nE(\frac{Y}{n})-nE(\frac{Y^2}{n^2})=np-\frac{1}{n}E(Y^2)$
+
+
+We now need to find $E(Y^2)$.
+
+$E(Y^2)=V(Y)+(E(Y))^2=np(1-p)+(np)^2=np(1-p)+n^2p^2$
+
+
+We now may continue with the calculation of $E(n\frac{Y}{n}(1-\frac{Y}{n}))$:
+
+$E(n\frac{Y}{n}(1-\frac{Y}{n}))=np-\frac{1}{n}(np(1-p)+n^2p^2)=np-p(1-p)-np^2=np(1-p)-p(1-p)$
+
+
+Because $np(1-p)-p(1-p)\neq np(1-p)$, the estimator is biased.
+
+(b) We can solve for variable $a$ to form an unbiased estimator for $V(Y)$:
+
+$aE(n\frac{Y}{n}(1-\frac{Y}{n}))=np(1-p)$
+
+
+$a(np(1-p)-p(1-p))=np(1-p)$
+
+
+$a((n-1)p(1-p))=np(1-p)$
+
+
+$a=\frac{n}{(n-1)}$
+
+
+We can confirm that $E(\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n}))=V(Y)$:
+
+$E(\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n}))=\frac{n}{(n-1)}E(\frac{Y}{n}(1-\frac{Y}{n}))=\frac{n}{(n-1)}(n-1)p(1-p)=np(1-p)$
+
+
+Thus, $\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n})$ is an unbiased estimator of $V(Y)$.
+
+## Homework \#4
+### Homework \#4
+#### October 21, 2020
+
+**(8.65)**  
+```{r 1 setup, echo=F, eval=F, results='hide'}
+```
+(a) A 98% confidence interval for the true difference in proportions for defectives in the two lines can be calculated using the following formula:
+
+$\hat{p}_A-\hat{p}_B\pm z_{\frac{0.02}{2}}\sqrt{\frac{\hat{p}_A(1-\hat{p}_A)}{n_A}+\frac{\hat{p}_B(1-\hat{p}_B)}{n_B}}$
+
+
+We know that $n_A=n_B=100$, and we can determine from information given to us that $\hat{p}_A=\frac{18}{100}=0.18$ and $\hat{p}_B=\frac{12}{100}=0.12$. Furthermore, we can use R to calculate $z_{\frac{0.02}{2}}$:
+```{r 1 z score, echo=F, eval=T}
+qnorm(0.99)
+```
+Now, we can compute our confidence interval by plugging these estimates into the formula stated previously:
+
+$0.18-0.12\pm 2.33\sqrt{\frac{0.18(1-0.18)}{100}+\frac{0.12(1-0.12)}{100}}$
+
+
+Thus, our 98% confidence interval for $p_A-p_B$ is:
+
+$(-0.06, 0.18)$
+
+
+(b) No, there is not evidence to suggest that one line produces a higher proportion of defectives than the other because the 98% confidence interval $(-0.06, 0.18)$ contains 0.
+
+**(8.90)**  
+```{r 2 setup, echo=F, eval=F, results='hide'}
+```
+(a) A 95% confidence interval for the difference in average verbal scores of students majoring in engineering and of those majoring in language/literature can be calculated using the following formula:
+
+$\bar{y}_E-\bar{y}_L\pm t_{\frac{0.05}{2}, n_E+n_L-2}\cdot s_p\sqrt{\frac{1}{n_E}+\frac{1}{n_L}}$
+
+
+where $s_p$ is equal to:
+
+$s_p=\sqrt{\frac{(n_E-1)s^2_E+(n_L-1)s^2_L}{n_E+n_L-2}}$
+
+
+We know from the table that $\bar{y}_E=446$, $\bar{y}_L=534$, $s_E=42$, and $s_L=45$. We also know that $n_E=n_L=15$. We can now calculate $s_p$:
+
+$s_p=\sqrt{\frac{(15-1)(42)^2+(15-1)(45)^2}{15+15-2}}=43.53$
+
+
+Furthermore, we can calculate $t_{0.025, 28}$ using R:
+```{r 2a t score, echo=F, eval=T}
+qt(0.975, 28)
+```
+Now, we can compute our confidence interval by plugging these estimates into the formula stated previously:
+
+$446-534\pm 2.05\cdot 43.53\sqrt{\frac{1}{15}+\frac{1}{15}}$
+
+
+Thus, our 95% confidence interval for $\mu_E-\mu_L$ is:
+
+$(-120.56, -55.44)$
+
+
+(b) A 95% confidence interval for the difference in average math scores of students majoring in engineering and of those majoring in language/literature can be calculated using the formula used in part (a). We know from the table that $\bar{y}_E=548$, $\bar{y}_L=517$, $s_E=57$, and $s_L=52$. We also know that $n_E=n_L=15$. We can now calculate $s_p$:
+
+$s_p=\sqrt{\frac{(15-1)(57)^2+(15-1)(52)^2}{15+15-2}}=54.56$
+
+
+Furthermore, we know from part (a) that $t_{0.025, 28}=2.05$. Now, we can compute our confidence interval by plugging these estimates into the formula stated previously:
+
+$548-517\pm 2.05\cdot 54.56\sqrt{\frac{1}{15}+\frac{1}{15}}$
+
+
+Thus, our 95% confidence interval for $\mu_E-\mu_L$ is:
+
+$(-9.81, 71.81)$
+
+
+(c) We are 95% confident that the true mean verbal scores of students majoring in engineering and of those majoring in language/literature differ. This is because the interval obtained in part (a) does not include 0. However, we are 95% confident that the true mean math scores of students majoring in engineering and of those majoring in language/literature do not differ. This is because the interval obtained in part (b) does include 0.
+
+(d) For the methods used in this question to be valid, we must assume that the samples are taken independently from a normal population and that $\sigma_E=\sigma_L$.
+
+## Homework \#5
+### Homework \#5
+#### November 20, 2020
+
+**(9.17)**  
+```{r 1 setup, echo=F, eval=F, results='hide'}
+```
+To show that $\bar{X}-\bar{Y}$ is a consistent estimator of $\mu_1-\mu_2$, we must first show that it is unbiased:
+
+$E(\bar{X}-\bar{Y})$
+
+
+Because $X_1, X_2, ..., X_n$ and $Y_1, Y_2, ..., Y_n$ are independent, we can write:
+
+$E(\bar{X}-\bar{Y})=E(\bar{X})-E(\bar{Y})$
+
+
+Since we know that $\bar{X}$ and $\bar{Y}$ are unbiased estimators for $\mu_1$ and $\mu_2$, we can write:
+
+$E(\bar{X}-\bar{Y})=\mu_1-\mu_2$
+
+
+and $\bar{X}-\bar{Y}$ is an unbiased estimator of $\mu_1-\mu_2$. Now, we must compute $\lim_{n \to \infty} Var(\bar{X}-\bar{Y})$ to show consistency. Because $X_1, X_2, ..., X_n$ and $Y_1, Y_2, ..., Y_n$ are independent:
+
+$Var(\bar{X}-\bar{Y})=Var(\bar{X})+Var(\bar{Y})$
+
+
+$Var(\bar{X})+Var(\bar{Y})=Var(\Sigma^n_{i=1}\frac{X_i}{n})+Var(\Sigma^n_{i=1}\frac{Y_i}{n})$
+
+
+Because $X_i$'s and $Y_i$'s are independent,
+
+$=\frac{1}{n^2}\Sigma^n_{i=1}Var(X_i)+\frac{1}{n^2}\Sigma^n_{i=1}Var(Y_i)$
+
+
+$=\frac{1}{n^2}\cdot (n\sigma^2_1 + n\sigma^2_2)$
+
+
+$Var(\bar{X}-\bar{Y})=\frac{\sigma^2_1+\sigma^2_2}{n}$
+
+
+We can now solve for the limit as $n$ goes to infinity:
+
+$\lim_{n \to \infty} Var(\bar{X}-\bar{Y})=\lim_{n \to \infty} \frac{\sigma^2_1+\sigma^2_2}{n}=0$
+
+
+because $\frac{1}{n}\longrightarrow 0$ as $n\longrightarrow \infty$. Therefore, $\bar{X}-\bar{Y}$ is a consistent estimator of $\mu_1-\mu_2$.
+
+**(9.18)**  
+```{r 2 setup, echo=F, eval=F, results='hide'}
+```
+As done in the previous problem, to show that the estimator is consistent, we will first show that the estimator is unbiased for $\sigma^2$:
+
+$E(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})$
+
+
+$=\frac{1}{2n-2}E(\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2)$
+
+
+Since the samples are independent,
+
+$=\frac{1}{2n-2}(E(\Sigma^n_{i=1}(X_i-\bar{X})^2)+E(\Sigma^n_{i=1}(Y_i-\bar{Y})^2))$
+
+
+Since we know that:
+
+$E(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)=E(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2)=\sigma^2$
+
+
+We can say that:
+
+$E(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})=\frac{1}{2n-2}((n-1)\sigma^2+(n-1)\sigma^2)=\sigma^2$
+
+
+so the estimator is unbiased. We will continue by finding the variance:
+
+$Var(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})$
+
+
+$=\frac{1}{(2n-2)^2}Var(\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2)$
+
+
+Again, since the samples are independent, we can say:
+
+$=\frac{1}{(2n-2)^2}(Var(\Sigma^n_{i=1}(X_i-\bar{X})^2)+Var(\Sigma^n_{i=1}(Y_i-\bar{Y})^2))$
+
+
+$=\frac{(n-1)^2}{(2n-2)^2}(Var(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)+Var(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2))$
+
+
+Since we know that $Var(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)=s^2_X$ and $Var(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2)=s^2_Y$ are consistent estimators for $\sigma^2$, we can say:
+
+$\lim_{n \to \infty} Var(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)=\lim_{n \to \infty} Var(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2)=0$
+
+
+and because $\lim_{n \to \infty} \frac{(n-1)^2}{(2n-2)^2}=\frac{1}{4}$ is finite:
+
+$\lim_{n \to \infty} Var(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})=0$
+
+
+Thus, this is a consistent estimator for $\sigma^2$. 
+
+## Homework \#6
+### Homework \#6
+#### December 2, 2020
+
+**(9.39)**  
+```{r 1 setup, echo=F, eval=F, results='hide'}
+```
+We know that $Y_1, Y_2,..., Y_n$ is a random sample from a Poisson distribution with parameter $\lambda$. We will now prove that $\sum_{i=1}^nY_i$ is a sufficient statistic:
+
+$f(y_1, y_2,...,y_n|\sum_{i=1}^nY_i)=\frac{f(y_1, y_2,...,y_n, \sum_{i=1}^nY_i=t)}{P(\sum_{i=1}^nY_i=t)}$
+
+
+$=\frac{f(y_1, y_2,...,y_n,t-\sum_{i=1}^{n-1}y_i)}{P(\sum_{i=1}^nY_i=t)}$
+
+
+The numerator of this equation is:
+
+$f(y_1, y_2,...,y_n,t-\sum_{i=1}^{n-1}y_i)=e^{-\lambda}\frac{\lambda^{t-\Sigma_{i=1}^{n-1}y_i}}{(t-\sum_{i=1}^{n-1}y_i)!}\cdot \prod^{n-1}_{i=1}e^{-\lambda}\frac{\lambda^{y_i}}{(y_i)!}$
+
+
+$=e^{-\lambda}\frac{\lambda^{t-\Sigma_{i=1}^{n-1}y_i}}{(t-\sum_{i=1}^{n-1}y_i)!}\cdot e^{(n-1)\lambda}\frac{\lambda^{\Sigma_{i=1}^{n-1}y_i}}{\prod_{i=1}^{n-1}(y_i)!}$
+
+
+$=e^{-n\lambda}\frac{\lambda^t}{(t-\sum_{i=1}^{n-1}y_i)!\prod_{i=1}^{n-1}(y_i)!}$
+
+
+To calculate the denominator, we can use the fact that $\sum_{i=1}^nY_i$ follows a $Poisson(n\lambda)$ distribution when $Y_1, Y_2,..., Y_n$ are iid with parameter $\lambda$. 
+
+$P(\sum_{i=1}^nY_i=t)=e^{-n\lambda}\frac{\lambda^t}{t!}$
+
+
+Now, we can divide the two to solve:
+
+$f(y_1, y_2,...,y_n|\sum_{i=1}^nY_i)=\frac{e^{-n\lambda}\frac{\lambda^t}{(t-\sum_{i=1}^{n-1}y_i)!\prod_{i=1}^{n-1}(y_i)!}}{e^{-n\lambda}\frac{\lambda^t}{t!}}$
+
+
+$=\frac{t!}{(t-\sum_{i=1}^{n-1}y_i)!\prod_{i=1}^{n-1}(y_i)!}$
+
+
+Since this is free of the parameter $\lambda$, $\sum_{i=1}^nY_i$ is a sufficient statistic for $\lambda$ by the definition of sufficiency.
+
+**(9.64)**  
+```{r 2 setup, echo=F, eval=F, results='hide'}
+```
+(a) We know that $Y_1, Y_2,..., Y_n$ is a random sample from a normal distribution with mean $\mu$ and variance $1$. We can also say that
+
+$\bar{Y}\sim N(\mu, \frac{1}{n})$
+
+
+To find the MVUE of $\mu^2$, we must first find an unbiased estimator of $\mu^2$. Let's try $\bar{Y}^2$:
+
+$E(\bar{Y}^2)=Var(\bar{Y})+(E(\bar{Y}))^2$
+
+
+$=\frac{1}{n}+\mu^2$
+
+
+Subtracting $\frac{1}{n}$ from both sides, we have:
+
+$E(\bar{Y}^2-\frac{1}{n})=\mu^2$
+
+
+Since we know that $\bar{Y}$ is a sufficient stastic for $\mu$, we can also say that it is a sufficient statistic for $\mu^2$. Now, since the unbiased estimator we found above is a function of a sufficient statistic, by the Rao-Blackwell theorem we know that $\hat{\mu}^2=\bar{Y}^2-\frac{1}{n}$ is the MVUE for $\mu^2$.
+
+(b) To find the variance of $\hat{\mu}^2$, we can write:
+
+$Var(\bar{Y}^2-\frac{1}{n})=Var(\bar{Y}^2)=E(\bar{Y}^4)-(E(\bar{Y}^2))^2=E(\bar{Y}^4)-(\frac{1}{n}+\mu^2)^2$
+
+
+Using the MGF, we can find $E(\bar{Y}^4)$:
+
+$E(\bar{Y}^4)=\frac{3}{n^2}+\frac{6\mu^2}{n}+\mu^2$
+
+
+Thus, the variance is
+
+$Var(\hat{\mu}^2)=Var(\bar{Y}^2-\frac{1}{n})=\frac{3}{n^2}+\frac{6\mu^2}{n}+\mu^2-(\frac{1}{n}+\mu^2)^2$
+
+
+$=\frac{(2+4n\mu^2)}{n^2}$
+
+# STA 4504: Categorical Data Analysis, Spring 2020 {.tabset}
+## Homework \#3
+### Homework \#3
+#### April 8, 2020
+
+**(1)**
+```{r setup 4504, results='asis', message=F, warning=F}
+crossover = matrix(c(833, 125, 2, 160), 2, 2, byrow=TRUE, dimnames=list("Believe in Heaven"=c("Yes","No"), "Believe in Hell" = c("Yes","No")))
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(crossover, "latex", booktabs = T) %>% kable_styling(position="center") %>% add_header_above(c("Believe in Heaven" = 1, "Believe in Hell" = 2))
+```
+(a) Our hypotheses are:
+\begin{center}
+$H_0: \pi_{1+} = \pi_{+1}$ versus
+$H_0: \pi_{1+} \neq \pi_{+1}$
+\end{center}  
+
+We can get the test statistic using the following formula:
+\begin{center}
+$z=\frac{n_{12}-n_{21}}{\sqrt{n_{12}+n_{21}}}$
+\end{center}  
+```{r 1a 4504, }
+mcnemar.test(crossover, correct=FALSE)
+```
+Because our P-value is extremely small, we reject the null hypothesis and conclude that the population proportions answering yes for belief in heaven and hell were not identical.
+
+(b) We can obtain a 95% Wald confidence interval for the difference between the two population proportions via:
+\begin{center}
+$\frac{n_{12}-n_{21}}{n} \pm z_{1-\alpha/2}\frac{1}{n}\sqrt{n_{12}+n_{21}-\frac{(n_{12}-n_{21})^2}{n}}$
+\end{center}  
+```{r 1b 4504, }
+est = (125-2)/(833+125+2+160)
+z = 1.96
+SE = (1/(833+125+2+160))*sqrt(125+2-((125-2)^2)/(833+125+2+160))
+ci = c(est - z*SE, est + z*SE)
+ci
+```
+Our confidence interval (0.0912, 0.128) does not include 0 and thus concurs with our results from part (a).
+
+(c) (i) We can estimate the odds ratio for a marginal model by using the marginal table:
+```{r 1ci pt 1 4504, , results='asis', message=F, warning=F}
+crossovermarg = matrix(c(958, 162, 835, 285), 2, 2, byrow=TRUE)
+rownames(crossovermarg) = c("Heaven", "Hell")
+colnames(crossovermarg) = c("Yes", "No")
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(crossovermarg, "latex", booktabs = T) %>% kable_styling(position="center")
+```
+
+\begin{center}
+$\hat{\beta}=log(\frac{n_{11}n_{22}}{n_{12}n_{21}})=log(\frac{(958)(285)}{(162)(835)})$
+\end{center}  
+
+```{r 1ci pt 2 4504, }
+log((958*285)/(162*835))
+```
+This means that the sample log odds ratio of believing in heaven over believing in hell is 0.7023.
+
+(ii) We can estimate the odds ratio for a subject specific model by:
+\begin{center}
+$\hat{\beta}=log(\frac{n_{12}}{n_{21}})=log(\frac{(125)}{(2)})$
+\end{center}  
+```{r 1cii 4504, }
+log((125)/(2))
+```
+This is the log odds ratio of believing in heaven over hell conditional on subject *i*.
+
+(d) Under $H_0$ or marginal homogeneity, $\frac{\pi_{12}}{\pi_{12}+\pi_{21}}=\frac{1}{2}$ and therefore $n_{12}\sim{Bin(n^*, 0.5)}$. We can now find an exact p-value to test these hypotheses using:
+\begin{center}
+$P(n_{12}\ge{125})=\binom{127}{125}(0.5)^{125}(0.5)^{2}+\binom{127}{126}(0.5)^{126}(0.5)^{1}+\binom{127}{127}(0.5)^{127}(0.5)^{0}=(\binom{127}{125}+\binom{127}{126}+\binom{127}{127})(0.5)^{127}$
+\end{center}  
+```{r 1d 4504, echo=F, eval=T}
+(choose(127, 125)+choose(127, 126)+choose(127, 127))*(0.5^127)
+```
+This p-value is extremely small and concurs with our previous results.
+
+**(2)** (a) It makes more sense to use a GLMM, the random effects model, since there are cluster-specific effects that follow a known distribution.
+
+(b) 
+```{r 2b 4504, results='hide', message=F, warning=F}
+library(gee)
+library(lme4)
+library(Matrix)
+number = c(1,2,3,4,5,6,7,8,9,10)
+heads = c(2,4,1,3,3,5,4,2,3,1)
+flips = c(rep(5,10))
+coin = data.frame(number=number, heads=heads, flips=flips)
+lmeMod = glmer(cbind(heads, flips-heads) ~ 1 + (1|number), family=binomial, data=coin)
+```
+```{r 2b pt 2, echo=F, results='asis', message=F, warning=F}
+FV = fitted(lmeMod)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(FV, "latex", booktabs = T) %>% kable_styling(position="center")
+```
+(c)  
+```{r 2c 4504, echo=F, fig.align="center", fig.width=4, fig.height=4}
+observed = coin$heads / coin$flips
+plot(FV, observed, xlab="Fitted values", ylab="Sample proportions", main="Shrinkage of estimated probabilities", xlim=c(0, 1), ylim=c(0, 1))
+abline(0,1)
+```
+I see that the predicted probabilities are concentrated around the overall mean.
+
+(d) The MSE of our estimated probabilities is:  
+```{r 2d 4504, echo=F, eval=T}
+MSEfv = (mean((FV-0.5)^2))
+MSEfv
+```
+And the MSE of the sample proportions is:
+```{r 2d pt 2 4504, echo=F, eval=T}
+MSEphats = (mean((observed-0.5)^2))
+MSEphats
+```
+
+**(3)** (a)  
+```{r 3a 4504, echo=F, eval=T, results='hide'}
+teens <- array(c(911,44,3,2, 538,456,43,279),
+        dim = c(2,2,2),
+        dimnames = list(cigs=c("yes","no"),
+                        alc=c("yes","no"), mj=c("yes","no")))
+teens <- as.table(teens)
+ftable(teens, row.vars=c("alc","cigs"))
+```
+```{r 3a pt 2 4504, echo=F, eval=T, results = 'hide', message=F}
+library(gee)
+teens.df=as.data.frame(teens)
+person = rep(1:sum(teens.df$Freq), each=3)
+drug = rep(1:3, rep(sum(teens.df$Freq)))
+outcome = c(rep(c(1,1,1), 911),
+            rep(c(0,1,1), 44),
+            rep(c(1,0,1), 3),
+            rep(c(0,0,1), 2),
+            rep(c(1,1,0), 538),
+            rep(c(0,1,0), 456),
+            rep(c(1,0,0), 43),
+            rep(c(0,0,0), 279))
+longData = data.frame(person=person, drug=drug, outcome=outcome)
+mod1 = gee((outcome == 1) ~ (drug == 2) + (drug == 3), id=person, data=longData, family=binomial)
+```
+```{r 3a pt 3 4504, echo=F, eval=T}
+coefficients(mod1)
+estbeta2 = summary(mod1)$coefficients[2, 1] 
+estbeta3 = summary(mod1)$coefficients[3, 1]
+z = 1.96
+SEbeta2 = summary(mod1)$coefficients[2, 4] 
+SEbeta3 = summary(mod1)$coefficients[3, 4]
+cibeta2 = c(estbeta2 - z*SEbeta2, estbeta2 + z*SEbeta2)
+cibeta2
+cibeta3 = c(estbeta3 - z*SEbeta3, estbeta3 + z*SEbeta3)
+cibeta3
+```
+From the output above, we can determine that the estimates of $\beta_2$ and $\beta_3$ are 1.136 and -0.965, respectively. The 95% confidence intervals using the robust SE are (1.025, 1.246) and (-1.047, -0.882). Since $\beta_2=1.136$, this can be interpreted as: the estimated log odds of a student using alcohol versus not using alcohol are $e^{1.136}=3.114$.
+
+(b) We cannot conduct a likelihood ratio test to test $H_0: \beta_2=\beta_3=0$ because GEEs do not assign a likelihood to the data. 
+
+(c)  
+```{r 3c 4504, echo=F, eval=T}
+lmeMod=glmer((outcome == 1) ~ (1|person) + (drug == 2) + (drug == 3), data=longData, family=binomial)
+fixef(lmeMod)
+```
+Since $\beta_3^*=-2.169$, this can be interpreted as: the log odds of a student using marijuana versus not using marijuana, conditional on the student, are estimated to be $e^{-2.169}=0.114$.
+
+(d) To conduct a likelihood ratio test for $H_0: \beta_2^*= \beta_3^*=0$, we must fit a null model that includes only the random effects term, then compute the test statistic $Dev_{0}-Dev_{1}$ and test its significance using a chi-squared test with 2 degrees of freedom.
+```{r 3d 4504, echo=F, eval=T, message=F}
+library(lmtest)
+nullMod=glmer((outcome == 1) ~ (1|person), data=longData, family=binomial)
+anova(nullMod, lmeMod, test="Chisq")
+```
+Since our p-value is extremely small, we reject the null hypothesis and conclude that one or both of the terms do(es) not equal zero.
+
+(e) Our estimate of $\hat{\sigma}_u^2$ is:  
+```{r 3e 4504, echo=F, eval=T}
+print(VarCorr(lmeMod),comp="Variance")
+```
+This value seems large, implying that there is high correlation between subjects and large amounts of variability across subjects.
+
+(f) A large value of $\hat{u}_i$ would represent a large random effect for subject *i*, meaning that the intercept for the subject deviates greatly from the overall intercept.
+
+(g) No, the estimates of $(\beta_2, \beta_3)$ and $(\beta_2^*, \beta_3^*)$ are not similar because they are estimating different quantities and there is a large amount of variability across subjects.
+
+## Homework \#4
+### Homework \#4
+#### April 22, 2020
+
+
+**(1)**  
+```{r 4504 1 setup,  eval=T, results='hide'}
+income=c(3,10,20,30)
+jobsat=c("VD","LD","MS","VS")
+table.sat=expand.grid(income=income,jobsat=jobsat)
+counts=c(2,2,0,0,4,6,1,3,13,22,15,13,3,4,8,8)
+table.sat=cbind(table.sat,count=counts)
+jobsat.ind=glm(count~factor(income)+jobsat,family=poisson(link=log),data=table.sat)
+```
+(a) Yes, we can perform a goodness of fit test comparing this model to the saturated model to test   whether income and job satisfaction are independent. Our hypotheses are:
+
+$H_0:\lambda_{ij}^{IS}=0$ versus
+$H_A:\lambda_{ij}^{IS}\neq{0}$
+
+In this case, our observed test statistic is the residual deviance from the model, 13.467. The probability of obtaining a test statistic this large or larger from a chi-squared distribution with 9 degrees of freedom is 0.14. This is greater than $\alpha=0.05$; thus, we fail to reject the null hypothesis that income and job satisfaction are independent.
+
+```{r 4504 1a,  eval=T, results='hide'}
+1-pchisq(13.467, 9)
+```
+
+(b)
+
+(i) The model is still valid; however, our estimates may be less efficient. Independence might be too strong of an assumption.  
+(ii) It could be a good thing to incorporate the ordinality of these variables to increase the efficiency of our estimates. Incorporating the ordinality of the data would provide us with a model that does not have an overabundance of parameters, but also does not assume independence.  
+
+(c)
+
+(i) Our model would be:
+
+$log(\mu_{ij})=\lambda+\lambda_i^I+\lambda_j^S+\beta{u_iv_j}$
+
+where $i=1,2,3,4$ and $j=1,2,3,4$. The coefficients are:
+
+```{r 4504 1ci,  eval=T}
+table.sat$jobsat.ord = c((rep(1, 4)), rep(2, 4), rep(3, 4), rep(4, 4))
+table.sat$income.ord = c((rep(1:4, 4)))
+jobsat.ordmod = glm(count ~ factor(income) + factor(jobsat) + income.ord:jobsat.ord, family = poisson(link = log), data = table.sat)
+coef(jobsat.ordmod)
+```
+
+(ii) Our hypotheses are:
+
+$H_0:\beta=0$ versus
+$H_A: \beta\neq{0}$
+
+When we run a likelihood ratio test comparing the model with $\beta$ to the model without it, we obtain a test statistic of 8.103. On a chi-squared distribution with 1 degree of freedom, the probability of obtaining results as or more extreme that the ones we have is 0.004. This is less than $\alpha=0.05$, so we reject the null hypothesis and conclude that $\beta$ should be included in the model.
+
+```{r 4504 1cii,  eval=T, message=F, warning=F, results='hide'}
+anova(jobsat.ind, jobsat.ordmod, test="Chisq")
+```
+
+(iii) Yes; because the goodness of fit test comparing the model with the $\beta$ term to the model without the $\beta$ term was significant, we know that independence likely does not hold in this dataset. It is quite possible that income and job satisfaction are linearly related.  
+(iv) The hypotheses are:
+
+$H_0:\lambda_{ij}^{IS}=0$ versus
+$H_A:\lambda_{ij}^{IS}\neq{0}$
+
+We can run a goodness of fit test comparing our ordinal model with the saturated model. Our test statistic is 5.36. On a chi-squared distribution with 8 degrees of freedom, our p-value is 0.718. This is fairly large, so we fail to reject the null hypothesis that $\lambda_{ij}^{IS}=0$. The degrees of freedom of the test statistic is 8 because there are 8 additional parameters in the saturated model. The saturated model has $(n-1)=16-1=15$ parameters, which includes all of the parameters that the ordinal model has as well as 9 interaction terms. The ordinal model also has one parameter that the saturated model does not: the $\beta$ term. Therefore, the degrees of freedom are 8.  
+
+```{r 4504 1civ,  eval=T, results='hide'}
+1-pchisq(5.3644, 8)
+```
+
+(d)  
+
+```{r 4504 1d,  eval=T, results='asis', warning=F, message=F}
+jobsat.sat = glm(count ~ factor(income)*jobsat, family = poisson(link = log), data=table.sat)
+jobsatdata = data.frame(fitted(jobsat.ind), type="response")
+jobsatdata = cbind(jobsatdata, fitted(jobsat.ordmod), type="response")
+jobsatdata = cbind(jobsatdata, fitted(jobsat.sat), type="response")
+jobsatdata = subset(jobsatdata, select = c("fitted.jobsat.ind.", "fitted(jobsat.ordmod)", "fitted(jobsat.sat)"))
+jobsatdata = signif(jobsatdata, 3)
+jobsatdata = cbind(table.sat[,c("income","jobsat")], jobsatdata)
+names(jobsatdata) = c("Income","Job Satisfaction","Independence","Ordinal","Saturated")
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(jobsatdata, "latex", booktabs = T) %>% kable_styling(position="center")
+```
+
+(e) Based off of our analyses, I believe that income and job satisfaction are not independent. The ordinal term that we added seemed to improve our predictions based on the fitted counts from our table in part (d). Furthermore, when we used a likelihood ratio test to compare the ordinal model to the independence model, our results were significant, meaning that $\beta$ should be included in the model and that income and job satisfaction are not independent.
+
+**(2)**
+```{r 4504 2,  eval=F}
+```
+(a) The loglinear models that correspond to this independence graph are: $(AB, AC, BC, CD, DE, DF, EF)$, $(AB, AC, BC, CD, DEF)$, $(ABC, CD, DE, DF, EF)$, and $(ABC, CD, DEF)$.
+(b) No, $B$ and $F$ are not independent, but rather conditionally independent because they are connected by a path in the independence graph.
+(c) Yes, $A$ and $E$ are conditionally independent given $D$, as well as given $(B, C, D, F)$, $(B, C, D)$, $(C, D, F)$, $(C,D)$, or $C$.
+(d) Yes, results would differ between the two models. Since the second model is the homogeneous model, no pair of variables is conditionally independent. Collapsibility conditions are not met and the marginal association between $A$ and $B$ from the second model would be different from the first model. 
+(e) Yes, the conditional association between $B$ and $C$, conditional on $A$, is collapsible over $(D, E, F)$ because the conditional associations between $A$ and $B$ and  between $A$ and $C$ are the same when collapsed over $(D, E, F)$.
+(f) Yes; $X$ and $Z$ are conditionally independent given $(Y, W)$, $Y$, and $W$.  
+
+**(3)**
+```{r 4504 3,  eval=F}
+```
+(a) Our estimate for $\beta$ is $\hat{\beta}=0.466$. The 95% Wald confidence interval, using the robust standard error, is $(0.086, 0.845)$.
+
+```{r 4504 3 setup,  eval=T, results='hide'}
+problem3 = read.table(file="~/Desktop/Sara's Folder/UF Year 2/Spring 2020/STA 4504/Exam 3/problem3.txt")
+```
+```{r 4504 3a,  eval=T, message=F, warning=F, results='hide'}
+library(gee)
+mod1 = gee(Y ~ x, id=id, family=binomial, data=problem3)
+```
+```{r 4504 3a pt 2,  eval=T, message=F, warning=F, results='hide'}
+coefficients(mod1)
+betahat = summary(mod1)$coefficients[2, 1] 
+SEbetahat = summary(mod1)$coefficients[2, 4]
+z = 1.96
+cibetahat = c(betahat - z*SEbetahat, betahat + z*SEbetahat)
+cibetahat
+```
+
+(b) Judging by the output in part (a), I think the GEE was needed. Our GEE used an independence correlation structure and assumed that there was no correlation among outcomes. The robust standard error estimates are quite different from the naive estimates we would've gotten with a GLM, meaning that the GEE accounted for correlation in the data.
+
+(c) The estimate of the random effects variance $\hat{\sigma_u^2}=1.4771$.
+
+```{r 4504 3c,  eval=T, results='hide', warning=F, message=F}
+library(lme4)
+mod2 = glmer(Y ~ (1|id) + x, data=problem3, family=binomial)
+print(VarCorr(mod2),comp="Variance")
+```
+
+(d) The likelihood ratio test of $H_0: \beta^*=0$ versus $H_A: \beta^*\neq{0}$ provides us with a test statistic of 5.765. On a chi-squared distribution with 1 degree of freedom, the p-value is 0.01635. Since this is significant at $\alpha=0.05$, we reject the null hypothesis. There is significant evidence that $\beta^*\neq{0}$.
+
+```{r 4504 3d,  eval=F, results='hide'}
+nullMod=glmer(Y ~ (1|id), data=problem3, family=binomial)
+anova(nullMod, mod2, test="Chisq")
+```
+
+(e) 
+
+```{r 4504 3e,  eval=T, fig.align="center"}
+curve(exp(mod1$coefficients[1]+mod1$coefficients[2]*x)/(1+exp(mod1$coefficients[1]+mod1$coefficients[2]*x)), main="Predicted probability of success as a function of X", ylab="Predicted probability of success", xlab="X", lwd=2, xlim=c(-12,12), ylim=c(0,1))
+ssmods <- coef(mod2)$id
+names(ssmods)[1] <- "rand"
+names(ssmods)[2] <- "fixed"
+for(i in 1:43)
+{
+curve(exp(ssmods$rand[i]+ssmods$fixed[i]*x)/(1+exp(ssmods$rand[i]+ssmods$fixed[i]*x)), lty=3, add = TRUE)
+}
+legend("bottomright", c("Model 1 (GEE)","Model 2 (GLMM)"), lwd=2:1, lty=c(1,3))
+```
+(f) The GEE might be preferred over a GLMM because GLMMs assume that the random effects follow a known probability distribution, typically a normal distribution, which might not be the case.  
+
+**(4)**
+```{r 4504 4, echo=F, eval=F}
+```
+(a) I think that this model will not fit the data well, as it is assuming that all three variables (gender, political party, and ideology) are independent. This is likely not the case, as political party and ideology are probably correlated.  
+
+```{r 4504 4 setup,  eval=T}
+ideology = read.table(file="~/Desktop/Sara's Folder/UF Year 2/Spring 2020/STA 4504/Exam 3/ideology.txt")
+ideology$Ideology = factor(ideology$Ideology, levels = c("VLib", "SLib", "Mod", "SCon", "VCon"))
+```
+(b) We can assess whether or not this model fits the data well using a goodness of fit test. Our hypotheses are $H_0: \lambda_{ij}^{GP}=\lambda_{ik}^{GI}=\lambda_{jk}^{PI}=\lambda_{ijk}^{GPI}=0$  versus $H_A$: at least one term does not equal zero. We obtain a test statistic of 79.85. On a chi-squared distribution with 13 degrees of freedom, our p-value is $<0.001$. Thus, we reject the null of independence. There is significant evidence that the independence model does not fit the data well.
+
+```{r 4504 4b,  eval=T, results='hide'}
+ideology.ind = glm(Count ~ Gender + Party + Ideology,family = poisson(link = log), data = ideology)
+coefficients(ideology.ind)
+1-pchisq(deviance(ideology.ind), 13)
+```
+
+(c)  
+
+```{r 4504 4c,  eval=T}
+ideology.GP.GI.PI = glm(Count ~ Gender*Party + Gender*Ideology + Party*Ideology,family = poisson(link = log), data = ideology)
+```
+(i) The model does not assume any independencies; all variables are conditionally associated. However, the model assumes that the three-way interaction term between gender, party, and ideology is not needed. Thus, it restricts each pair of variables to have the same association for all levels of the third variable.
+(ii) This equation can be rewritten as:
+
+$\frac{P(G=1|P=j, I=4)(P(G=2|P=j, I=3)}{P(G=2|P=j, I=4)P(G=1|P=j, I=3)}=\frac{\mu_{1(j)4}\mu_{2(j)3}}{\mu_{2(j)4}\mu_{1(j)3}}$
+  
+We can then write:  
+
+$log(\theta_{G(j)I})=log(\frac{\mu_{1(j)4}\mu_{2(j)3}}{\mu_{2(j)4}\mu_{1(j)3}})$  
+$=\lambda_{14}^{GI}+\lambda_{23}^{GI}-\lambda_{24}^{GI}-\lambda_{13}^{GI}$
+  
+Since the first and last term are 0, this simplifies to:
+
+$\theta_{G(j)I}=e^{\lambda_{23}^{GI}-\lambda_{24}^{GI}}$
+  
+which we can obtain using the model we fit earlier. Our estimate for the conditional gender-ideology odds ratio at both levels of party is 0.586. 
+
+```{r 4504 4cii,  eval=T, results='hide'}
+or = exp(summary(ideology.GP.GI.PI)$coefficients[10, 1]-summary(ideology.GP.GI.PI)$coefficients[11, 1])
+or
+```
+
+(iii) To obtain a 95% confidence interval, we first need to estimate $SE_{\hat{\lambda_{23}^{GI}}-\hat{\lambda_{24}^{GI}}}$ by
+
+$\sqrt{Var(\hat{\lambda_{23}^{GI}})+Var(\hat{\lambda_{24}^{GI}})-2Cov(\hat{\lambda_{23}^{GI}},\hat{\lambda_{24}^{GI}})}$
+
+Then, we can compute the confidence interval by multiplying this standard error by 1.96 and adding and subtracting it from our estimate. We are 95% confident that the interval $(0.384, 0.895)$ captures the true conditional odds ratio of a woman being somewhat conservative versus being moderate when compared to men, across all levels of party.  
+
+```{r 4504 4ciii,  eval=T, results='hide'}
+covMat = vcov(ideology.GP.GI.PI)
+SEor = sqrt(covMat[10,10] + covMat[11,11] - 2*covMat[10,11])
+CI = (summary(ideology.GP.GI.PI)$coefficients[10, 1]-summary(ideology.GP.GI.PI)$coefficients[11, 1]) + c(-1.96, 1.96)*SEor
+exp(CI)
+```
+
+(iv) Our hypotheses are:
+
+$H_0:\lambda_{ik}^{GI}=0$ versus
+$H_A:\lambda_{ik}^{GI}\neq{0}$
+
+We can then run a likelihood ratio test to see if the model with $\lambda_{ik}^{GI}$ performs significantly better than the model without $\lambda_{ik}^{GI}$. We obtain a chi-squared test statistic of 8.965 on 4 degrees of freedom. Our p-value, 0.062, provides us with some, but not significant evidence to reject the null hypothesis. We can conclude that the GI interaction terms are not important.
+
+```{r 4504 4civ,  eval=T,warning=F, message=F, results='hide'}
+ideology.GP.PI = glm(Count ~ Gender*Party + Party*Ideology,family = poisson(link = log), data = ideology)
+anova(ideology.GP.PI, ideology.GP.GI.PI, test = "Chisq")
+```
+
+(d) 
+
+```{r 4504 4d,  eval=T, results='asis', warning=F, message=F}
+ideology.G.PI = glm(Count ~ Gender + Party*Ideology,family = poisson(link = log), data = ideology)
+ideology.GPI = glm(Count ~ Gender*Party*Ideology,family = poisson(link = log), data = ideology)
+Deviance = c(deviance(ideology.ind), deviance(ideology.G.PI), deviance(ideology.GP.GI.PI), deviance(ideology.GPI))
+Deviance = signif(Deviance, 3)
+Model = c("(G, P, I)", "(G, PI)", "(GP, GI, PI)", "(GPI)")
+devtable = cbind(Model, Deviance)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(devtable, booktabs = T) %>% kable_styling(position="center")
+```
+I think that the $(GP, GI, PI)$ model is best because it seems to predict the response much better than the model with only an interaction between party and ideology. Additionally, it does not do much worse than the model with three-way interaction terms, so there is little reason to add these terms into the model.

@@ -24,3 +24,7 @@ forcats
 ggmap
 maps
 mapdata
+gee
+lme4
+zoo
+lmtest

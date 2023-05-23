@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 
-
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-
+<html>
 
 <head>
 
-
-
 <meta charset="utf-8" />
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -43,6 +35,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -2086,6 +2080,683 @@ ggplot(polbrut_map) + # use map of police brutality data
 <p><img src="Journal_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
 <p>The research question I am asking is: “Are Black Americans more likely than white Americans to be killed in instances of fatal police shootings?” To answer this question, I read in the data on fatal police shootings from the Washington Post. I then made a table of the frequencies of the killings by the victim’s race, grouped by state. I then did some data wrangling to make the data look how I wanted it to and merged it with the US map data. Later, I found Census demographic data on the racial makeup of each state in 2019. I merged this with the data on police shootings to create a dataset that displays the percent of each racial population that was killed in a police shooting from 2015 to 2021. I also calculated the odds ratio of being killed as a Black American compared to as a White American in each state.</p>
 <p>Many more Black Americans are killed compared to white Americans in most states. The maximum percentage of white people killed in police shootings in a state from 2015-2021 was 0.0009% in Oklahoma, while the maximum percentage of black people killed in police shootings in a state from 2015-2021 was 0.0037% in Utah. Additionally, it is evident that the map of percent of Black Americans killed in police shootings by state is much darker than the map of percent of white Americans. Finally, my map of the odds of being killed as a Black American displays that in some states, Black Americans are up to 20 times more likely to be killed than white Americans. In sum, Black Americans are more likely than white Americans to be killed in instances of fatal police shootings, a fact that has gathered media attention in recent years and is indicative of a need for change in our policing system.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="sta-4322-intro-to-statistics-theory-fall-2020" class="section level1 tabset">
+<h1 class="tabset">STA 4322: Intro to Statistics Theory, Fall 2020</h1>
+<div id="homework-1-4" class="section level2">
+<h2>Homework #1</h2>
+<div id="homework-1-5" class="section level3">
+<h3>Homework #1</h3>
+<div id="september-28-2020" class="section level4">
+<h4>September 28, 2020</h4>
+<p><strong>(7.9)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)\)</span></p>
+<p><span class="math inline">\(=P(-0.3\leq\bar{Y}-\mu\leq0.3)\)</span></p>
+<p><span class="math inline">\(=P(\frac{-0.3}{\frac{\sigma}{\sqrt{n}}}\leq\frac{\bar{Y}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq\frac{0.3}{\frac{\sigma}{\sqrt{n}}})\)</span></p>
+<p><span class="math inline">\(=P(\frac{-0.3}{1}\sqrt{16}\leq Z\leq\frac{0.3}{1}\sqrt{16})\)</span></p>
+<p><span class="math inline">\(=P(-1.2\leq Z\leq1.2)\)</span></p>
+<p><span class="math inline">\(=P(Z\leq1.2)-P(Z\leq-1.2)\)</span></p>
+<pre><code>## [1] 0.7698607</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li></li>
+<li></li>
+</ol>
+<p><span class="math inline">\(E(T)=E(\frac{Z}{\sqrt{\frac{Y}{\nu}}})=E(Z)\cdot{\sqrt{\nu}}\cdot{E(\frac{1}{\sqrt{Y}}})\)</span></p>
+<p>Using the result from part (a), <span class="math inline">\(E(Z)=0\)</span>,</p>
+<p><span class="math inline">\(=0\cdot{\sqrt{\nu}}\cdot{E(Y^{\frac{-1}{2}}})\)</span></p>
+<p>Using the result given in the textbook,</p>
+<p><span class="math inline">\(E(Y^{\frac{-1}{2}})=\frac{\Gamma(\frac{\nu}{2}-\frac{1}{2})}{\Gamma({\frac{\nu}{2}})}\cdot{2^{\frac{-1}{2}}}\)</span></p>
+<p>Since <span class="math inline">\(\frac{\nu}{2}-\frac{1}{2} &gt; 0\)</span> when <span class="math inline">\(\nu &gt; 1\)</span>, Gamma may be computed and it can be said that</p>
+<p><span class="math inline">\(E(T)=0\)</span></p>
+<ol start="2" style="list-style-type: lower-roman">
+<li></li>
+</ol>
+<p><span class="math inline">\(V(T)=E(T^2)-(E(T))^2=E(\frac{Z^2}{\frac{Y}{\nu}})-0\)</span></p>
+<p>because <span class="math inline">\(v &gt; 2\)</span>, and thus the result from part (i) holds and <span class="math inline">\((E(T))^2=(0^2)=0\)</span></p>
+<p><span class="math inline">\(=E(\frac{Z^2}{\frac{Y}{\nu}})=E(Z^2)\cdot{\nu}\cdot{E(Y^{-1})}\)</span></p>
+<p>Using the result <span class="math inline">\(E(Z^2)=1\)</span> derived from part (a),</p>
+<p><span class="math inline">\(=1\cdot{\nu}\cdot{E(Y^{-1})}=\nu\cdot{\frac{\Gamma(\frac{\nu}{2}-1)}{\Gamma(\frac{\nu}{2})}}\cdot{2^{-1}}=\frac{\nu}{2}\cdot{\frac{\Gamma(\frac{\nu}{2}-1)}{\Gamma(\frac{\nu}{2})}}\)</span></p>
+<p>If <span class="math inline">\(v &gt; 2\)</span> then <span class="math inline">\(\frac{\nu}{2}-1 &gt; 0\)</span> and</p>
+<p><span class="math inline">\(V(T)=\frac{\nu}{2}\cdot{\frac{\Gamma(\frac{\nu}{2}-1)}{(\frac{\nu}{2}-1)\Gamma(\frac{\nu}{2}-1)}}=\frac{\nu}{2(\frac{\nu}{2}-1)}=\frac{\nu}{\nu-2}\)</span></p>
+<p><strong>(7.33)</strong></p>
+<p>By definition 7.2, we know that if <span class="math inline">\(Z\)</span> is a standard normal variable, <span class="math inline">\(W\)</span> is a <span class="math inline">\(\chi^2\)</span> variable with <span class="math inline">\(\nu\)</span> degrees of freedom, and <span class="math inline">\(Z\)</span> and <span class="math inline">\(W\)</span> are independent, <span class="math inline">\(T\)</span> has a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(\nu\)</span> degrees of freedom and:</p>
+<p><span class="math inline">\(T=\frac{Z}{\sqrt{\frac{W}{v}}}\)</span></p>
+<p><span class="math inline">\(U=T^2=\frac{Z^2}{\frac{W}{v}}\)</span></p>
+<p>Since it is known that <span class="math inline">\(Z^2\)</span> follows a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(1\)</span> degree of freedom,</p>
+<p><span class="math inline">\(U=T^2=\frac{\frac{Z^2}{1}}{\frac{W}{v}}\)</span></p>
+<p>which means, by definition 7.3, that <span class="math inline">\(T^2\)</span> follows an <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(1\)</span> numerator degrees of freedom and <span class="math inline">\(\nu\)</span> denominator degrees of freedom.</p>
+</div>
+</div>
+</div>
+<div id="homework-2-4" class="section level2">
+<h2>Homework #2</h2>
+<div id="homework-2-5" class="section level3">
+<h3>Homework #2</h3>
+<div id="september-28-2020-1" class="section level4">
+<h4>September 28, 2020</h4>
+<p><strong>(7.9)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)\)</span></p>
+<p><span class="math inline">\(=P(-0.3\leq\bar{Y}-\mu\leq0.3)\)</span></p>
+<p><span class="math inline">\(=P(\frac{-0.3}{\frac{\sigma}{\sqrt{n}}}\leq\frac{\bar{Y}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq\frac{0.3}{\frac{\sigma}{\sqrt{n}}})\)</span></p>
+<p><span class="math inline">\(=P(\frac{-0.3}{1}\sqrt{16}\leq Z\leq\frac{0.3}{1}\sqrt{16})\)</span></p>
+<p><span class="math inline">\(=P(-1.2\leq Z\leq1.2)\)</span></p>
+<p><span class="math inline">\(=P(Z\leq1.2)-P(Z\leq-1.2)\)</span></p>
+<pre><code>## [1] 0.7698607</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Using the process outlined in part (a), for <span class="math inline">\(n=25\)</span> and <span class="math inline">\(\sigma=1\)</span>:</li>
+</ol>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)=P(\frac{-0.3}{\sigma}\sqrt{n}\leq Z\leq\frac{0.3}{\sigma}\sqrt{n})\)</span></p>
+<p><span class="math inline">\(=P(-0.3\sqrt{25}\leq Z\leq0.3\sqrt{25})=P(-1.5\leq Z\leq1.5)\)</span></p>
+<pre><code>## [1] 0.8663856</code></pre>
+<p>Repeating this process for <span class="math inline">\(n=36\)</span>, <span class="math inline">\(n=49\)</span>, and <span class="math inline">\(n=64\)</span>, we obtain:</p>
+<pre><code>## [1] 0.9281394</code></pre>
+<pre><code>## [1] 0.9642712</code></pre>
+<pre><code>## [1] 0.9836049</code></pre>
+<p>Thus,</p>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.8664\)</span> when <span class="math inline">\(n=25\)</span></p>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.9282\)</span> when <span class="math inline">\(n=36\)</span></p>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.9642\)</span> when <span class="math inline">\(n=49\)</span></p>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.9836\)</span> when <span class="math inline">\(n=64\)</span></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>I observe the pattern that probability increases as <span class="math inline">\(n\)</span> increases.</p></li>
+<li><p>Yes, because in Example 7.3,</p></li>
+</ol>
+<p><span class="math inline">\(P(\lvert \bar{Y}-\mu \rvert\leq0.3)=0.95\)</span> when <span class="math inline">\(n=43\)</span></p>
+<p>This <span class="math inline">\(n\)</span> value lies in between <span class="math inline">\(n=36\)</span> and <span class="math inline">\(n=49\)</span> and its probability <span class="math inline">\(0.95\)</span> also lies between <span class="math inline">\(0.9282\)</span> and <span class="math inline">\(0.9642\)</span>, displaying the positive relationship discussed in part (c).</p>
+<p><strong>(7.20)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>Since <span class="math inline">\(U\)</span> has a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(\nu\)</span> degrees of freedom, its probability density function is:</li>
+</ol>
+<p><span class="math inline">\(f_{\nu}(x)=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}\)</span></p>
+<p>To find <span class="math inline">\(E(U)\)</span>, we can use the fact that <span class="math inline">\(E(U)= \int_{0}^\infty xf_{\nu}(x)dx\)</span> and solve:</p>
+<p><span class="math inline">\(E(U)= \int_{0}^\infty x\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}dx\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu}{2}}e^{-\frac{x}{2}}dx\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu+2}{2}-1}e^{-\frac{x}{2}}dx\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})\int_{0}^\infty \frac{1}{2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})}x^{\frac{\nu+2}{2}-1}e^{-\frac{x}{2}}dx\)</span></p>
+<p>Since <span class="math inline">\(\frac{1}{2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})}x^{\frac{\nu+2}{2}-1}e^{-\frac{x}{2}}\)</span> is the distribution function of a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(\nu+2\)</span> degrees of freedom, its integral is equal to <span class="math inline">\(1\)</span>. Now,</p>
+<p><span class="math inline">\(E(U)=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+2}{2}}\Gamma(\frac{\nu+2}{2})\)</span></p>
+<p><span class="math inline">\(=2\frac{(\frac{\nu+2}{2}-1)!}{(\frac{\nu}{2}-1)!}\)</span></p>
+<p><span class="math inline">\(=2\frac{\nu}{2}=\nu\)</span></p>
+<p>Thus, <span class="math inline">\(E(U)=\nu\)</span>. Now, we can find <span class="math inline">\(E(U^2)\)</span> in order to find <span class="math inline">\(V(U)\)</span>:</p>
+<p><span class="math inline">\(E(U^2)= \int_{0}^\infty x^2f_{\nu}(x)dx\)</span></p>
+<p><span class="math inline">\(= \int_{0}^\infty x^2\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}dx\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu}{2}+1}e^{-\frac{x}{2}}dx\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}\int_{0}^\infty x^{\frac{\nu+4}{2}-1}e^{-\frac{x}{2}}dx\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})\int_{0}^\infty \frac{1}{2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})}x^{\frac{\nu+4}{2}-1}e^{-\frac{x}{2}}dx\)</span></p>
+<p>Since <span class="math inline">\(\frac{1}{2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})}x^{\frac{\nu+4}{2}-1}e^{-\frac{x}{2}}\)</span> is the distribution function of a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(\nu+4\)</span> degrees of freedom, its integral is equal to <span class="math inline">\(1\)</span>. Now,</p>
+<p><span class="math inline">\(E(U^2)=\frac{1}{2^{\frac{\nu}{2}}\Gamma(\frac{\nu}{2})}2^{\frac{\nu+4}{2}}\Gamma(\frac{\nu+4}{2})\)</span></p>
+<p><span class="math inline">\(=4\frac{(\frac{\nu}{2}+1)!}{(\frac{\nu}{2}-1)!}\)</span></p>
+<p><span class="math inline">\(=4(\frac{\nu}{2}+1)\frac{\nu}{2}\)</span></p>
+<p><span class="math inline">\(E(U^2)=\nu^2+2\nu\)</span></p>
+<p>Now we can solve for <span class="math inline">\(V(U)\)</span>:</p>
+<p><span class="math inline">\(V(U)=E(U^2)-(E(U))^2\)</span></p>
+<p><span class="math inline">\(=\nu^2+2\nu-(\nu)^2=2\nu\)</span></p>
+<p>Thus, <span class="math inline">\(V(U)=2\nu\)</span>.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>According to Theorem 7.3, <span class="math inline">\(\frac{n-1}{\sigma^2}S^2\)</span> follows a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom. Therefore,</li>
+</ol>
+<p><span class="math inline">\(E(\frac{n-1}{\sigma^2}S^2)=n-1=\frac{n-1}{\sigma^2}E(S^2)\)</span></p>
+<p><span class="math inline">\(\frac{n-1}{E(S^2)}=\frac{n-1}{\sigma^2}\)</span></p>
+<p><span class="math inline">\(E(S^2)=\sigma^2\)</span></p>
+<p>We can find <span class="math inline">\(V(S^2)\)</span> using the same method:</p>
+<p><span class="math inline">\(V(\frac{n-1}{\sigma^2}S^2)=2(n-1)=\frac{(n-1)^2}{\sigma^4}V(S^2)\)</span></p>
+<p><span class="math inline">\(\frac{2(n-1)}{V(S^2)}=\frac{(n-1)^2}{\sigma^4}V(S^2)\)</span></p>
+<p><span class="math inline">\(V(S^2)=\frac{2\sigma^4}{n-1}\)</span></p>
+</div>
+</div>
+</div>
+<div id="homework-3-2" class="section level2">
+<h2>Homework #3</h2>
+<div id="homework-3-3" class="section level3">
+<h3>Homework #3</h3>
+<div id="october-7-2020" class="section level4">
+<h4>October 7, 2020</h4>
+<p><strong>(8.12)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>To prove that <span class="math inline">\(\bar{Y}\)</span> is a biased estimator of <span class="math inline">\(\theta\)</span>, we can compute <span class="math inline">\(E(\bar{Y})\)</span>:</li>
+</ol>
+<p><span class="math inline">\(E(\bar{Y})=E(\frac{\sum_{i=1}^{n} Y_i}{n})=\frac{1}{n}\sum_{i=1}^n E(Y_i)\)</span></p>
+<p>We know that the expected value of a uniform variable is the midpoint between its upper and lower bounds:</p>
+<p><span class="math inline">\(E(Y_i)=\frac{\theta + \theta +1}{2}=\frac{2\theta +1}{2}=\theta +\frac{1}{2}\)</span></p>
+<p>Thus, we can write:</p>
+<p><span class="math inline">\(E(\bar{Y})=\frac{1}{n}n(\theta +\frac{1}{2})=\theta +\frac{1}{2}\)</span></p>
+<p>Since <span class="math inline">\(\theta +\frac{1}{2}\neq \theta\)</span>, <span class="math inline">\(\bar{Y}\)</span> is a biased estimator of <span class="math inline">\(\theta\)</span>. The bias is:</p>
+<p><span class="math inline">\(B(\bar{Y})=E(\bar{Y})-\theta =\theta +\frac{1}{2}-\theta\)</span></p>
+<p><span class="math inline">\(B(\bar{Y})=\frac{1}{2}\)</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>To find a function of <span class="math inline">\(\bar{Y}\)</span> that is an unbiased estimator of <span class="math inline">\(\theta\)</span>, we should check <span class="math inline">\(\bar{Y}-\frac{1}{2}\)</span>:</li>
+</ol>
+<p><span class="math inline">\(E(\bar{Y}-\frac{1}{2})=E(\bar{Y})-E(\frac{1}{2})\)</span></p>
+<p>From part (a), we know <span class="math inline">\(E(\bar{Y})=\theta + \frac{1}{2}\)</span>:</p>
+<p><span class="math inline">\(=\theta +\frac{1}{2}-\frac{1}{2}=\theta\)</span></p>
+<p>Thus, <span class="math inline">\(\bar{Y}-\frac{1}{2}\)</span> is an unbiased estimator for <span class="math inline">\(\theta\)</span>.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>By the definition of a uniform variable, we know that:</li>
+</ol>
+<p><span class="math inline">\(V(Y_i)=\frac{(\theta +1-\theta)^2}{12}=\frac{1^2}{12}=\frac{1}{12}\)</span></p>
+<p>Thus, the variance of <span class="math inline">\(\bar{Y}\)</span> is:</p>
+<p><span class="math inline">\(V(\bar{Y})=\frac{V(Y)}{n}=\frac{1 \mathbin{/} 12}{n}=\frac{1}{12n}\)</span></p>
+<p>We can now calculate <span class="math inline">\(MSE(\bar{Y})\)</span>:</p>
+<p><span class="math inline">\(MSE(\bar{Y})=V(\bar{Y})+(B(\bar{Y}))^2=\frac{1}{12n}+(\frac{1}{2})^2=\frac{1}{12n}+\frac{1}{4}\)</span></p>
+<p><span class="math inline">\(MSE(\bar{Y})=\frac{1+3n}{12n}\)</span></p>
+<p><strong>(8.13)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>We can show that the suggested estimator is a biased estimator of <span class="math inline">\(V(Y)\)</span> by finding its expected value:</li>
+</ol>
+<p><span class="math inline">\(E(n\frac{Y}{n}(1-\frac{Y}{n}))=nE(\frac{Y}{n}-\frac{Y^2}{n^2})\)</span></p>
+<p><span class="math inline">\(=nE(\frac{Y}{n})-nE(\frac{Y^2}{n^2})=np-\frac{1}{n}E(Y^2)\)</span></p>
+<p>We now need to find <span class="math inline">\(E(Y^2)\)</span>.</p>
+<p><span class="math inline">\(E(Y^2)=V(Y)+(E(Y))^2=np(1-p)+(np)^2=np(1-p)+n^2p^2\)</span></p>
+<p>We now may continue with the calculation of <span class="math inline">\(E(n\frac{Y}{n}(1-\frac{Y}{n}))\)</span>:</p>
+<p><span class="math inline">\(E(n\frac{Y}{n}(1-\frac{Y}{n}))=np-\frac{1}{n}(np(1-p)+n^2p^2)=np-p(1-p)-np^2=np(1-p)-p(1-p)\)</span></p>
+<p>Because <span class="math inline">\(np(1-p)-p(1-p)\neq np(1-p)\)</span>, the estimator is biased.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>We can solve for variable <span class="math inline">\(a\)</span> to form an unbiased estimator for <span class="math inline">\(V(Y)\)</span>:</li>
+</ol>
+<p><span class="math inline">\(aE(n\frac{Y}{n}(1-\frac{Y}{n}))=np(1-p)\)</span></p>
+<p><span class="math inline">\(a(np(1-p)-p(1-p))=np(1-p)\)</span></p>
+<p><span class="math inline">\(a((n-1)p(1-p))=np(1-p)\)</span></p>
+<p><span class="math inline">\(a=\frac{n}{(n-1)}\)</span></p>
+<p>We can confirm that <span class="math inline">\(E(\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n}))=V(Y)\)</span>:</p>
+<p><span class="math inline">\(E(\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n}))=\frac{n}{(n-1)}E(\frac{Y}{n}(1-\frac{Y}{n}))=\frac{n}{(n-1)}(n-1)p(1-p)=np(1-p)\)</span></p>
+<p>Thus, <span class="math inline">\(\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n})\)</span> is an unbiased estimator of <span class="math inline">\(V(Y)\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="homework-4-2" class="section level2">
+<h2>Homework #4</h2>
+<div id="homework-4-3" class="section level3">
+<h3>Homework #4</h3>
+<div id="october-21-2020" class="section level4">
+<h4>October 21, 2020</h4>
+<p><strong>(8.65)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>A 98% confidence interval for the true difference in proportions for defectives in the two lines can be calculated using the following formula:</li>
+</ol>
+<p><span class="math inline">\(\hat{p}_A-\hat{p}_B\pm z_{\frac{0.02}{2}}\sqrt{\frac{\hat{p}_A(1-\hat{p}_A)}{n_A}+\frac{\hat{p}_B(1-\hat{p}_B)}{n_B}}\)</span></p>
+<p>We know that <span class="math inline">\(n_A=n_B=100\)</span>, and we can determine from information given to us that <span class="math inline">\(\hat{p}_A=\frac{18}{100}=0.18\)</span> and <span class="math inline">\(\hat{p}_B=\frac{12}{100}=0.12\)</span>. Furthermore, we can use R to calculate <span class="math inline">\(z_{\frac{0.02}{2}}\)</span>:</p>
+<pre><code>## [1] 2.326348</code></pre>
+<p>Now, we can compute our confidence interval by plugging these estimates into the formula stated previously:</p>
+<p><span class="math inline">\(0.18-0.12\pm 2.33\sqrt{\frac{0.18(1-0.18)}{100}+\frac{0.12(1-0.12)}{100}}\)</span></p>
+<p>Thus, our 98% confidence interval for <span class="math inline">\(p_A-p_B\)</span> is:</p>
+<p><span class="math inline">\((-0.06, 0.18)\)</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>No, there is not evidence to suggest that one line produces a higher proportion of defectives than the other because the 98% confidence interval <span class="math inline">\((-0.06, 0.18)\)</span> contains 0.</li>
+</ol>
+<p><strong>(8.90)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>A 95% confidence interval for the difference in average verbal scores of students majoring in engineering and of those majoring in language/literature can be calculated using the following formula:</li>
+</ol>
+<p><span class="math inline">\(\bar{y}_E-\bar{y}_L\pm t_{\frac{0.05}{2}, n_E+n_L-2}\cdot s_p\sqrt{\frac{1}{n_E}+\frac{1}{n_L}}\)</span></p>
+<p>where <span class="math inline">\(s_p\)</span> is equal to:</p>
+<p><span class="math inline">\(s_p=\sqrt{\frac{(n_E-1)s^2_E+(n_L-1)s^2_L}{n_E+n_L-2}}\)</span></p>
+<p>We know from the table that <span class="math inline">\(\bar{y}_E=446\)</span>, <span class="math inline">\(\bar{y}_L=534\)</span>, <span class="math inline">\(s_E=42\)</span>, and <span class="math inline">\(s_L=45\)</span>. We also know that <span class="math inline">\(n_E=n_L=15\)</span>. We can now calculate <span class="math inline">\(s_p\)</span>:</p>
+<p><span class="math inline">\(s_p=\sqrt{\frac{(15-1)(42)^2+(15-1)(45)^2}{15+15-2}}=43.53\)</span></p>
+<p>Furthermore, we can calculate <span class="math inline">\(t_{0.025, 28}\)</span> using R:</p>
+<pre><code>## [1] 2.048407</code></pre>
+<p>Now, we can compute our confidence interval by plugging these estimates into the formula stated previously:</p>
+<p><span class="math inline">\(446-534\pm 2.05\cdot 43.53\sqrt{\frac{1}{15}+\frac{1}{15}}\)</span></p>
+<p>Thus, our 95% confidence interval for <span class="math inline">\(\mu_E-\mu_L\)</span> is:</p>
+<p><span class="math inline">\((-120.56, -55.44)\)</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>A 95% confidence interval for the difference in average math scores of students majoring in engineering and of those majoring in language/literature can be calculated using the formula used in part (a). We know from the table that <span class="math inline">\(\bar{y}_E=548\)</span>, <span class="math inline">\(\bar{y}_L=517\)</span>, <span class="math inline">\(s_E=57\)</span>, and <span class="math inline">\(s_L=52\)</span>. We also know that <span class="math inline">\(n_E=n_L=15\)</span>. We can now calculate <span class="math inline">\(s_p\)</span>:</li>
+</ol>
+<p><span class="math inline">\(s_p=\sqrt{\frac{(15-1)(57)^2+(15-1)(52)^2}{15+15-2}}=54.56\)</span></p>
+<p>Furthermore, we know from part (a) that <span class="math inline">\(t_{0.025, 28}=2.05\)</span>. Now, we can compute our confidence interval by plugging these estimates into the formula stated previously:</p>
+<p><span class="math inline">\(548-517\pm 2.05\cdot 54.56\sqrt{\frac{1}{15}+\frac{1}{15}}\)</span></p>
+<p>Thus, our 95% confidence interval for <span class="math inline">\(\mu_E-\mu_L\)</span> is:</p>
+<p><span class="math inline">\((-9.81, 71.81)\)</span></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>We are 95% confident that the true mean verbal scores of students majoring in engineering and of those majoring in language/literature differ. This is because the interval obtained in part (a) does not include 0. However, we are 95% confident that the true mean math scores of students majoring in engineering and of those majoring in language/literature do not differ. This is because the interval obtained in part (b) does include 0.</p></li>
+<li><p>For the methods used in this question to be valid, we must assume that the samples are taken independently from a normal population and that <span class="math inline">\(\sigma_E=\sigma_L\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="homework-5" class="section level2">
+<h2>Homework #5</h2>
+<div id="homework-5-1" class="section level3">
+<h3>Homework #5</h3>
+<div id="november-20-2020" class="section level4">
+<h4>November 20, 2020</h4>
+<p><strong>(9.17)</strong></p>
+<p>To show that <span class="math inline">\(\bar{X}-\bar{Y}\)</span> is a consistent estimator of <span class="math inline">\(\mu_1-\mu_2\)</span>, we must first show that it is unbiased:</p>
+<p><span class="math inline">\(E(\bar{X}-\bar{Y})\)</span></p>
+<p>Because <span class="math inline">\(X_1, X_2, ..., X_n\)</span> and <span class="math inline">\(Y_1, Y_2, ..., Y_n\)</span> are independent, we can write:</p>
+<p><span class="math inline">\(E(\bar{X}-\bar{Y})=E(\bar{X})-E(\bar{Y})\)</span></p>
+<p>Since we know that <span class="math inline">\(\bar{X}\)</span> and <span class="math inline">\(\bar{Y}\)</span> are unbiased estimators for <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>, we can write:</p>
+<p><span class="math inline">\(E(\bar{X}-\bar{Y})=\mu_1-\mu_2\)</span></p>
+<p>and <span class="math inline">\(\bar{X}-\bar{Y}\)</span> is an unbiased estimator of <span class="math inline">\(\mu_1-\mu_2\)</span>. Now, we must compute <span class="math inline">\(\lim_{n \to \infty} Var(\bar{X}-\bar{Y})\)</span> to show consistency. Because <span class="math inline">\(X_1, X_2, ..., X_n\)</span> and <span class="math inline">\(Y_1, Y_2, ..., Y_n\)</span> are independent:</p>
+<p><span class="math inline">\(Var(\bar{X}-\bar{Y})=Var(\bar{X})+Var(\bar{Y})\)</span></p>
+<p><span class="math inline">\(Var(\bar{X})+Var(\bar{Y})=Var(\Sigma^n_{i=1}\frac{X_i}{n})+Var(\Sigma^n_{i=1}\frac{Y_i}{n})\)</span></p>
+<p>Because <span class="math inline">\(X_i\)</span>’s and <span class="math inline">\(Y_i\)</span>’s are independent,</p>
+<p><span class="math inline">\(=\frac{1}{n^2}\Sigma^n_{i=1}Var(X_i)+\frac{1}{n^2}\Sigma^n_{i=1}Var(Y_i)\)</span></p>
+<p><span class="math inline">\(=\frac{1}{n^2}\cdot (n\sigma^2_1 + n\sigma^2_2)\)</span></p>
+<p><span class="math inline">\(Var(\bar{X}-\bar{Y})=\frac{\sigma^2_1+\sigma^2_2}{n}\)</span></p>
+<p>We can now solve for the limit as <span class="math inline">\(n\)</span> goes to infinity:</p>
+<p><span class="math inline">\(\lim_{n \to \infty} Var(\bar{X}-\bar{Y})=\lim_{n \to \infty} \frac{\sigma^2_1+\sigma^2_2}{n}=0\)</span></p>
+<p>because <span class="math inline">\(\frac{1}{n}\longrightarrow 0\)</span> as <span class="math inline">\(n\longrightarrow \infty\)</span>. Therefore, <span class="math inline">\(\bar{X}-\bar{Y}\)</span> is a consistent estimator of <span class="math inline">\(\mu_1-\mu_2\)</span>.</p>
+<p><strong>(9.18)</strong></p>
+<p>As done in the previous problem, to show that the estimator is consistent, we will first show that the estimator is unbiased for <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math inline">\(E(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})\)</span></p>
+<p><span class="math inline">\(=\frac{1}{2n-2}E(\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2)\)</span></p>
+<p>Since the samples are independent,</p>
+<p><span class="math inline">\(=\frac{1}{2n-2}(E(\Sigma^n_{i=1}(X_i-\bar{X})^2)+E(\Sigma^n_{i=1}(Y_i-\bar{Y})^2))\)</span></p>
+<p>Since we know that:</p>
+<p><span class="math inline">\(E(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)=E(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2)=\sigma^2\)</span></p>
+<p>We can say that:</p>
+<p><span class="math inline">\(E(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})=\frac{1}{2n-2}((n-1)\sigma^2+(n-1)\sigma^2)=\sigma^2\)</span></p>
+<p>so the estimator is unbiased. We will continue by finding the variance:</p>
+<p><span class="math inline">\(Var(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})\)</span></p>
+<p><span class="math inline">\(=\frac{1}{(2n-2)^2}Var(\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2)\)</span></p>
+<p>Again, since the samples are independent, we can say:</p>
+<p><span class="math inline">\(=\frac{1}{(2n-2)^2}(Var(\Sigma^n_{i=1}(X_i-\bar{X})^2)+Var(\Sigma^n_{i=1}(Y_i-\bar{Y})^2))\)</span></p>
+<p><span class="math inline">\(=\frac{(n-1)^2}{(2n-2)^2}(Var(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)+Var(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2))\)</span></p>
+<p>Since we know that <span class="math inline">\(Var(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)=s^2_X\)</span> and <span class="math inline">\(Var(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2)=s^2_Y\)</span> are consistent estimators for <span class="math inline">\(\sigma^2\)</span>, we can say:</p>
+<p><span class="math inline">\(\lim_{n \to \infty} Var(\frac{1}{n-1}\Sigma^n_{i=1}(X_i-\bar{X})^2)=\lim_{n \to \infty} Var(\frac{1}{n-1}\Sigma^n_{i=1}(Y_i-\bar{Y})^2)=0\)</span></p>
+<p>and because <span class="math inline">\(\lim_{n \to \infty} \frac{(n-1)^2}{(2n-2)^2}=\frac{1}{4}\)</span> is finite:</p>
+<p><span class="math inline">\(\lim_{n \to \infty} Var(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-\bar{Y})^2}{2n-2})=0\)</span></p>
+<p>Thus, this is a consistent estimator for <span class="math inline">\(\sigma^2\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="homework-6" class="section level2">
+<h2>Homework #6</h2>
+<div id="homework-6-1" class="section level3">
+<h3>Homework #6</h3>
+<div id="december-2-2020" class="section level4">
+<h4>December 2, 2020</h4>
+<p><strong>(9.39)</strong></p>
+<p>We know that <span class="math inline">\(Y_1, Y_2,..., Y_n\)</span> is a random sample from a Poisson distribution with parameter <span class="math inline">\(\lambda\)</span>. We will now prove that <span class="math inline">\(\sum_{i=1}^nY_i\)</span> is a sufficient statistic:</p>
+<p><span class="math inline">\(f(y_1, y_2,...,y_n|\sum_{i=1}^nY_i)=\frac{f(y_1, y_2,...,y_n, \sum_{i=1}^nY_i=t)}{P(\sum_{i=1}^nY_i=t)}\)</span></p>
+<p><span class="math inline">\(=\frac{f(y_1, y_2,...,y_n,t-\sum_{i=1}^{n-1}y_i)}{P(\sum_{i=1}^nY_i=t)}\)</span></p>
+<p>The numerator of this equation is:</p>
+<p><span class="math inline">\(f(y_1, y_2,...,y_n,t-\sum_{i=1}^{n-1}y_i)=e^{-\lambda}\frac{\lambda^{t-\Sigma_{i=1}^{n-1}y_i}}{(t-\sum_{i=1}^{n-1}y_i)!}\cdot \prod^{n-1}_{i=1}e^{-\lambda}\frac{\lambda^{y_i}}{(y_i)!}\)</span></p>
+<p><span class="math inline">\(=e^{-\lambda}\frac{\lambda^{t-\Sigma_{i=1}^{n-1}y_i}}{(t-\sum_{i=1}^{n-1}y_i)!}\cdot e^{(n-1)\lambda}\frac{\lambda^{\Sigma_{i=1}^{n-1}y_i}}{\prod_{i=1}^{n-1}(y_i)!}\)</span></p>
+<p><span class="math inline">\(=e^{-n\lambda}\frac{\lambda^t}{(t-\sum_{i=1}^{n-1}y_i)!\prod_{i=1}^{n-1}(y_i)!}\)</span></p>
+<p>To calculate the denominator, we can use the fact that <span class="math inline">\(\sum_{i=1}^nY_i\)</span> follows a <span class="math inline">\(Poisson(n\lambda)\)</span> distribution when <span class="math inline">\(Y_1, Y_2,..., Y_n\)</span> are iid with parameter <span class="math inline">\(\lambda\)</span>.</p>
+<p><span class="math inline">\(P(\sum_{i=1}^nY_i=t)=e^{-n\lambda}\frac{\lambda^t}{t!}\)</span></p>
+<p>Now, we can divide the two to solve:</p>
+<p><span class="math inline">\(f(y_1, y_2,...,y_n|\sum_{i=1}^nY_i)=\frac{e^{-n\lambda}\frac{\lambda^t}{(t-\sum_{i=1}^{n-1}y_i)!\prod_{i=1}^{n-1}(y_i)!}}{e^{-n\lambda}\frac{\lambda^t}{t!}}\)</span></p>
+<p><span class="math inline">\(=\frac{t!}{(t-\sum_{i=1}^{n-1}y_i)!\prod_{i=1}^{n-1}(y_i)!}\)</span></p>
+<p>Since this is free of the parameter <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\sum_{i=1}^nY_i\)</span> is a sufficient statistic for <span class="math inline">\(\lambda\)</span> by the definition of sufficiency.</p>
+<p><strong>(9.64)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>We know that <span class="math inline">\(Y_1, Y_2,..., Y_n\)</span> is a random sample from a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(1\)</span>. We can also say that</li>
+</ol>
+<p><span class="math inline">\(\bar{Y}\sim N(\mu, \frac{1}{n})\)</span></p>
+<p>To find the MVUE of <span class="math inline">\(\mu^2\)</span>, we must first find an unbiased estimator of <span class="math inline">\(\mu^2\)</span>. Let’s try <span class="math inline">\(\bar{Y}^2\)</span>:</p>
+<p><span class="math inline">\(E(\bar{Y}^2)=Var(\bar{Y})+(E(\bar{Y}))^2\)</span></p>
+<p><span class="math inline">\(=\frac{1}{n}+\mu^2\)</span></p>
+<p>Subtracting <span class="math inline">\(\frac{1}{n}\)</span> from both sides, we have:</p>
+<p><span class="math inline">\(E(\bar{Y}^2-\frac{1}{n})=\mu^2\)</span></p>
+<p>Since we know that <span class="math inline">\(\bar{Y}\)</span> is a sufficient stastic for <span class="math inline">\(\mu\)</span>, we can also say that it is a sufficient statistic for <span class="math inline">\(\mu^2\)</span>. Now, since the unbiased estimator we found above is a function of a sufficient statistic, by the Rao-Blackwell theorem we know that <span class="math inline">\(\hat{\mu}^2=\bar{Y}^2-\frac{1}{n}\)</span> is the MVUE for <span class="math inline">\(\mu^2\)</span>.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>To find the variance of <span class="math inline">\(\hat{\mu}^2\)</span>, we can write:</li>
+</ol>
+<p><span class="math inline">\(Var(\bar{Y}^2-\frac{1}{n})=Var(\bar{Y}^2)=E(\bar{Y}^4)-(E(\bar{Y}^2))^2=E(\bar{Y}^4)-(\frac{1}{n}+\mu^2)^2\)</span></p>
+<p>Using the MGF, we can find <span class="math inline">\(E(\bar{Y}^4)\)</span>:</p>
+<p><span class="math inline">\(E(\bar{Y}^4)=\frac{3}{n^2}+\frac{6\mu^2}{n}+\mu^2\)</span></p>
+<p>Thus, the variance is</p>
+<p><span class="math inline">\(Var(\hat{\mu}^2)=Var(\bar{Y}^2-\frac{1}{n})=\frac{3}{n^2}+\frac{6\mu^2}{n}+\mu^2-(\frac{1}{n}+\mu^2)^2\)</span></p>
+<p><span class="math inline">\(=\frac{(2+4n\mu^2)}{n^2}\)</span></p>
+</div>
+</div>
+</div>
+</div>
+<div id="sta-4504-categorical-data-analysis-spring-2020" class="section level1 tabset">
+<h1 class="tabset">STA 4504: Categorical Data Analysis, Spring 2020</h1>
+<div id="homework-3-4" class="section level2">
+<h2>Homework #3</h2>
+<div id="homework-3-5" class="section level3">
+<h3>Homework #3</h3>
+<div id="april-8-2020" class="section level4">
+<h4>April 8, 2020</h4>
+<p><strong>(1)</strong></p>
+<pre class="r"><code>crossover = matrix(c(833, 125, 2, 160), 2, 2, byrow=TRUE, dimnames=list(&quot;Believe in Heaven&quot;=c(&quot;Yes&quot;,&quot;No&quot;), &quot;Believe in Hell&quot; = c(&quot;Yes&quot;,&quot;No&quot;)))
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(crossover, &quot;latex&quot;, booktabs = T) %&gt;% kable_styling(position=&quot;center&quot;) %&gt;% add_header_above(c(&quot;Believe in Heaven&quot; = 1, &quot;Believe in Hell&quot; = 2))</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Our hypotheses are:</li>
+</ol>
+We can get the test statistic using the following formula:
+<pre class="r"><code>mcnemar.test(crossover, correct=FALSE)</code></pre>
+<pre><code>## 
+##  McNemar&#39;s Chi-squared test
+## 
+## data:  crossover
+## McNemar&#39;s chi-squared = 119.13, df = 1, p-value &lt; 2.2e-16</code></pre>
+<p>Because our P-value is extremely small, we reject the null hypothesis and conclude that the population proportions answering yes for belief in heaven and hell were not identical.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>We can obtain a 95% Wald confidence interval for the difference between the two population proportions via:</li>
+</ol>
+<pre class="r"><code>est = (125-2)/(833+125+2+160)
+z = 1.96
+SE = (1/(833+125+2+160))*sqrt(125+2-((125-2)^2)/(833+125+2+160))
+ci = c(est - z*SE, est + z*SE)
+ci</code></pre>
+<pre><code>## [1] 0.09117822 0.12846463</code></pre>
+<p>Our confidence interval (0.0912, 0.128) does not include 0 and thus concurs with our results from part (a).</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><ol style="list-style-type: lower-roman">
+<li>We can estimate the odds ratio for a marginal model by using the marginal table:</li>
+</ol></li>
+</ol>
+<pre class="r"><code>crossovermarg = matrix(c(958, 162, 835, 285), 2, 2, byrow=TRUE)
+rownames(crossovermarg) = c(&quot;Heaven&quot;, &quot;Hell&quot;)
+colnames(crossovermarg) = c(&quot;Yes&quot;, &quot;No&quot;)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(crossovermarg, &quot;latex&quot;, booktabs = T) %&gt;% kable_styling(position=&quot;center&quot;)</code></pre>
+<pre class="r"><code>log((958*285)/(162*835))</code></pre>
+<pre><code>## [1] 0.7023089</code></pre>
+<p>This means that the sample log odds ratio of believing in heaven over believing in hell is 0.7023.</p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>We can estimate the odds ratio for a subject specific model by:</li>
+</ol>
+<pre class="r"><code>log((125)/(2))</code></pre>
+<pre><code>## [1] 4.135167</code></pre>
+<p>This is the log odds ratio of believing in heaven over hell conditional on subject <em>i</em>.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Under <span class="math inline">\(H_0\)</span> or marginal homogeneity, <span class="math inline">\(\frac{\pi_{12}}{\pi_{12}+\pi_{21}}=\frac{1}{2}\)</span> and therefore <span class="math inline">\(n_{12}\sim{Bin(n^*, 0.5)}\)</span>. We can now find an exact p-value to test these hypotheses using:</li>
+</ol>
+<pre><code>## [1] 4.777797e-35</code></pre>
+<p>This p-value is extremely small and concurs with our previous results.</p>
+<p><strong>(2)</strong> (a) It makes more sense to use a GLMM, the random effects model, since there are cluster-specific effects that follow a known distribution.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>library(gee)
+library(lme4)
+library(Matrix)
+number = c(1,2,3,4,5,6,7,8,9,10)
+heads = c(2,4,1,3,3,5,4,2,3,1)
+flips = c(rep(5,10))
+coin = data.frame(number=number, heads=heads, flips=flips)
+lmeMod = glmer(cbind(heads, flips-heads) ~ 1 + (1|number), family=binomial, data=coin)</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p><img src="Journal_files/figure-html/2c%204504-1.png" width="384" style="display: block; margin: auto;" /> I see that the predicted probabilities are concentrated around the overall mean.</p></li>
+<li><p>The MSE of our estimated probabilities is:</p></li>
+</ol>
+<pre><code>## [1] 0.007432578</code></pre>
+<p>And the MSE of the sample proportions is:</p>
+<pre><code>## [1] 0.066</code></pre>
+<p><strong>(3)</strong> (a)</p>
+<pre><code>##   (Intercept) drug == 2TRUE drug == 3TRUE 
+##     0.6493063     1.1358052    -0.9647252</code></pre>
+<pre><code>## [1] 1.025444 1.246167</code></pre>
+<pre><code>## [1] -1.0469575 -0.8824929</code></pre>
+<p>From the output above, we can determine that the estimates of <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> are 1.136 and -0.965, respectively. The 95% confidence intervals using the robust SE are (1.025, 1.246) and (-1.047, -0.882). Since <span class="math inline">\(\beta_2=1.136\)</span>, this can be interpreted as: the estimated log odds of a student using alcohol versus not using alcohol are <span class="math inline">\(e^{1.136}=3.114\)</span>.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>We cannot conduct a likelihood ratio test to test <span class="math inline">\(H_0: \beta_2=\beta_3=0\)</span> because GEEs do not assign a likelihood to the data.</p></li>
+<li></li>
+</ol>
+<pre><code>##   (Intercept) drug == 2TRUE drug == 3TRUE 
+##      1.504650      2.394684     -2.169347</code></pre>
+<p>Since <span class="math inline">\(\beta_3^*=-2.169\)</span>, this can be interpreted as: the log odds of a student using marijuana versus not using marijuana, conditional on the student, are estimated to be <span class="math inline">\(e^{-2.169}=0.114\)</span>.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>To conduct a likelihood ratio test for <span class="math inline">\(H_0: \beta_2^*= \beta_3^*=0\)</span>, we must fit a null model that includes only the random effects term, then compute the test statistic <span class="math inline">\(Dev_{0}-Dev_{1}\)</span> and test its significance using a chi-squared test with 2 degrees of freedom.</li>
+</ol>
+<pre><code>## Data: longData
+## Models:
+## nullMod: (outcome == 1) ~ (1 | person)
+## lmeMod: (outcome == 1) ~ (1 | person) + (drug == 2) + (drug == 3)
+##         npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## nullMod    2 8433.9 8447.5 -4214.9   8429.9                         
+## lmeMod     4 6791.4 6818.7 -3391.7   6783.4 1646.5  2  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Since our p-value is extremely small, we reject the null hypothesis and conclude that one or both of the terms do(es) not equal zero.</p>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Our estimate of <span class="math inline">\(\hat{\sigma}_u^2\)</span> is:</li>
+</ol>
+<pre><code>##  Groups Name        Variance
+##  person (Intercept) 9.1413</code></pre>
+<p>This value seems large, implying that there is high correlation between subjects and large amounts of variability across subjects.</p>
+<ol start="6" style="list-style-type: lower-alpha">
+<li><p>A large value of <span class="math inline">\(\hat{u}_i\)</span> would represent a large random effect for subject <em>i</em>, meaning that the intercept for the subject deviates greatly from the overall intercept.</p></li>
+<li><p>No, the estimates of <span class="math inline">\((\beta_2, \beta_3)\)</span> and <span class="math inline">\((\beta_2^*, \beta_3^*)\)</span> are not similar because they are estimating different quantities and there is a large amount of variability across subjects.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="homework-4-4" class="section level2">
+<h2>Homework #4</h2>
+<div id="homework-4-5" class="section level3">
+<h3>Homework #4</h3>
+<div id="april-22-2020" class="section level4">
+<h4>April 22, 2020</h4>
+<p><strong>(1)</strong></p>
+<pre class="r"><code>income=c(3,10,20,30)
+jobsat=c(&quot;VD&quot;,&quot;LD&quot;,&quot;MS&quot;,&quot;VS&quot;)
+table.sat=expand.grid(income=income,jobsat=jobsat)
+counts=c(2,2,0,0,4,6,1,3,13,22,15,13,3,4,8,8)
+table.sat=cbind(table.sat,count=counts)
+jobsat.ind=glm(count~factor(income)+jobsat,family=poisson(link=log),data=table.sat)</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Yes, we can perform a goodness of fit test comparing this model to the saturated model to test whether income and job satisfaction are independent. Our hypotheses are:</li>
+</ol>
+<p><span class="math inline">\(H_0:\lambda_{ij}^{IS}=0\)</span> versus <span class="math inline">\(H_A:\lambda_{ij}^{IS}\neq{0}\)</span></p>
+<p>In this case, our observed test statistic is the residual deviance from the model, 13.467. The probability of obtaining a test statistic this large or larger from a chi-squared distribution with 9 degrees of freedom is 0.14. This is greater than <span class="math inline">\(\alpha=0.05\)</span>; thus, we fail to reject the null hypothesis that income and job satisfaction are independent.</p>
+<pre class="r"><code>1-pchisq(13.467, 9)</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li></li>
+<li>The model is still valid; however, our estimates may be less efficient. Independence might be too strong of an assumption.<br />
+</li>
+</ol>
+<ol start="2" style="list-style-type: lower-roman">
+<li><p>It could be a good thing to incorporate the ordinality of these variables to increase the efficiency of our estimates. Incorporating the ordinality of the data would provide us with a model that does not have an overabundance of parameters, but also does not assume independence.</p></li>
+<li></li>
+<li><p>Our model would be:</p></li>
+</ol>
+<p><span class="math inline">\(log(\mu_{ij})=\lambda+\lambda_i^I+\lambda_j^S+\beta{u_iv_j}\)</span></p>
+<p>where <span class="math inline">\(i=1,2,3,4\)</span> and <span class="math inline">\(j=1,2,3,4\)</span>. The coefficients are:</p>
+<pre class="r"><code>table.sat$jobsat.ord = c((rep(1, 4)), rep(2, 4), rep(3, 4), rep(4, 4))
+table.sat$income.ord = c((rep(1:4, 4)))
+jobsat.ordmod = glm(count ~ factor(income) + factor(jobsat) + income.ord:jobsat.ord, family = poisson(link = log), data = table.sat)
+coef(jobsat.ordmod)</code></pre>
+<pre><code>##           (Intercept)      factor(income)10      factor(income)20 
+##             0.2556782            -0.6834874            -2.2281806 
+##      factor(income)30      factor(jobsat)LD      factor(jobsat)MS 
+##            -3.4908018             0.5073347             1.1187017 
+##      factor(jobsat)VS income.ord:jobsat.ord 
+##            -0.9501967             0.3950923</code></pre>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Our hypotheses are:</li>
+</ol>
+<p><span class="math inline">\(H_0:\beta=0\)</span> versus <span class="math inline">\(H_A: \beta\neq{0}\)</span></p>
+<p>When we run a likelihood ratio test comparing the model with <span class="math inline">\(\beta\)</span> to the model without it, we obtain a test statistic of 8.103. On a chi-squared distribution with 1 degree of freedom, the probability of obtaining results as or more extreme that the ones we have is 0.004. This is less than <span class="math inline">\(\alpha=0.05\)</span>, so we reject the null hypothesis and conclude that <span class="math inline">\(\beta\)</span> should be included in the model.</p>
+<pre class="r"><code>anova(jobsat.ind, jobsat.ordmod, test=&quot;Chisq&quot;)</code></pre>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Yes; because the goodness of fit test comparing the model with the <span class="math inline">\(\beta\)</span> term to the model without the <span class="math inline">\(\beta\)</span> term was significant, we know that independence likely does not hold in this dataset. It is quite possible that income and job satisfaction are linearly related.<br />
+</li>
+<li>The hypotheses are:</li>
+</ol>
+<p><span class="math inline">\(H_0:\lambda_{ij}^{IS}=0\)</span> versus <span class="math inline">\(H_A:\lambda_{ij}^{IS}\neq{0}\)</span></p>
+<p>We can run a goodness of fit test comparing our ordinal model with the saturated model. Our test statistic is 5.36. On a chi-squared distribution with 8 degrees of freedom, our p-value is 0.718. This is fairly large, so we fail to reject the null hypothesis that <span class="math inline">\(\lambda_{ij}^{IS}=0\)</span>. The degrees of freedom of the test statistic is 8 because there are 8 additional parameters in the saturated model. The saturated model has <span class="math inline">\((n-1)=16-1=15\)</span> parameters, which includes all of the parameters that the ordinal model has as well as 9 interaction terms. The ordinal model also has one parameter that the saturated model does not: the <span class="math inline">\(\beta\)</span> term. Therefore, the degrees of freedom are 8.</p>
+<pre class="r"><code>1-pchisq(5.3644, 8)</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>jobsat.sat = glm(count ~ factor(income)*jobsat, family = poisson(link = log), data=table.sat)
+jobsatdata = data.frame(fitted(jobsat.ind), type=&quot;response&quot;)
+jobsatdata = cbind(jobsatdata, fitted(jobsat.ordmod), type=&quot;response&quot;)
+jobsatdata = cbind(jobsatdata, fitted(jobsat.sat), type=&quot;response&quot;)
+jobsatdata = subset(jobsatdata, select = c(&quot;fitted.jobsat.ind.&quot;, &quot;fitted(jobsat.ordmod)&quot;, &quot;fitted(jobsat.sat)&quot;))
+jobsatdata = signif(jobsatdata, 3)
+jobsatdata = cbind(table.sat[,c(&quot;income&quot;,&quot;jobsat&quot;)], jobsatdata)
+names(jobsatdata) = c(&quot;Income&quot;,&quot;Job Satisfaction&quot;,&quot;Independence&quot;,&quot;Ordinal&quot;,&quot;Saturated&quot;)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(jobsatdata, &quot;latex&quot;, booktabs = T) %&gt;% kable_styling(position=&quot;center&quot;)</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Based off of our analyses, I believe that income and job satisfaction are not independent. The ordinal term that we added seemed to improve our predictions based on the fitted counts from our table in part (d). Furthermore, when we used a likelihood ratio test to compare the ordinal model to the independence model, our results were significant, meaning that <span class="math inline">\(\beta\)</span> should be included in the model and that income and job satisfaction are not independent.</li>
+</ol>
+<p><strong>(2)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>The loglinear models that correspond to this independence graph are: <span class="math inline">\((AB, AC, BC, CD, DE, DF, EF)\)</span>, <span class="math inline">\((AB, AC, BC, CD, DEF)\)</span>, <span class="math inline">\((ABC, CD, DE, DF, EF)\)</span>, and <span class="math inline">\((ABC, CD, DEF)\)</span>.</li>
+<li>No, <span class="math inline">\(B\)</span> and <span class="math inline">\(F\)</span> are not independent, but rather conditionally independent because they are connected by a path in the independence graph.</li>
+<li>Yes, <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> are conditionally independent given <span class="math inline">\(D\)</span>, as well as given <span class="math inline">\((B, C, D, F)\)</span>, <span class="math inline">\((B, C, D)\)</span>, <span class="math inline">\((C, D, F)\)</span>, <span class="math inline">\((C,D)\)</span>, or <span class="math inline">\(C\)</span>.</li>
+<li>Yes, results would differ between the two models. Since the second model is the homogeneous model, no pair of variables is conditionally independent. Collapsibility conditions are not met and the marginal association between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> from the second model would be different from the first model.</li>
+<li>Yes, the conditional association between <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>, conditional on <span class="math inline">\(A\)</span>, is collapsible over <span class="math inline">\((D, E, F)\)</span> because the conditional associations between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> and between <span class="math inline">\(A\)</span> and <span class="math inline">\(C\)</span> are the same when collapsed over <span class="math inline">\((D, E, F)\)</span>.</li>
+<li>Yes; <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> are conditionally independent given <span class="math inline">\((Y, W)\)</span>, <span class="math inline">\(Y\)</span>, and <span class="math inline">\(W\)</span>.</li>
+</ol>
+<p><strong>(3)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>Our estimate for <span class="math inline">\(\beta\)</span> is <span class="math inline">\(\hat{\beta}=0.466\)</span>. The 95% Wald confidence interval, using the robust standard error, is <span class="math inline">\((0.086, 0.845)\)</span>.</li>
+</ol>
+<pre class="r"><code>problem3 = read.table(file=&quot;~/Desktop/Sara&#39;s Folder/UF Year 2/Spring 2020/STA 4504/Exam 3/problem3.txt&quot;)</code></pre>
+<pre class="r"><code>library(gee)
+mod1 = gee(Y ~ x, id=id, family=binomial, data=problem3)</code></pre>
+<pre class="r"><code>coefficients(mod1)
+betahat = summary(mod1)$coefficients[2, 1] 
+SEbetahat = summary(mod1)$coefficients[2, 4]
+z = 1.96
+cibetahat = c(betahat - z*SEbetahat, betahat + z*SEbetahat)
+cibetahat</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Judging by the output in part (a), I think the GEE was needed. Our GEE used an independence correlation structure and assumed that there was no correlation among outcomes. The robust standard error estimates are quite different from the naive estimates we would’ve gotten with a GLM, meaning that the GEE accounted for correlation in the data.</p></li>
+<li><p>The estimate of the random effects variance <span class="math inline">\(\hat{\sigma_u^2}=1.4771\)</span>.</p></li>
+</ol>
+<pre class="r"><code>library(lme4)
+mod2 = glmer(Y ~ (1|id) + x, data=problem3, family=binomial)
+print(VarCorr(mod2),comp=&quot;Variance&quot;)</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>The likelihood ratio test of <span class="math inline">\(H_0: \beta^*=0\)</span> versus <span class="math inline">\(H_A: \beta^*\neq{0}\)</span> provides us with a test statistic of 5.765. On a chi-squared distribution with 1 degree of freedom, the p-value is 0.01635. Since this is significant at <span class="math inline">\(\alpha=0.05\)</span>, we reject the null hypothesis. There is significant evidence that <span class="math inline">\(\beta^*\neq{0}\)</span>.</li>
+</ol>
+<pre class="r"><code>nullMod=glmer(Y ~ (1|id), data=problem3, family=binomial)
+anova(nullMod, mod2, test=&quot;Chisq&quot;)</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>curve(exp(mod1$coefficients[1]+mod1$coefficients[2]*x)/(1+exp(mod1$coefficients[1]+mod1$coefficients[2]*x)), main=&quot;Predicted probability of success as a function of X&quot;, ylab=&quot;Predicted probability of success&quot;, xlab=&quot;X&quot;, lwd=2, xlim=c(-12,12), ylim=c(0,1))
+ssmods &lt;- coef(mod2)$id
+names(ssmods)[1] &lt;- &quot;rand&quot;
+names(ssmods)[2] &lt;- &quot;fixed&quot;
+for(i in 1:43)
+{
+curve(exp(ssmods$rand[i]+ssmods$fixed[i]*x)/(1+exp(ssmods$rand[i]+ssmods$fixed[i]*x)), lty=3, add = TRUE)
+}
+legend(&quot;bottomright&quot;, c(&quot;Model 1 (GEE)&quot;,&quot;Model 2 (GLMM)&quot;), lwd=2:1, lty=c(1,3))</code></pre>
+<p><img src="Journal_files/figure-html/4504%203e-1.png" width="672" style="display: block; margin: auto;" /> (f) The GEE might be preferred over a GLMM because GLMMs assume that the random effects follow a known probability distribution, typically a normal distribution, which might not be the case.</p>
+<p><strong>(4)</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>I think that this model will not fit the data well, as it is assuming that all three variables (gender, political party, and ideology) are independent. This is likely not the case, as political party and ideology are probably correlated.</li>
+</ol>
+<pre class="r"><code>ideology = read.table(file=&quot;~/Desktop/Sara&#39;s Folder/UF Year 2/Spring 2020/STA 4504/Exam 3/ideology.txt&quot;)
+ideology$Ideology = factor(ideology$Ideology, levels = c(&quot;VLib&quot;, &quot;SLib&quot;, &quot;Mod&quot;, &quot;SCon&quot;, &quot;VCon&quot;))</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>We can assess whether or not this model fits the data well using a goodness of fit test. Our hypotheses are <span class="math inline">\(H_0: \lambda_{ij}^{GP}=\lambda_{ik}^{GI}=\lambda_{jk}^{PI}=\lambda_{ijk}^{GPI}=0\)</span> versus <span class="math inline">\(H_A\)</span>: at least one term does not equal zero. We obtain a test statistic of 79.85. On a chi-squared distribution with 13 degrees of freedom, our p-value is <span class="math inline">\(&lt;0.001\)</span>. Thus, we reject the null of independence. There is significant evidence that the independence model does not fit the data well.</li>
+</ol>
+<pre class="r"><code>ideology.ind = glm(Count ~ Gender + Party + Ideology,family = poisson(link = log), data = ideology)
+coefficients(ideology.ind)
+1-pchisq(deviance(ideology.ind), 13)</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>ideology.GP.GI.PI = glm(Count ~ Gender*Party + Gender*Ideology + Party*Ideology,family = poisson(link = log), data = ideology)</code></pre>
+<ol style="list-style-type: lower-roman">
+<li>The model does not assume any independencies; all variables are conditionally associated. However, the model assumes that the three-way interaction term between gender, party, and ideology is not needed. Thus, it restricts each pair of variables to have the same association for all levels of the third variable.</li>
+<li>This equation can be rewritten as:</li>
+</ol>
+<p><span class="math inline">\(\frac{P(G=1|P=j, I=4)(P(G=2|P=j, I=3)}{P(G=2|P=j, I=4)P(G=1|P=j, I=3)}=\frac{\mu_{1(j)4}\mu_{2(j)3}}{\mu_{2(j)4}\mu_{1(j)3}}\)</span></p>
+<p>We can then write:</p>
+<p><span class="math inline">\(log(\theta_{G(j)I})=log(\frac{\mu_{1(j)4}\mu_{2(j)3}}{\mu_{2(j)4}\mu_{1(j)3}})\)</span><br />
+<span class="math inline">\(=\lambda_{14}^{GI}+\lambda_{23}^{GI}-\lambda_{24}^{GI}-\lambda_{13}^{GI}\)</span></p>
+<p>Since the first and last term are 0, this simplifies to:</p>
+<p><span class="math inline">\(\theta_{G(j)I}=e^{\lambda_{23}^{GI}-\lambda_{24}^{GI}}\)</span></p>
+<p>which we can obtain using the model we fit earlier. Our estimate for the conditional gender-ideology odds ratio at both levels of party is 0.586.</p>
+<pre class="r"><code>or = exp(summary(ideology.GP.GI.PI)$coefficients[10, 1]-summary(ideology.GP.GI.PI)$coefficients[11, 1])
+or</code></pre>
+<ol start="3" style="list-style-type: lower-roman">
+<li>To obtain a 95% confidence interval, we first need to estimate <span class="math inline">\(SE_{\hat{\lambda_{23}^{GI}}-\hat{\lambda_{24}^{GI}}}\)</span> by</li>
+</ol>
+<p><span class="math inline">\(\sqrt{Var(\hat{\lambda_{23}^{GI}})+Var(\hat{\lambda_{24}^{GI}})-2Cov(\hat{\lambda_{23}^{GI}},\hat{\lambda_{24}^{GI}})}\)</span></p>
+<p>Then, we can compute the confidence interval by multiplying this standard error by 1.96 and adding and subtracting it from our estimate. We are 95% confident that the interval <span class="math inline">\((0.384, 0.895)\)</span> captures the true conditional odds ratio of a woman being somewhat conservative versus being moderate when compared to men, across all levels of party.</p>
+<pre class="r"><code>covMat = vcov(ideology.GP.GI.PI)
+SEor = sqrt(covMat[10,10] + covMat[11,11] - 2*covMat[10,11])
+CI = (summary(ideology.GP.GI.PI)$coefficients[10, 1]-summary(ideology.GP.GI.PI)$coefficients[11, 1]) + c(-1.96, 1.96)*SEor
+exp(CI)</code></pre>
+<ol start="4" style="list-style-type: lower-roman">
+<li>Our hypotheses are:</li>
+</ol>
+<p><span class="math inline">\(H_0:\lambda_{ik}^{GI}=0\)</span> versus <span class="math inline">\(H_A:\lambda_{ik}^{GI}\neq{0}\)</span></p>
+<p>We can then run a likelihood ratio test to see if the model with <span class="math inline">\(\lambda_{ik}^{GI}\)</span> performs significantly better than the model without <span class="math inline">\(\lambda_{ik}^{GI}\)</span>. We obtain a chi-squared test statistic of 8.965 on 4 degrees of freedom. Our p-value, 0.062, provides us with some, but not significant evidence to reject the null hypothesis. We can conclude that the GI interaction terms are not important.</p>
+<pre class="r"><code>ideology.GP.PI = glm(Count ~ Gender*Party + Party*Ideology,family = poisson(link = log), data = ideology)
+anova(ideology.GP.PI, ideology.GP.GI.PI, test = &quot;Chisq&quot;)</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>ideology.G.PI = glm(Count ~ Gender + Party*Ideology,family = poisson(link = log), data = ideology)
+ideology.GPI = glm(Count ~ Gender*Party*Ideology,family = poisson(link = log), data = ideology)
+Deviance = c(deviance(ideology.ind), deviance(ideology.G.PI), deviance(ideology.GP.GI.PI), deviance(ideology.GPI))
+Deviance = signif(Deviance, 3)
+Model = c(&quot;(G, P, I)&quot;, &quot;(G, PI)&quot;, &quot;(GP, GI, PI)&quot;, &quot;(GPI)&quot;)
+devtable = cbind(Model, Deviance)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+kable(devtable, booktabs = T) %&gt;% kable_styling(position=&quot;center&quot;)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Model
+</th>
+<th style="text-align:left;">
+Deviance
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(G, P, I)
+</td>
+<td style="text-align:left;">
+79.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(G, PI)
+</td>
+<td style="text-align:left;">
+17.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(GP, GI, PI)
+</td>
+<td style="text-align:left;">
+3.25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(GPI)
+</td>
+<td style="text-align:left;">
+2.35e-14
+</td>
+</tr>
+</tbody>
+</table>
+<p>I think that the <span class="math inline">\((GP, GI, PI)\)</span> model is best because it seems to predict the response much better than the model with only an interaction between party and ideology. Additionally, it does not do much worse than the model with three-way interaction terms, so there is little reason to add these terms into the model.</p>
 </div>
 </div>
 </div>
