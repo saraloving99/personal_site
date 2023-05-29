@@ -17,8 +17,8 @@ library(ggplot2)
 ```
 
 # STA 4241: Statistical Learning, Spring 2022 {.tabset}
-## Homework \#1
-### Homework \#1
+## Assignment \#1
+### Assignment \#1
 #### January 26, 2022
 
 **Question 1**  
@@ -141,8 +141,8 @@ mean(knnMarket != testing$Direction)
   
   (ii) Yes, the widths of both confidence intervals go 0 as $n\rightarrow\infty$ since $n$ is in the denominator of both margins of error. As $n$ increases, the intervals will eventually become single numbers (the estimates of the average and the randomly chosen individual) and the margin of error approaches 0.
 
-## Homework \#2
-### Homework \#2
+## Assignment \#2
+### Assignment \#2
 #### February 9, 2022
 
 ```{r setup2, include=FALSE}
@@ -336,8 +336,8 @@ legend(x = "topright", legend = c("LDA", "QDA"), col = c("purple", "blue"), pch 
 
 It seems as though the relative performance of LDA/QDA does not really depend on the sample size. Looking at 100 sample sizes ranging from 100 to 10,000, both the error rates for LDA and for QDA are fairly randomly scattered, though those for QDA are slightly less scattered than those for LDA. Furthermore, as explained previously, the error rates for LDA are consistently higher than those for QDA. 
 
-## Homework \#3
-### Homework \#3
+## Assignment \#3
+### Assignment \#3
 #### February 23, 2022
 
 ```{r setup3, include=FALSE}
@@ -623,8 +623,8 @@ apply(cov, 2, mean, na.rm = TRUE)
 
 Let $q_{\alpha/2}$ and $q_{1-\alpha/2}$ represent the $\alpha/2$ and $1-\alpha/2$ quantiles of the bootstrap replicates $\hat{\theta}^{(b)}$. It follows that since the distribution of $\theta-\hat{\theta}$ is approximated by $\hat{\theta}-\hat{\theta}^{(b)}$, $$1-\alpha=P(q_{\alpha/2}\leq\hat{\theta}^{(b)}\leq q_{1-\alpha/2})$$ $$=P(-q_{\alpha/2}\geq-\hat{\theta}^{(b)}\geq -q_{1-\alpha/2})$$ $$=P(-q_{1-\alpha/2}\leq-\hat{\theta}^{(b)}\leq -q_{\alpha/2})$$ $$=P(\hat{\theta}-q_{1-\alpha/2}\leq\hat{\theta}-\hat{\theta}^{(b)}\leq \hat{\theta}-q_{\alpha/2})$$ $$\approx P(\hat{\theta}-q_{1-\alpha/2}\leq\theta-\hat{\theta}\leq\hat{\theta}-q_{\alpha/2})$$ $$=P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})$$ Thus, $P(2\hat{\theta}-q_{1-\alpha/2}\leq\theta\leq 2\hat{\theta}-q_{\alpha/2})\approx 1-\alpha$.
 
-## Homework \#4
-### Homework \#4
+## Assignment \#4
+### Assignment \#4
 #### March 30, 2022
 
 ```{r setup4, include=FALSE}
@@ -807,8 +807,8 @@ Suppose we estimate a function $f(\cdot)$ using $$\hat{f}=\arg\min_f\left(\sum^n
   (d) When $\lambda=0$ and $m=3$, the penalty term will be canceled out, and the function will interpolate the original data exactly.
   
 # STA 4273: Statistical Computing in R, Fall 2021 {.tabset}
-## Homework \#1
-### Homework \#1
+## Assignment \#1
+### Assignment \#1
 #### September 13, 2021
 
 ```{r setup5, include=FALSE}
@@ -966,8 +966,8 @@ x <- rexp(1000, lambda)
 plot(sort(x), ylab = "Y", main = "Exponential-Gamma Mixture with r = 4 and beta = 2")
 ```
 
-## Homework \#2
-### Homework \#2
+## Assignment \#2
+### Assignment \#2
 #### October 4, 2021
 
 ```{r setup6, include=FALSE}
@@ -1667,8 +1667,8 @@ The research question I am asking is: "Are Black Americans more likely than whit
 Many more Black Americans are killed compared to white Americans in most states. The maximum percentage of white people killed in police shootings in a state from 2015-2021 was 0.0009% in Oklahoma, while the maximum percentage of black people killed in police shootings in a state from 2015-2021 was 0.0037% in Utah. Additionally, it is evident that the map of percent of Black Americans killed in police shootings by state is much darker than the map of percent of white Americans. Finally, my map of the odds of being killed as a Black American displays that in some states, Black Americans are up to 20 times more likely to be killed than white Americans. In sum, Black Americans are more likely than white Americans to be killed in instances of fatal police shootings, a fact that has gathered media attention in recent years and is indicative of a need for change in our policing system.
 
 # STA 4322: Intro to Statistics Theory, Fall 2020 {.tabset}
-## Homework \#1
-### Homework \#1
+## Assignment \#1
+### Assignment \#1
 #### September 28, 2020
 
 **(7.9)**  
@@ -1752,8 +1752,8 @@ $U=T^2=\frac{\frac{Z^2}{1}}{\frac{W}{v}}$
 
 which means, by definition 7.3, that $T^2$ follows an $F$ distribution with $1$ numerator degrees of freedom and $\nu$ denominator degrees of freedom.
 
-## Homework \#2
-### Homework \#2
+## Assignment \#2
+### Assignment \#2
 #### September 28, 2020
 
 **(7.9)**  
@@ -1912,8 +1912,8 @@ $\frac{2(n-1)}{V(S^2)}=\frac{(n-1)^2}{\sigma^4}V(S^2)$
 
 $V(S^2)=\frac{2\sigma^4}{n-1}$
 
-## Homework \#3
-### Homework \#3
+## Assignment \#3
+### Assignment \#3
 #### October 7, 2020
 
 **(8.12)**  
@@ -2016,8 +2016,8 @@ $E(\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n}))=\frac{n}{(n-1)}E(\frac{Y}{n}(1-\fr
 
 Thus, $\frac{n}{(n-1)}\frac{Y}{n}(1-\frac{Y}{n})$ is an unbiased estimator of $V(Y)$.
 
-## Homework \#4
-### Homework \#4
+## Assignment \#4
+### Assignment \#4
 #### October 21, 2020
 
 **(8.65)**  
@@ -2095,8 +2095,8 @@ $(-9.81, 71.81)$
 
 (d) For the methods used in this question to be valid, we must assume that the samples are taken independently from a normal population and that $\sigma_E=\sigma_L$.
 
-## Homework \#5
-### Homework \#5
+## Assignment \#5
+### Assignment \#5
 #### November 20, 2020
 
 **(9.17)**  
@@ -2197,8 +2197,8 @@ $\lim_{n \to \infty} Var(\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2+\Sigma^n_{i=1}(Y_i-
 
 Thus, this is a consistent estimator for $\sigma^2$. 
 
-## Homework \#6
-### Homework \#6
+## Assignment \#6
+### Assignment \#6
 #### December 2, 2020
 
 **(9.39)**  
@@ -2279,8 +2279,8 @@ $Var(\hat{\mu}^2)=Var(\bar{Y}^2-\frac{1}{n})=\frac{3}{n^2}+\frac{6\mu^2}{n}+\mu^
 $=\frac{(2+4n\mu^2)}{n^2}$
 
 # STA 4504: Categorical Data Analysis, Spring 2020 {.tabset}
-## Homework \#3
-### Homework \#3
+## Assignment \#3
+### Assignment \#3
 #### April 8, 2020
 
 **(1)**
@@ -2462,8 +2462,8 @@ This value seems large, implying that there is high correlation between subjects
 
 (g) No, the estimates of $(\beta_2, \beta_3)$ and $(\beta_2^*, \beta_3^*)$ are not similar because they are estimating different quantities and there is a large amount of variability across subjects.
 
-## Homework \#4
-### Homework \#4
+## Assignment \#4
+### Assignment \#4
 #### April 22, 2020
 
 
