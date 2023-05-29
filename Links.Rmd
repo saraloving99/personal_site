@@ -1,5 +1,6 @@
 ---
-title: "Resources"
+title: "Resume"
 output: html_document
 ---
 
+<iframe src="/Users/saraloving/Documents/GitHub/personal_site/Journal_files/figure-html/Resume.pdf" width="100%" height="600px"></iframe>
