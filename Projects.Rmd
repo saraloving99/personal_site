@@ -56,11 +56,11 @@ floctober <- plyr::mutate(floctober, Agecat2 = case_when(Age >= 18  & Age <= 23 
 floctober <- dplyr::select(floctober, -c("BirthDate", "Age"))
 flrejections <- dplyr::select(flrejections, -c("reg.year"))
 flrejections <- rbind(flrejections, floctober)
-flrejections<-dplyr::select(flrejections, -c(NameSuffix, DaytimeAreaCode,DaytimePhoneNumber,EmailAddress))
+flrejections <- dplyr::select(flrejections, -c(NameSuffix, DaytimeAreaCode,DaytimePhoneNumber,EmailAddress))
 flrejections$ResidenceState="Florida"
 library(stringr)
 flrejections$ResidenceZipcode <- substr(flrejections$ResidenceZipcode, 0, 5)
-flrejections$location<-paste0(flrejections$ResidenceAddressLine1, ", ", flrejections$ResidenceCity, ", FL ", flrejections$ResidenceZipcode)
+flrejections$location <- paste0(flrejections$ResidenceAddressLine1, ", ", flrejections$ResidenceCity, ", FL ", flrejections$ResidenceZipcode)
 
 library(sp)
 library(raster)
@@ -317,23 +317,35 @@ library(gridExtra)
 ```
 I then loaded in my data files and altered the variables to fit my analysis; for example, by making sure the dates were in a consistent format, creating new variables such as "month" and "age group," and factoring some variables:
 ```{r load, echo = T, eval = F, results = 'hide'}
-ncvoter<-read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 2/Fall 2019/POS4931/POS4931 Project/ncvoterfile2019.csv")
-ncvoter$registr_dt<-ymd(ncvoter$registr_dt)
-ncvoter<-ncvoter %>% group_by(month=floor_date(registr_dt, "month"))
-ncvoter$party_cd<-revalue(ncvoter$party_cd, c("CST"="OTH", "GRE"="OTH", "LIB"="OTH"))
-ncvoter$party_cd <- factor(ncvoter$party_cd, levels=c("OTH", "DEM", "REP", "UNA"))
-ncvoter <- filter(ncvoter, birth_age>=18, birth_age<=100)
-labs<-c(paste(seq(18, 81, by = 8), seq(18 + 8 - 1, 82-1, by = 8), sep = "-"), paste(82, "+", sep = ""))
-ncvoter$age_group <- cut(ncvoter$birth_age, breaks = c(seq(18, 82, by = 8), Inf), labels = labs, right = FALSE)
-ncvoter<-filter(ncvoter, voter_status_reason_desc!=c("DECEASED"))
-flvoter<-read.csv("floridavoterfile2019.csv")
-flvoter$reg_date<-ymd(flvoter$reg_date)
-flvoter<-flvoter %>% group_by(month=floor_date(reg_date, "month"))
-flvoter$party_cd<-revalue(flvoter$party_cd, c("CPF"="OTH", "ECO"="OTH", "GRE"="OTH", "IND"="OTH", "LPF"="OTH", "PSL"="OTH", "REF"="OTH"))
-flvoter$party_cd <- factor(flvoter$party_cd, levels=c("OTH", "DEM", "REP", "NPA"))
-flvoter <- filter(flvoter, birth_age>=18, birth_age<=100)
-labs<-c(paste(seq(18, 81, by = 8), seq(18 + 8 - 1, 82-1, by = 8), sep = "-"), paste(82, "+", sep = ""))
-flvoter$age_group <- cut(flvoter$birth_age, breaks = c(seq(18, 82, by = 8), Inf), labels = labs, right = FALSE)
+ncvoter <- read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 2/Fall 2019/POS4931/POS4931 Project/ncvoterfile2019.csv")
+ncvoter <- ncvoter %>%
+  mutate(registr_dt = ymd(registr_dt)) %>%
+  group_by(month = floor_date(registr_dt, "month")) %>%
+  mutate(party_cd = revalue(party_cd, c("CST" = "OTH", "GRE" = "OTH", "LIB" = "OTH")),
+         party_cd = factor(ncvoter$party_cd, levels = c("OTH", "DEM", "REP", "UNA"))) %>%
+  filter(birth_age >= 18, birth_age <= 100,
+         voter_status_reason_desc != c("DECEASED"))
+labs <- c(paste(seq(18, 81, by = 8), seq(18 + 8 - 1, 82-1, by = 8), sep = "-"), paste(82, "+", sep = ""))
+ncvoter <- ncvoter %>% 
+  mutate(age_group = cut(birth_age, 
+                         breaks = c(seq(18, 82, by = 8), Inf), 
+                         labels = labs, 
+                         right = FALSE))
+
+flvoter <- read.csv("/Users/saraloving/Desktop/Sara's Folder/UF Year 2/Fall 2019/POS4931/POS4931 Project/floridavoterfile2019.csv")
+flvoter <- flvoter %>%
+  mutate(reg_date = ymd(reg_date)) %>% 
+  group_by(month = floor_date(reg_date, "month")) %>%
+  mutate(party_cd = revalue(party_cd, c("CPF" = "OTH", "ECO" = "OTH", "GRE" = "OTH", "IND" = "OTH", "LPF" = "OTH", "PSL" = "OTH", "REF" = "OTH")),
+         party_cd = factor(party_cd, levels = c("OTH", "DEM", "REP", "NPA"))) %>%
+  filter(birth_age >= 18, birth_age <= 100)
+labs <- c(paste(seq(18, 81, by = 8), seq(18 + 8 - 1, 82-1, by = 8), sep = "-"), paste(82, "+", sep = ""))
+flvoter <- flvoter %>%
+  mutate(age_group = cut(birth_age, 
+                         breaks = c(seq(18, 82, by = 8), Inf), 
+                         labels = labs, 
+                         right = FALSE))
+
 colors <- c("blanchedalmond", "royalblue2","firebrick2","darkorchid3")
 ```
 
@@ -341,14 +353,38 @@ colors <- c("blanchedalmond", "royalblue2","firebrick2","darkorchid3")
 I first wanted to test if party registration proportions vary according to month. It is already well-documented that during the month of an election deadline, the number of voters registering increases greatly. For example, here's the voter registration by month in 2016 and 2018 in Florida and North Carolina:
 
 ```{r voterregmonth, eval = F}
-flvoter2016 <- filter(flvoter, reg_date>=as.Date("2016-01-01"), reg_date<=as.Date("2016-12-31"))
-flvotermonth2016 <- ggplot(data = flvoter2016) + geom_bar(aes(x = month), stat="count") + labs(title = "Voter Registration by Month", subtitle = "Florida, 2016", x = "Month", y = "Voters Registered")
-ncvoter2016 <- filter(ncvoter, registr_dt>=as.Date("2016-01-01"), registr_dt<=as.Date("2016-12-31"))
-ncvotermonth2016 <- ggplot(data = ncvoter2016) + geom_bar(aes(x = month), stat="count") + labs(title = "Voter Registration by Month", subtitle = "North Carolina, 2016", x = "Month", y = "Voters Registered")
-flvoter2018 <- filter(flvoter, reg_date>=as.Date("2018-01-01"), reg_date<=as.Date("2018-12-31"))
-flvotermonth2018 <- ggplot(data = flvoter2018) + geom_bar(aes(x = month), stat="count") + labs(title = "Voter Registration by Month", subtitle = "Florida, 2018", x = "Month", y = "Voters Registered")
-ncvoter2018 <- filter(ncvoter, registr_dt>=as.Date("2018-01-01"), registr_dt<=as.Date("2018-12-31"))
-ncvotermonth2018 <- ggplot(data = ncvoter2018) + geom_bar(aes(x = month), stat="count") + labs(title = "Voter Registration by Month", subtitle = "North Carolina, 2018", x = "Month", y = "Voters Registered")
+flvoter2016 <- filter(flvoter, reg_date >= as.Date("2016-01-01"), reg_date <= as.Date("2016-12-31"))
+flvotermonth2016 <- ggplot(data = flvoter2016) + 
+  geom_bar(aes(x = month), stat = "count") + 
+  labs(title = "Voter Registration by Month", 
+       subtitle = "Florida, 2016", 
+       x = "Month", 
+       y = "Voters Registered")
+
+ncvoter2016 <- filter(ncvoter, registr_dt >= as.Date("2016-01-01"), registr_dt <= as.Date("2016-12-31"))
+ncvotermonth2016 <- ggplot(data = ncvoter2016) + 
+  geom_bar(aes(x = month), stat = "count") + 
+  labs(title = "Voter Registration by Month", 
+       subtitle = "North Carolina, 2016", 
+       x = "Month", 
+       y = "Voters Registered")
+
+flvoter2018 <- filter(flvoter, reg_date >= as.Date("2018-01-01"), reg_date <= as.Date("2018-12-31"))
+flvotermonth2018 <- ggplot(data = flvoter2018) + 
+  geom_bar(aes(x = month), stat = "count") + 
+  labs(title = "Voter Registration by Month", 
+       subtitle = "Florida, 2018", 
+       x = "Month", 
+       y = "Voters Registered")
+
+ncvoter2018 <- filter(ncvoter, registr_dt >= as.Date("2018-01-01"), registr_dt <= as.Date("2018-12-31"))
+ncvotermonth2018 <- ggplot(data = ncvoter2018) + 
+  geom_bar(aes(x = month), stat = "count") + 
+  labs(title = "Voter Registration by Month", 
+       subtitle = "North Carolina, 2018", 
+       x = "Month", 
+       y = "Voters Registered")
+
 grid.arrange(flvotermonth2016, ncvotermonth2016, flvotermonth2018, ncvotermonth2018, nrow = 2, ncol = 2)
 ```  
 
@@ -359,10 +395,42 @@ knitr::include_graphics("/Users/saraloving/Documents/GitHub/personal_site/Journa
 As can be seen, the number of new registrations spikes in the months before primary and general elections. Next, I created fill charts displaying the proportion of new registrants that belonged to each party (DEM stands for Democrat, REP stands for Republican, NPA/UNA stands for No Party Affiliation/Unaffiliated, and OTH means the voter registered for a party that was not one of the other three):
 
 ```{r partyregmonth, eval = F}
-ncpartyregmonth2016 <- ggplot(data = ncvoter2016) + geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Month", subtitle="North Carolina, 2016", x="Month", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-flpartyregmonth2016 <- ggplot(data = flvoter2016) + geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Month", subtitle="Florida, 2016", x="Month", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-ncpartyregmonth2018 <- ggplot(data = ncvoter2018) + geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Month", subtitle="North Carolina, 2018", x="Month", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-flpartyregmonth2018 <- ggplot(data = flvoter2018) + geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Month", subtitle="Florida, 2018", x="Month", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
+ncpartyregmonth2016 <- ggplot(data = ncvoter2016) + 
+  geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Month", 
+       subtitle = "North Carolina, 2016", 
+       x = "Month", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+flpartyregmonth2016 <- ggplot(data = flvoter2016) + 
+  geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Month", 
+       subtitle = "Florida, 2016", 
+       x = "Month", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+ncpartyregmonth2018 <- ggplot(data = ncvoter2018) + 
+  geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Month", 
+       subtitle = "North Carolina, 2018", 
+       x = "Month", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+flpartyregmonth2018 <- ggplot(data = flvoter2018) + 
+  geom_bar(mapping = aes(x = month, fill = party_cd), position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Month", 
+       subtitle = "Florida, 2018", 
+       x = "Month", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
 grid.arrange(flpartyregmonth2016, ncpartyregmonth2016, flpartyregmonth2018, ncpartyregmonth2018, nrow = 2, ncol = 2)
 ```
 
@@ -375,14 +443,46 @@ Since Florida has closed primary elections, it makes sense that the proportion o
 ## Voter Registration by Day
 After noticing this discrepancy, I decided to map out party registration by day in Fall 2016 and Fall 2018. Even though I only noticed the drop in unaffiliated registrants in North Carolina, I did this in Florida as well in case any other patterns were apparent. In the graphs below, the first line marks the day of the registration deadline and the second line marks the election date.
 ```{r voterregday, eval = F}
-ncvoter2016election<-filter(ncvoter, registr_dt>=as.Date("2016-09-13"), registr_dt<=as.Date("2016-11-22"))
-ncvoter2016day<-ggplot(data = ncvoter2016election) + geom_bar(aes(x = registr_dt), stat="count") + labs(title = "Voter Registration by Day", subtitle = "North Carolina, Fall 2016", x = "Date", y = "Voters Registered") + geom_vline(xintercept = as.Date("2016-10-14"), linetype="dashed", color = "red") + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "purple")
-flvoter2016election<-filter(flvoter, reg_date>=as.Date("2016-09-13"), reg_date<=as.Date("2016-11-22"))
-flvoter2016day<-ggplot(data = flvoter2016election) + geom_bar(aes(x = reg_date), stat="count") + labs(title = "Voter Registration by Day", subtitle = "Florida, Fall 2016", x = "Date", y = "Voters Registered") + geom_vline(xintercept = as.Date("2016-10-18"), linetype="dashed", color = "red") + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "purple")
-ncvoter2018election<-filter(ncvoter, registr_dt>=as.Date("2018-09-11"), registr_dt<=as.Date("2018-11-20"))
-ncvoter2018day<-ggplot(data = ncvoter2018election) + geom_bar(aes(x = registr_dt), stat="count") + labs(title = "Voter Registration by Day", subtitle = "North Carolina, Fall 2018", x = "Date", y = "Voters Registered") + geom_vline(xintercept = as.Date("2018-10-12"), linetype="dashed", color = "red") + geom_vline(xintercept = as.Date("2018-11-06"), linetype="dashed", color = "purple")
-flvoter2018election<-filter(flvoter, reg_date>=as.Date("2018-09-11"), reg_date<=as.Date("2018-11-20"))
-flvoter2018day<-ggplot(data = flvoter2018election) + geom_bar(aes(x = reg_date), stat="count") + labs(title = "Voter Registration by Day", subtitle = "Florida, Fall 2018", x = "Date", y = "Voters Registered") + geom_vline(xintercept = as.Date("2018-10-09"), linetype="dashed", color = "red") + geom_vline(xintercept = as.Date("2018-11-06"), linetype="dashed", color = "purple")
+ncvoter2016election <- filter(ncvoter, registr_dt >= as.Date("2016-09-13"), registr_dt <= as.Date("2016-11-22"))
+ncvoter2016day <- ggplot(data = ncvoter2016election) + 
+  geom_bar(aes(x = registr_dt), stat = "count") + 
+  labs(title = "Voter Registration by Day", 
+       subtitle = "North Carolina, Fall 2016", 
+       x = "Date", 
+       y = "Voters Registered") + 
+  geom_vline(xintercept = as.Date("2016-10-14"), linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "purple")
+
+flvoter2016election <- filter(flvoter, reg_date >= as.Date("2016-09-13"), reg_date <= as.Date("2016-11-22"))
+flvoter2016day <- ggplot(data = flvoter2016election) + 
+  geom_bar(aes(x = reg_date), stat = "count") + 
+  labs(title = "Voter Registration by Day", 
+       subtitle = "Florida, Fall 2016", 
+       x = "Date", 
+       y = "Voters Registered") + 
+  geom_vline(xintercept = as.Date("2016-10-18"), linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "purple")
+
+ncvoter2018election <- filter(ncvoter, registr_dt >= as.Date("2018-09-11"), registr_dt <= as.Date("2018-11-20"))
+ncvoter2018day <- ggplot(data = ncvoter2018election) + 
+  geom_bar(aes(x = registr_dt), stat = "count") + 
+  labs(title = "Voter Registration by Day", 
+       subtitle = "North Carolina, Fall 2018", 
+       x = "Date", 
+       y = "Voters Registered") + 
+  geom_vline(xintercept = as.Date("2018-10-12"), linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = as.Date("2018-11-06"), linetype = "dashed", color = "purple")
+
+flvoter2018election <- filter(flvoter, reg_date >= as.Date("2018-09-11"), reg_date <= as.Date("2018-11-20"))
+flvoter2018day <- ggplot(data = flvoter2018election) + 
+  geom_bar(aes(x = reg_date), stat = "count") + 
+  labs(title = "Voter Registration by Day", 
+       subtitle = "Florida, Fall 2018", 
+       x = "Date", 
+       y = "Voters Registered") + 
+  geom_vline(xintercept = as.Date("2018-10-09"), linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = as.Date("2018-11-06"), linetype = "dashed", color = "purple")
+
 grid.arrange(flvoter2016day, ncvoter2016day, flvoter2018day, ncvoter2018day, nrow = 2, ncol = 2)
 ```
 
@@ -393,10 +493,50 @@ knitr::include_graphics("/Users/saraloving/Documents/GitHub/personal_site/Journa
 As can be seen in the graphs of voter registration by day, new registration spikes occurred on the day of the registration deadline as well as on Election Day. This corresponds to the idea that election-related stimuli encourage people to register to vote. (Note: The unmarked peak in registration in Florida in 2016 was likely because Florida moved its registration deadline due to Hurricane Matthew).  
 
 ```{r partyregday, eval = F}
-ncpartyregday2016<-ggplot(data = ncvoter2016election) + geom_bar(mapping = aes(x = registr_dt, fill = party_cd), binwidth = 1, position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Day", subtitle="North Carolina, Fall 2016", x="Day", y="Proportion of Total") + guides(fill=guide_legend(title="Party")) + geom_vline(xintercept = as.Date("2016-10-14"), linetype="dashed", color = "black") + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "black")
-flpartyregday2016<-ggplot(data = flvoter2016election) + geom_bar(mapping = aes(x = reg_date, fill = party_cd), binwidth = 1, position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Day", subtitle="Florida, Fall 2016", x="Day", y="Proportion of Total") + guides(fill=guide_legend(title="Party")) + geom_vline(xintercept = as.Date("2016-10-18"), linetype="dashed", color = "black") + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "black")
-ncpartyregday2018<-ggplot(data = ncvoter2018election) + geom_bar(mapping = aes(x = registr_dt, fill = party_cd), binwidth = 1, position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Day", subtitle="North Carolina, Fall 2018", x="Day", y="Proportion of Total") + guides(fill=guide_legend(title="Party")) + geom_vline(xintercept = as.Date("2018-10-12"), linetype="dashed", color = "black") + geom_vline(xintercept = as.Date("2018-11-06"), linetype="dashed", color = "black")
-flpartyregday2018<-ggplot(data = flvoter2018election) + geom_bar(mapping = aes(x = reg_date, fill = party_cd), binwidth = 1, position = "fill") + scale_fill_manual(values = colors) + labs(title="Party Registration by Day", subtitle="Florida, Fall 2018", x="Day", y="Proportion of Total") + guides(fill=guide_legend(title="Party")) + geom_vline(xintercept = as.Date("2018-10-09"), linetype="dashed", color = "black") + geom_vline(xintercept = as.Date("2018-11-06"), linetype="dashed", color = "black")
+ncpartyregday2016 <- ggplot(data = ncvoter2016election) + 
+  geom_bar(mapping = aes(x = registr_dt, fill = party_cd), binwidth = 1, position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Day", 
+       subtitle = "North Carolina, Fall 2016", 
+       x = "Day", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party")) + 
+  geom_vline(xintercept = as.Date("2016-10-14"), linetype = "dashed", color = "black") + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "black")
+
+flpartyregday2016 <- ggplot(data = flvoter2016election) + 
+  geom_bar(mapping = aes(x = reg_date, fill = party_cd), binwidth = 1, position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Day", 
+       subtitle = "Florida, Fall 2016", 
+       x = "Day", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party")) + 
+  geom_vline(xintercept = as.Date("2016-10-18"), linetype = "dashed", color = "black") + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "black")
+
+ncpartyregday2018 <- ggplot(data = ncvoter2018election) + 
+  geom_bar(mapping = aes(x = registr_dt, fill = party_cd), binwidth = 1, position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Day", 
+       subtitle = "North Carolina, Fall 2018", 
+       x = "Day", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party")) + 
+  geom_vline(xintercept = as.Date("2018-10-12"), linetype = "dashed", color = "black") + 
+  geom_vline(xintercept = as.Date("2018-11-06"), linetype = "dashed", color = "black")
+
+flpartyregday2018 <- ggplot(data = flvoter2018election) + 
+  geom_bar(mapping = aes(x = reg_date, fill = party_cd), binwidth = 1, position = "fill") + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Day", 
+       subtitle = "Florida, Fall 2018", 
+       x = "Day", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party")) + 
+  geom_vline(xintercept = as.Date("2018-10-09"), linetype = "dashed", color = "black") + 
+  geom_vline(xintercept = as.Date("2018-11-06"), linetype = "dashed", color = "black")
+
 grid.arrange(flpartyregday2016, ncpartyregday2016, flpartyregday2018, ncpartyregday2018, nrow = 2, ncol = 2)
 ```
 
@@ -409,8 +549,24 @@ The party registration seems somewhat random in Florida, likely due to some days
 ## Age as a Factor in Party Affiliation
 As voters age, their party ties grow stronger, even in states like North Carolina where one does not need to be affiliated with a party to vote in the primaries. I graphed age versus party affiliation in Florida and North Carolina to show this relationship:
 ```{r agegraph, eval = F}
-ncage<-ggplot(data = ncvoter) + geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth=1) + scale_fill_manual(values = colors) + labs(title="Party Registration by Age", subtitle="2019 North Carolina Voter File", x="Age", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-flage<-ggplot(data = flvoter) + geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth=1) + scale_fill_manual(values = colors) + labs(title="Party Registration by Age", subtitle="2019 Florida Voter File", x="Age", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
+ncage <- ggplot(data = ncvoter) + 
+  geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth = 1) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Age", 
+       subtitle = "2019 North Carolina Voter File", 
+       x = "Age", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+flage <- ggplot(data = flvoter) + 
+  geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth = 1) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Age", 
+       subtitle = "2019 Florida Voter File", 
+       x = "Age", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
 grid.arrange(flage, ncage, ncol = 2)
 ```
 
@@ -421,8 +577,28 @@ knitr::include_graphics("/Users/saraloving/Documents/GitHub/personal_site/Journa
 Thus, it is necessary to group by age and reexamine the relationship between registration timing and party affiliation we saw above.
 
 ```{r regbyage, eval = F}
-ncregage2016<-ggplot(data = ncvoter2016election) + geom_bar(aes(x = registr_dt), stat="count") + labs(title = "Voter Registration by Day, Grouped by Age", subtitle = "North Carolina, Fall 2016", x = "Date", y = "Voters Registered") + facet_wrap(~ age_group, ncol=3) + theme(axis.text.x = element_text(angle = 90)) + geom_vline(xintercept = as.Date("2016-10-14"), linetype="dashed", color = "red", size = 0.5) + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "purple", size = 0.5)
-flregage2016<-ggplot(data = flvoter2016election) + geom_bar(aes(x = reg_date), stat="count") + labs(title = "Voter Registration by Day, Grouped by Age", subtitle = "Florida, Fall 2016", x = "Date", y = "Voters Registered") + facet_wrap(~ age_group, ncol=3) + theme(axis.text.x = element_text(angle = 90)) + geom_vline(xintercept = as.Date("2016-10-18"), linetype="dashed", color = "red", size = 0.5) + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "purple", size = 0.5)
+ncregage2016 <- ggplot(data = ncvoter2016election) + 
+  geom_bar(aes(x = registr_dt), stat = "count") + 
+  labs(title = "Voter Registration by Day, Grouped by Age", 
+       subtitle = "North Carolina, Fall 2016", 
+       x = "Date", 
+       y = "Voters Registered") + 
+  facet_wrap(~ age_group, ncol = 3) + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  geom_vline(xintercept = as.Date("2016-10-14"), linetype = "dashed", color = "red", size = 0.5) + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "purple", size = 0.5)
+
+flregage2016 <- ggplot(data = flvoter2016election) + 
+  geom_bar(aes(x = reg_date), stat = "count") + 
+  labs(title = "Voter Registration by Day, Grouped by Age", 
+       subtitle = "Florida, Fall 2016", 
+       x = "Date", 
+       y = "Voters Registered") + 
+  facet_wrap(~ age_group, ncol = 3) + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  geom_vline(xintercept = as.Date("2016-10-18"), linetype = "dashed", color = "red", size = 0.5) + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "purple", size = 0.5)
+
 grid.arrange(flregage2016, ncregage2016, ncol = 2)
 ```
 
@@ -433,8 +609,32 @@ knitr::include_graphics("/Users/saraloving/Documents/GitHub/personal_site/Journa
 As can be seen above, not only does the youngest age group make up the largest group of new registrants in 2016 in both Florida and North Carolina, but also the "peaks" on the registration deadline and on Election Day are more exaggerated in younger groups. Now, let's examine party registration by day, grouped by age:
 
 ```{r partybyage, eval = F}
-ncpartyage2016<-ggplot(data = ncvoter2016election) + geom_histogram(mapping = aes(x = registr_dt, fill = party_cd), position = "fill", binwidth = 3) + scale_fill_manual(values = colors) + labs(title="Party Registration by Date", subtitle="North Carolina, Fall 2016", x="Date", y="Proportion of Total") + guides(fill=guide_legend(title="Party")) + facet_wrap(~ age_group, ncol=3) + theme(axis.text.x = element_text(angle = 90)) + geom_vline(xintercept = as.Date("2016-10-14"), linetype="dashed", color = "black", size = 0.5) + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "black", size = 0.5)
-flpartyage2016<-ggplot(data = flvoter2016election) + geom_bar(mapping = aes(x = reg_date, fill = party_cd), position = "fill", binwidth = 3) + scale_fill_manual(values = colors) + labs(title="Party Registration by Date", subtitle="Florida, Fall 2016", x="Date", y="Proportion of Total") + guides(fill=guide_legend(title="Party")) + facet_wrap(~ age_group, ncol=3) + theme(axis.text.x = element_text(angle = 90)) + geom_vline(xintercept = as.Date("2016-10-18"), linetype="dashed", color = "black", size = 0.5) + geom_vline(xintercept = as.Date("2016-11-08"), linetype="dashed", color = "black", size = 0.5)
+ncpartyage2016 <- ggplot(data = ncvoter2016election) + 
+  geom_histogram(mapping = aes(x = registr_dt, fill = party_cd), position = "fill", binwidth = 3) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Date", 
+       subtitle = "North Carolina, Fall 2016", 
+       x = "Date", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party")) + 
+  facet_wrap(~ age_group, ncol = 3) + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  geom_vline(xintercept = as.Date("2016-10-14"), linetype = "dashed", color = "black", size = 0.5) + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "black", size = 0.5)
+
+flpartyage2016 <- ggplot(data = flvoter2016election) + 
+  geom_bar(mapping = aes(x = reg_date, fill = party_cd), position = "fill", binwidth = 3) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Date", 
+       subtitle = "Florida, Fall 2016", 
+       x = "Date", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party")) + 
+  facet_wrap(~ age_group, ncol = 3) + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  geom_vline(xintercept = as.Date("2016-10-18"), linetype = "dashed", color = "black", size = 0.5) + 
+  geom_vline(xintercept = as.Date("2016-11-08"), linetype = "dashed", color = "black", size = 0.5)
+
 grid.arrange(flpartyage2016, ncpartyage2016, ncol = 2)
 ```
 
@@ -449,10 +649,42 @@ There doesn't seem to be any noticeable patterns here, other than that the dip i
 After seeing a large number of young voters registering around election time, I wondered if the proportions of party registration by age of those registering during election years were different from the proportions across all times.
 
 ```{r partybyageyrs, eval = F}
-ncage2016<-ggplot(data = ncvoter2016) + geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth=1) + scale_fill_manual(values = colors) + labs(title="Party Registration by Age", subtitle="North Carolina, 2016", x="Age", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-flage2016<-ggplot(data = flvoter2016) + geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth=1) + scale_fill_manual(values = colors) + labs(title="Party Registration by Age", subtitle="Florida, 2016", x="Age", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-ncage2018<-ggplot(data = ncvoter2018) + geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth=1) + scale_fill_manual(values = colors) + labs(title="Party Registration by Age", subtitle="North Carolina, 2018", x="Age", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
-flage2018<-ggplot(data = flvoter2018) + geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth=1) + scale_fill_manual(values = colors) + labs(title="Party Registration by Age", subtitle="Florida, 2018", x="Age", y="Proportion of Total") + guides(fill=guide_legend(title="Party"))
+ncage2016 <- ggplot(data = ncvoter2016) + 
+  geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth = 1) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Age", 
+       subtitle = "North Carolina, 2016", 
+       x = "Age", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+flage2016 <- ggplot(data = flvoter2016) + 
+  geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth = 1) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Age", 
+       subtitle = "Florida, 2016", 
+       x = "Age", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+ncage2018 <- ggplot(data = ncvoter2018) + 
+  geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth = 1) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Age", 
+       subtitle = "North Carolina, 2018", 
+       x = "Age", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
+flage2018 <- ggplot(data = flvoter2018) + 
+  geom_histogram(mapping = aes(x = birth_age, fill = party_cd), position = "fill", binwidth = 1) + 
+  scale_fill_manual(values = colors) + 
+  labs(title = "Party Registration by Age", 
+       subtitle = "Florida, 2018", 
+       x = "Age", 
+       y = "Proportion of Total") + 
+  guides(fill = guide_legend(title = "Party"))
+
 grid.arrange(flage2016, ncage2016, flage2018, ncage2018, nrow = 2, ncol = 2)
 ```
 
@@ -470,27 +702,39 @@ I decided to map the proportion of unaffiliated voters by county in North Caroli
 library(sp)
 library(raster)
 library(rgdal)
+
 nccounty <- readOGR("/Users/saraloving/Desktop/Sara's Folder/UF Year 3/Fall 2020/POS4911/POS4931 Project/tl_2019_37_county10.shp")
+
 setClass("num.with.commas")
 setAs("character", "num.with.commas", function(from) as.numeric(gsub(",", "", from) ) )
-nccounty$NAME = toupper(nccounty$NAME)
-ncvoternpa <- ncvoter %>% group_by(county_desc, party_cd) %>% dplyr::summarise(n = dplyr::n())
+
+nccounty <- nccounty %>%
+  mutate(NAME = toupper(NAME))
+ncvoternpa <- ncvoter %>% 
+  group_by(county_desc, party_cd) %>% 
+  dplyr::summarise(n = dplyr::n())
 ncvoternpa_new <- aggregate(x = ncvoternpa$n, by = list(ncvoternpa$county_desc), FUN = sum)
-ncvoternpa_totals<-merge(ncvoternpa, ncvoternpa_new, by.x="county_desc", by.y="Group.1")
-ncvoternpa_totals <- ncvoternpa_totals %>% mutate(Proportion = n / x)
-ncvoternpacounty<-filter(ncvoternpa_totals, party_cd=="UNA")
-nccounty <- merge(nccounty, ncvoternpacounty, by.x ="NAME", by.y = "county_desc")
+
+ncvoternpa_totals <- merge(ncvoternpa, ncvoternpa_new, by.x = "county_desc", by.y = "Group.1") %>% 
+  mutate(Proportion = n / x)
+
+ncvoternpacounty <- filter(ncvoternpa_totals, party_cd == "UNA")
+
+nccounty <- merge(nccounty, ncvoternpacounty, by.x = "NAME", by.y = "county_desc")
+
 library(RColorBrewer)
 my.palette <- brewer.pal(n = 7, name = "Purples")
 library(sf)
-library(raster)
-library(dplyr)
 library(spData)
 library(tmap)
 nccolleges <- readOGR("nccolleges.shp")
 ```
 ```{r ncmap, eval = F}
-tm_shape(nccounty) + tm_polygons(col = "Proportion", palette = my.palette) + tm_layout(main.title = "Proportion of Unaffiliated Voters by County", title.size = 0.5, legend.outside=T) + tm_shape(nccolleges) + tm_symbols(col = "black", size = 0.3)
+tm_shape(nccounty) + 
+  tm_polygons(col = "Proportion", palette = my.palette) + 
+  tm_layout(main.title = "Proportion of Unaffiliated Voters by County", title.size = 0.5, legend.outside = T) +
+  tm_shape(nccolleges) + 
+  tm_symbols(col = "black", size = 0.3)
 ```
 
 ```{r, echo = F, fig.height=6, fig.width=10, fig.align='center'}
