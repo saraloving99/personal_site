@@ -3,6 +3,6 @@ title: "Resume"
 output: html_document
 ---
 
-```{r, echo = F, fig.height=8, fig.width=8, fig.align='center'}
-knitr::include_graphics("/Users/saraloving/Documents/GitHub/personal_site/Journal_files/figure-html/Resume.png")
+```{r, echo = F, out.width='100%'}
+knitr::include_graphics("https://github.com/saraloving99/saraloving99.github.io/raw/master/Journal_files/figure-html/Resume.pdf")
 ```
