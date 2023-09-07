@@ -21,11 +21,11 @@ output: html_document
 
 Welcome to my website!
 
-I'm currently a Research Associate at the [Brennan Center for Justice](https://www.brennancenter.org/about/staff/sara-loving), where I focus on voting rights and redistricting. I graduated from the University of Florida in April 2022 with degrees in political science and statistics. My research primarily employs voter file data and other administrative election records, and has granted me proficiency in R, Python, Microsoft Excel, and QGIS. 
+I'm currently a Data Analyst at [VoteShield](https://www.voteshield.us/), a project of Protect Democracy. Previously, I was a Research Associate at the [Brennan Center for Justice](https://www.brennancenter.org/about/staff/sara-loving), where I focused on voting rights and redistricting. I graduated from the University of Florida in April 2022 with degrees in political science and statistics. My research primarily employs voter file data and other administrative election records, and has granted me proficiency in R, Python, Microsoft Excel, and QGIS. 
 
 Throughout my four years as an undergraduate, I conducted research with Dr. Daniel Smith and Dr. Michael McDonald to investigate voter turnout, vote-by-mail rejection rates, and redistricting. As a member of the Voting and Election Science Team, I also assisted with the creation of nationwide shapefiles containing [precinct-level election results](https://dataverse.harvard.edu/dataverse/electionscience). My [honors thesis](https://doi.org/10.1177/13540688221147666) was published in *Party Politics* and earned a summa cum laude designation. A portion of this analysis was also featured in the [Washington Post](https://www.washingtonpost.com/politics/2021/11/18/floridians-accused-rioting-jan-6-were-more-consistent-voters-than-republicans-overall/).
 
-My work with the Brennan Center for Justice focuses on the [impacts of restrictive voting legislation](https://www.brennancenter.org/our-work/research-reports/impacts-restrictive-voting-legislation-2020-election) as well as the [racial turnout gap](https://www.brennancenter.org/our-work/analysis-opinion/georgias-racial-turnout-gap-grew-2022).
+My work with the Brennan Center for Justice focused on the [impacts of restrictive voting legislation](https://www.brennancenter.org/our-work/research-reports/impacts-restrictive-voting-legislation-2020-election) as well as the [racial turnout gap](https://www.brennancenter.org/our-work/analysis-opinion/georgias-racial-turnout-gap-grew-2022).
 
 </div>
 <div class="col-sm-6">
